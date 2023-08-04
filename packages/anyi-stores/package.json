@@ -1,0 +1,22 @@
+{
+  "name": "@anyi/stores",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "module": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "pnpm rimraf node_modules && pnpm rimraf dist && pnpm rimraf .turbo"
+  },
+  "dependencies": {
+    "@anyi/coreconstants": "workspace:*",
+    "@anyi/corelocale": "workspace:*",
+    "@anyi/coreutils": "workspace:*",
+    "pinia": "^2.0.35",
+    "pinia-plugin-persistedstate": "^3.1.0",
+    "vue": "^3.2.47",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@anyi/coretypes": "workspace:*"
+  }
+}

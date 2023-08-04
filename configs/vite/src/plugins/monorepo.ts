@@ -1,10 +1,38 @@
-import type { Alias, ConfigEnv, Plugin, UserConfig } from 'vite';
+/*
+ * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
+ *
+ * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *   1.请不要删除和修改根目录下的LICENSE.txt文件；
+ *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
+ *   3.请保留源码和相关描述文件的项目出处，作者声明等；
+ *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   6.本软件不允许在国家法律规定范围外使用，如出现违法行为原作者本人不承担任何法律风险；
+ *   7.进行商用时，不得基于AnYi Admin Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
+ *   8.本软件使用的第三方依赖皆为开源软件，如需要修改第三方源码请遵循第三方源码附带开源协议；
+ *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
+ *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
+ *   10.若您的项目无法满足以上几点，可申请商业授权。
+ */
+import type { Alias, ConfigEnv, Plugin, UserConfig } from 'vite'
 import fs from 'fs'
 import path from 'path'
 import glob from 'fast-glob'
-import { TreeNode } from '@vben/utils';
-import { find, split, join, isEmpty } from 'lodash-es';
-import { bold, cyan, gray, green } from 'picocolors';
+import { TreeNode } from '@anyi/coreutils'
+import { find, split, join, isEmpty } from 'lodash-es'
+import { bold, cyan, gray, green } from 'picocolors'
 
 export type Options = Omit<Alias, 'customResolver'>
 /** Cache for package.json resolution and package.json contents */
@@ -59,7 +87,7 @@ export function findNearestPackageData(
 
         return pkgData
       }
-    } catch { }
+    } catch {}
 
     const nextBasedir = path.dirname(basedir)
     if (nextBasedir === basedir) break
@@ -76,11 +104,7 @@ export function findNearestPackageData(
  *
  * This makes it so the fs is only read once for a shared `basedir`.
  */
-function getFnpdCache(
-  packageCache: PackageCache,
-  basedir: string,
-  originalBasedir: string,
-) {
+function getFnpdCache(packageCache: PackageCache, basedir: string, originalBasedir: string) {
   const cacheKey = getFnpdCacheKey(basedir)
   const pkgData = packageCache.get(cacheKey)
   if (pkgData) {
@@ -113,25 +137,20 @@ function getFnpdCacheKey(basedir: string) {
  * @param longerDir Longer dir path, e.g. `/User/foo/bar/baz`
  * @param shorterDir Shorter dir path, e.g. `/User/foo`
  */
-function traverseBetweenDirs(
-  longerDir: string,
-  shorterDir: string,
-  cb: (dir: string) => void,
-) {
+function traverseBetweenDirs(longerDir: string, shorterDir: string, cb: (dir: string) => void) {
   while (longerDir !== shorterDir) {
     cb(longerDir)
     longerDir = path.dirname(longerDir)
   }
 }
 
-
 /**
  * 创建别名解析规则
- * 
- * @param config 
- * @param env 
- * @param options 
- * @returns 
+ *
+ * @param config
+ * @param env
+ * @param options
+ * @returns
  */
 export const createAlias = (config: UserConfig, env: ConfigEnv, options: Options): Alias => {
   return {
@@ -142,9 +161,9 @@ export const createAlias = (config: UserConfig, env: ConfigEnv, options: Options
         throw new Error(`MonoRepoResolverPlugin can not resolve Module from: ${importerId}`)
       }
       // 组件包路径
-      let pkgPath = pkgData.dir;
+      let pkgPath = pkgData.dir
       const dirPath = path.parse(pkgPath)
-      let baseRoot = dirPath.root;
+      let baseRoot = dirPath.root
       if (baseRoot) {
         // 处理Root路径
         if (process.platform === 'win32') {
@@ -154,14 +173,14 @@ export const createAlias = (config: UserConfig, env: ConfigEnv, options: Options
           // //aaa//bbb
           pkgPath = pkgPath.replace(baseRoot, '')
           // baseRoot = E:/
-          baseRoot = baseRoot+ '/'
+          baseRoot = baseRoot + '/'
         }
       }
       // Pkg的根路径分割结果
-      const paths = split(pkgPath, path.sep).filter(p => p !== '')
+      const paths = split(pkgPath, path.sep).filter((p) => p !== '')
       // 分割别名对应的相对路径路径。代码实际导入的时候都会使用'/'，不需要使用Path.seg
-      const componentPaths = split(updatedId, '/').filter(p => p !== '')
-      const componentNode = pkgData.componentCache.findByPath(componentPaths, true);
+      const componentPaths = split(updatedId, '/').filter((p) => p !== '')
+      const componentNode = pkgData.componentCache.findByPath(componentPaths, true)
       if (componentNode) {
         if (isEmpty(componentNode.val)) {
           let realPath
@@ -170,7 +189,11 @@ export const createAlias = (config: UserConfig, env: ConfigEnv, options: Options
             // import路径存在，确定是文件还是文件夹，分别处理
             if (fs.statSync(componentPath).isDirectory()) {
               // 如果导入的是文件夹，文件加载应该有index.xxx的入口文件
-              const components = glob.sync(`${componentPath}/index.*`, { onlyFiles: true, deep: 1, caseSensitiveMatch: false })
+              const components = glob.sync(`${componentPath}/index.*`, {
+                onlyFiles: true,
+                deep: 1,
+                caseSensitiveMatch: false,
+              })
               if (components.length === 1) {
                 realPath = components[0]
               } else {
@@ -180,57 +203,68 @@ export const createAlias = (config: UserConfig, env: ConfigEnv, options: Options
                   realPath = fileTsOrJs
                 } else {
                   throw new Error(
-                    `MonoRepoResolverPlugin can not resolve Module <${updatedId}> at: ${importerId}, find ${components.length === 0 ? 'none' : 'multiple'} files at: ${componentPath}/index.(ts|js), please check it. components: ${components}`
-                  );
+                    `MonoRepoResolverPlugin can not resolve Module <${updatedId}> at: ${importerId}, find ${
+                      components.length === 0 ? 'none' : 'multiple'
+                    } files at: ${componentPath}/index.(ts|js), please check it. components: ${components}`,
+                  )
                 }
               }
             } else {
               // 如果导入的是文件，直接使用
-              realPath = componentPath 
+              realPath = componentPath
             }
           } else {
             // import文件不存在，需要进一步处理，尝试直接搜索相关文件
-            const components = glob.sync(`${componentPath}.*`, { onlyFiles: true, deep: 1, caseSensitiveMatch: false, cwd: path.resolve(componentPath, '../') })
+            const components = glob.sync(`${componentPath}.*`, {
+              onlyFiles: true,
+              deep: 1,
+              caseSensitiveMatch: false,
+              cwd: path.resolve(componentPath, '../'),
+            })
             if (components.length === 1) {
               realPath = components[0]
             } else {
               throw new Error(
                 `MonoRepoResolverPlugin can not resolve Module <${updatedId}> at: ${importerId}, find ${
                   components.length === 0 ? 'none' : 'multiple'
-                } files at: ${componentPath}, please check it. components: ${components}`
-              );
+                } files at: ${componentPath}, please check it. components: ${components}`,
+              )
             }
           }
-          componentNode.val = realPath;
-          console.debug(`${bold(cyan('[MonoRepoResolverPlugin]'))} ${green(`resolve Component from "${updatedId}" to ${realPath} at:`)} ${gray(importerId)}`);
+          componentNode.val = realPath
+          console.debug(
+            `${bold(cyan('[MonoRepoResolverPlugin]'))} ${green(
+              `resolve Component from "${updatedId}" to ${realPath} at:`,
+            )} ${gray(importerId)}`,
+          )
         }
-        return componentNode.val; 
+        return componentNode.val
       } else {
-        throw new Error(`MonoRepoResolverPlugin can not resolve Module at: ${importerId}, cache module tree is empty`)
+        throw new Error(
+          `MonoRepoResolverPlugin can not resolve Module at: ${importerId}, cache module tree is empty`,
+        )
       }
     },
   }
 }
 /**
  * 导出Vite插件
- * 
- * @param rawOptions 
- * @returns 
+ *
+ * @param rawOptions
+ * @returns
  */
 export default function configMonoRepoResolverPlugin(
   rawOptions: Options = {
     find: '#',
-    replacement: 'src'
-  }
+    replacement: 'src',
+  },
 ): Plugin {
   return {
     name: 'MonoRepoResolver',
     config: (config, env) => ({
       resolve: {
-        alias: [
-          createAlias(config, env, rawOptions),
-        ],
+        alias: [createAlias(config, env, rawOptions)],
       },
     }),
-  };
+  }
 }

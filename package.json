@@ -1,23 +1,29 @@
 {
-  "name": "vben-admin-monorepo",
-  "version": "3.0.0-beta.1",
+  "name": "anyi-admin-vue",
+  "description": "AnYi Admin Vue",
+  "version": "1.0.0-alpha1",
   "private": true,
-  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "author": {
+    "name": "zxuanhong",
+    "email": "anyilanxin@aliyun.com",
+    "url": "https://github.com/anyilanxin"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://anyilanxin.com",
   "bugs": {
-    "url": "https://github.com/vbenjs/vue-vben-admin/issues"
+    "url": "https://github.com/anyilanxin/anyi-admin-vue/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vbenjs/vben3.git"
+    "url": "git+https://github.com/anyilanxin/anyi-admin-vue.git"
   },
-  "license": "MIT",
   "scripts": {
     "bootstrap": "pnpm install",
     "build": "pnpm --filter scripts build",
     "changeset": "changeset",
     "clean": "pnpm turbo run clean && rimraf node_modules",
     "dev": "pnpm --filter scripts dev",
-    "serve": "pnpm --filter @apps/admin dev",
+    "serve": "pnpm --filter @anyi/admin dev",
     "format": "pnpm run lint:eslint & pnpm run lint:stylelint & pnpm run lint:prettier",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "pnpm run stub",
@@ -49,7 +55,7 @@
     "rollup": "^3.21.0",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
-    "turbo": "^1.9.3",
+    "turbo": "^1.10.7",
     "typescript": "^5.0.4",
     "unbuild": "^1.2.1",
     "vitest": "^0.30.1"
@@ -59,4 +65,3 @@
   },
   "packageManager": "pnpm@7.1.0"
 }
-

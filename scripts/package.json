@@ -14,7 +14,7 @@
     "@types/js-yaml": "^4.0.5",
     "@types/minimist": "^1.2.2",
     "@types/prompts": "^2.4.1",
-    "@vben/utils": "workspace:*",
+    "@anyi/coreutils": "workspace:*",
     "execa": "^6.1.0",
     "fs-extra": "^10.1.0",
     "inquirer": "^9.1.4",

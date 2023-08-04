@@ -1,5 +1,5 @@
 {
-  "name": "@vben/vbencomponents",
+  "name": "@anyi/vbencomponents",
   "version": "1.0.0",
   "description": "",
   "main": "./index.ts",
@@ -10,12 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "@iconify/iconify": "^3.0.0",
-    "@vben/hooks": "workspace:*",
-    "@vben/utils": "workspace:*",
-    "@vben/constants": "workspace:*",
+    "@anyi/corehooks": "workspace:*",
+    "@anyi/hooks": "workspace:*",
+    "@anyi/coreutils": "workspace:*",
+    "@anyi/coreconstants": "workspace:*",
     "sass": "^1.55.0",
     "vue": "^3.2.47",
-    "vxe-table-demonic": "^4.5.0-beta.3",
+    "vxe-table-demonic": "^4.4.2",
     "xe-utils": "^3.5.7"
   },
   "devDependencies": {

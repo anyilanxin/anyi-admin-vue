@@ -1,0 +1,25 @@
+{
+  "name": "@anyi/request",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "module": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "pnpm rimraf node_modules && pnpm rimraf dist && pnpm rimraf .turbo"
+  },
+  "dependencies": {
+    "@anyi/corelocale": "workspace:*",
+    "@anyi/coreconstants": "workspace:*",
+    "@anyi/coretypes": "workspace:*",
+    "@anyi/coreutils": "workspace:*",
+    "@anyi/hooks": "workspace:*",
+    "@anyi/corehooks": "workspace:*",
+    "lodash-es": "^4.17.21",
+    "axios": "^1.3.1",
+    "qs": "^6.11.0"
+  },
+  "devDependencies": {
+    "@types/qs": "^6.9.7",
+    "@arco-design/web-vue": "^2.48.1"
+  }
+}

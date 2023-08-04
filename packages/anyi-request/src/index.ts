@@ -1,0 +1,526 @@
+/*
+ * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
+ *
+ * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *   1.请不要删除和修改根目录下的LICENSE.txt文件；
+ *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
+ *   3.请保留源码和相关描述文件的项目出处，作者声明等；
+ *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   6.本软件不允许在国家法律规定范围外使用，如出现违法行为原作者本人不承担任何法律风险；
+ *   7.进行商用时，不得基于AnYi Admin Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
+ *   8.本软件使用的第三方依赖皆为开源软件，如需要修改第三方源码请遵循第三方源码附带开源协议；
+ *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
+ *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
+ *   10.若您的项目无法满足以上几点，可申请商业授权。
+ */
+// axios配置  可自行根据项目进行更改，只需更改该文件即可，其他文件可以不动
+// The axios configuration can be changed according to the project, just change the file, other files can be left unchanged
+import type { AxiosResponse, AxiosRequestConfig } from 'axios'
+import { Message, Notification, Modal } from '@arco-design/web-vue'
+import type { RequestOptions, Result } from '@anyi/coretypes'
+import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
+// import projectSetting from '/@/settings/projectSetting'
+import { VAxios } from './Axios'
+import { buildShortUUID, isFunction } from '@anyi/coreutils'
+import { checkStatus } from './checkStatus'
+// import { useMessage } from '/@/hooks/web/useMessage'
+import { RequestEnum, ResultEnum, ContentTypeEnum } from '@anyi/coreconstants'
+import { isString, isArray } from '@anyi/coreutils'
+import { useGlobSetting } from '@anyi/corehooks'
+// import { getTokenInfo, getSecurityInfo } from '/@/utils/auth'
+import { setObjToUrlParams, deepMerge } from '@anyi/coreutils'
+// import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog'
+import { useI18n } from '@anyi/corelocale'
+import { useLocale } from '@anyi/corelocale'
+import { joinTimestamp, formatRequestDate } from './helper'
+import { aesEncode, aesDecode, rsaEncode } from '@anyi/coreutils'
+import { context } from '../bridge'
+// const enableGray = globSetting.enableGray
+// const addressGray = globSetting.addressGray
+// const { createMessage, createErrorModal, createSuccessModal, notification } = useMessage()
+/**
+ * @description: 数据处理，方便区分多种处理方式
+ */
+const transform: AxiosTransform = {
+  /**
+   * @description: 数据加密(beforeRequestHook之前调用)
+   */
+  requestEncryptHook: (config, security) => {
+    if (security.userSecurity && security.publicKey && security.secret) {
+      // 数据加密
+      const aesKey = rsaEncode(security.publicKey, security.secret)
+      if (
+        config.method?.toUpperCase() === RequestEnum.POST ||
+        config.method?.toUpperCase() === RequestEnum.PUT
+      ) {
+        const newData = {}
+        if (config.data && !isString(config.data) && Object.keys(config.data).length > 0) {
+          newData[security.ciphertextKey] = aesEncode(security.secret, JSON.stringify(config.data))
+        }
+        newData[security.secretKey] = aesKey
+        config.data = newData
+      } else {
+        const newParams = {}
+        if (config.params._t) {
+          newParams['_t'] = config.params._t
+          delete config.params._t
+        }
+        if (config.params && !isString(config.params) && Object.keys(config.params).length > 0) {
+          newParams[security.ciphertextKey] = aesEncode(
+            security.secret,
+            JSON.stringify(config.params),
+          )
+        }
+        newParams[security.secretKey] = aesKey
+        config.params = newParams
+      }
+    }
+    return config
+  },
+  /**
+   * @description: 数据解密(transformRequestHook之前调用)
+   */
+  responseDecryptHook: (res: AxiosResponse<Result>, security) => {
+    if (security.userSecurity && res.data.success) {
+      if (res.data) {
+        const data = res.data.data
+        if (data && typeof data == 'string' && data.constructor == String) {
+          res.data.data = JSON.parse(aesDecode(security.secret, data))
+        }
+      }
+    }
+    return res
+  },
+  /**
+   * @description: 处理请求数据。如果数据不是预期格式，可直接抛出错误
+   */
+  transformRequestHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+    const { t } = useI18n()
+    const { isTransformResponse, isReturnNativeResponse, successMessageMode } = options
+    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+    if (isReturnNativeResponse) {
+      return res
+    }
+    // 不进行任何处理，直接返回
+    // 用于页面代码可能需要直接获取code，data，message这些信息时开启
+    if (!isTransformResponse) {
+      return res.data
+    }
+    // 错误的时候返回
+
+    const { data } = res
+    if (!data) {
+      // return '[HTTP] Request has no return value';
+      throw new Error(t('sys.api.apiRequestFailed'))
+    }
+    //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
+    const { code, message } = data
+
+    // 这里逻辑可以根据项目进行修改
+    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS
+    if (hasSuccess) {
+      if (successMessageMode === 'modal') {
+        Modal.success({ title: t('sys.api.infoTip'), content: message })
+      } else if (successMessageMode === 'message') {
+        Modal.success({ content: message })
+      } else if (successMessageMode === 'notification') {
+        Notification.success({
+          title: t('sys.api.infoTip'),
+          content: message,
+        })
+      }
+      return data.data
+    }
+
+    // 在此处根据自己项目的实际情况对不同的code执行不同的操作
+    // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
+    let timeoutMsg = ''
+    switch (code) {
+      case ResultEnum.TIMEOUT:
+        timeoutMsg = t('sys.api.timeoutMessage')
+        break
+      default:
+        if (message) {
+          timeoutMsg = message
+        }
+    }
+
+    // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
+    // errorMessageMode='none' 一般是调用时明确表示不希望自动弹出错误提示
+
+    if (options.errorMessageMode === 'modal') {
+      Modal.error({ title: t('sys.api.errorTip'), content: message })
+    } else if (options.errorMessageMode === 'message') {
+      Modal.error({ content: message })
+    } else if (options.errorMessageMode === 'notification') {
+      Notification.error({
+        title: t('sys.api.errorTip'),
+        content: message,
+      })
+    }
+    throw new Error(timeoutMsg || t('sys.api.apiRequestFailed'))
+  },
+
+  // 请求之前处理config
+  beforeRequestHook: (config, options) => {
+    // const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true } = options
+    const { apiUrl, joinParamsToUrl, formatDate, joinTime = true } = options
+    // if (joinPrefix) {
+    //   config.url = `${urlPrefix}${config.url}`
+    // }
+
+    if (apiUrl) {
+      const _apuUrl = isString(apiUrl) ? apiUrl : isFunction(apiUrl) ? apiUrl?.() : ''
+      config.url = `${_apuUrl}${config.url}`
+    }
+
+    // if (
+    //   apiUrl &&
+    //   isString(apiUrl) &&
+    //   url &&
+    //   url.indexOf('http://') < 0 &&
+    //   url.indexOf('https://') < 0
+    // ) {
+    //   config.url = `${apiUrl}${config.url}`
+    // }
+    // 处理restfull风格传参
+    config = setRestfullParam(config)
+    // 其他处理
+    const params = config.params || {}
+    const data = config.data || false
+    formatDate && data && !isString(data) && formatRequestDate(data)
+    // 如果是get获取delete只有params参数
+    if (
+      config.method?.toUpperCase() === RequestEnum.GET ||
+      config.method?.toUpperCase() === RequestEnum.DELETE
+    ) {
+      if (!isString(params)) {
+        // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+        config.params = Object.assign(params || {}, joinTimestamp(joinTime, false))
+      } else {
+        // 兼容restful风格
+        config.url = config.url + params + `${joinTimestamp(joinTime, true)}`
+        config.params = undefined
+      }
+      config = setQueryParam(config)
+    } else {
+      if (!isString(params)) {
+        formatDate && formatRequestDate(params)
+        if (Reflect.has(config, 'data') && config.data && Object.keys(config.data).length > 0) {
+          config.data = data
+          config.params = params
+        }
+        // else {
+        //   // 非GET请求如果没有提供data，则将params视为data
+        //   config.data = params;
+        //   config.params = undefined;
+        // }
+        if (joinParamsToUrl) {
+          config.url = setObjToUrlParams(
+            config.url as string,
+            Object.assign({}, config.params, config.data),
+          )
+        }
+      } else {
+        // 兼容restful风格
+        config.url = config.url + params
+        config.params = undefined
+      }
+    }
+    return config
+  },
+  /**
+   * @description: 请求拦截器处理
+   */
+  requestInterceptors: (config: any, _options) => {
+    const { useGlobSetting, useUserStore, getTokenFunction } = context
+    const userStore = useUserStore()
+
+    const { getLocale } = useLocale()
+    // 请求之前处理config
+    const token = (getTokenFunction?.() || {}) as any
+    if (
+      token &&
+      Object.keys(token).length > 0 &&
+      (config as Recordable)?.requestOptions?.withToken !== false
+    ) {
+      // jwt token
+      config.headers[token['bearer_token_header_name']] = 'Bearer ' + token.access_token
+    }
+    // 处理添加请求序列
+    // const securityInfo = getSecurityInfo()
+    // if (securityInfo && Object.keys(securityInfo).length > 0) {
+    //   config.headers[securityInfo.serialNumberKey] = securityInfo.serialNumber
+    // }
+    config.headers['X-Request-Id'] = buildShortUUID()
+    // 多语言后端支持
+    config.headers['Accept-Language'] = getLocale.value
+    // 设置请求头灰度信息
+    setHeaderGrayInfo(config)
+    return config
+  },
+
+  /**
+   * @description: 响应拦截器处理
+   */
+  responseInterceptors: (res: AxiosResponse<any>) => {
+    return res
+  },
+
+  /**
+   * @description: 响应错误处理
+   */
+  responseInterceptorsCatch: (error: any) => {
+    const { t } = useI18n()
+    // const errorLogStore = useErrorLogStoreWithOut()
+    // errorLogStore.addAjaxErrorInfo(error)
+    const { response, code, message, config } = error || {}
+    const errorMessageMode = config?.requestOptions?.errorMessageMode || 'message'
+    const err: string = error?.toString?.() ?? ''
+    let errMessage = ''
+    try {
+      if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
+        errMessage = t('sys.api.apiTimeoutMessage')
+      }
+      if (!errMessage && err?.includes('Network Error')) {
+        errMessage = t('sys.api.networkExceptionMsg')
+      }
+      if (errMessage) {
+        if (errorMessageMode === 'modal') {
+          Modal.error({
+            title: t('sys.api.errorTip'),
+            content: errMessage,
+          })
+        } else if (errorMessageMode === 'message') {
+          Modal.error({ content: errMessage })
+        } else if (errorMessageMode === 'notification') {
+          Notification.error({ content: message })
+        }
+        return Promise.reject(error)
+      }
+    } catch (error) {
+      throw new Error(error as string)
+    }
+    if (config.responseType == 'blob') {
+      const blob = new Blob([response.data], {
+        type: 'text/plain',
+      })
+      //将Blob 对象转换成字符串
+      const reader = new FileReader()
+      reader.readAsText(blob, 'utf-8')
+      reader.onload = function (_e) {
+        const data = JSON.parse(reader.result as string)
+        checkStatus(error?.response?.status, data.message ?? '', errorMessageMode)
+      }
+    } else {
+      checkStatus(error?.response?.status, response?.data?.message ?? '', errorMessageMode)
+    }
+    return Promise.reject(error)
+  },
+}
+
+export function createAxios(opt?: Partial<CreateAxiosOptions>) {
+  const configInfo = useGlobSetting()
+  return new VAxios(
+    deepMerge(
+      {
+        // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes
+        // authentication schemes，e.g: Bearer
+        // authenticationScheme: 'Bearer',
+        authenticationScheme: '',
+        timeout: configInfo.timeout || 30 * 1000,
+        // 基础接口地址
+        // baseURL: globSetting.apiUrl,
+        // 接口可能会有通用的地址部分，可以统一抽取出来
+        // urlPrefix: () => context.apiUrl,
+        headers: { 'Content-Type': ContentTypeEnum.JSON },
+        // 如果是form-data格式
+        // headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
+        // 数据处理方式
+        transform,
+        // 配置项，下面的选项都可以在独立的接口请求中覆盖
+        requestOptions: {
+          // 默认将prefix 添加到url
+          joinPrefix: true,
+          // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+          isReturnNativeResponse: false,
+          // 需要对返回数据进行处理
+          isTransformResponse: true,
+          // post请求的时候添加参数到url
+          joinParamsToUrl: false,
+          // 格式化提交参数时间
+          formatDate: true,
+          apiUrl: configInfo.apiUrl,
+          // 错误消息提示类型
+          errorMessageMode: 'message',
+          // 成功消息提示类型
+          successMessageMode: 'none',
+          // 接口地址
+          // apiUrl: globSetting.apiUrl,
+          //  是否加入时间戳
+          joinTime: true,
+          // 忽略重复请求
+          ignoreCancelToken: true,
+          // 是否携带token
+          withToken: true,
+        },
+      },
+      opt || {},
+    ),
+  )
+}
+
+/**
+ *
+ * 重置get或delete地址中的参数到axios的params中方便一起加密
+ */
+function setQueryParam(config: AxiosRequestConfig) {
+  const newQueryParam = Object.assign({}, config.params)
+  const url = config.url
+  if (url && url.indexOf('?') >= 0) {
+    let urlParams = url.split('?')
+    if (urlParams && urlParams.length == 2) {
+      const newUrl = urlParams[0]
+      config.url = newUrl
+      urlParams = urlParams[1].split('&')
+      const len = urlParams.length
+      for (let i = 0; i < len; i++) {
+        const urlParam = urlParams[i].split('=')
+        if (urlParam) {
+          if (urlParam.length == 2) {
+            newQueryParam[urlParam[0]] = urlParam[1]
+          } else {
+            newQueryParam[urlParam[0]] = ''
+          }
+        }
+      }
+    }
+  }
+  config.params = newQueryParam
+  return config
+}
+
+/**
+ * 灰度信息获取
+ * @param grayInfo 灰度指标：grayIp，grayActive，grayVersion,具体看projectSetting中灰度指标配置
+ * @returns strGrayInfo
+ */
+// function getGrayInfo(grayInfo: any) {
+//   let strGrayInfo = ''
+//   if (grayInfo && Object.keys(grayInfo).length > 0) {
+//     const indicators = projectSetting.grayInfo?.indicators || []
+//     for (const key in grayInfo) {
+//       if (indicators.includes(key)) {
+//         const value = grayInfo[key]
+//         strGrayInfo += key + '=' + value + ';'
+//       }
+//     }
+//     if (strGrayInfo) {
+//       strGrayInfo = strGrayInfo.substring(0, strGrayInfo.length - 1)
+//     }
+//   }
+//   return strGrayInfo
+// }
+/**
+ * 设置请求头灰度信息
+ * @param config
+ */
+function setHeaderGrayInfo(config: any) {
+  // if (enableGray) {
+  //   let strGrayInfo = ''
+  //   // 如果打开了从浏览器获取
+  //   if (addressGray) {
+  //     const url = decodeURIComponent(window.location.href)
+  //     const params = urlParamToJson(url)
+  //     strGrayInfo = getGrayInfo(params)
+  //     // 浏览器未读取到再从本地配置获取
+  //     if (!strGrayInfo) {
+  //       strGrayInfo = getGrayInfo(globSetting.grayInfo)
+  //     }
+  //   } else {
+  //     // 未打开直接从本地配置获取
+  //     strGrayInfo = getGrayInfo(globSetting.grayInfo)
+  //   }
+  //   if (strGrayInfo) {
+  //     config.headers['X-Gray-Info'] = strGrayInfo
+  //   }
+  // }
+}
+
+/**
+ *  获取url地址中的参数并转为json
+ * @param url 地址
+ * @returns 解析后参数
+ */
+function urlParamToJson(url: string) {
+  const index = url.indexOf('?')
+  const obj = {}
+  if (url.indexOf('?') >= 0) {
+    const datas = url.substring(index + 1, url.length).split('&')
+    for (const item of datas) {
+      const data = item.split('=')
+      obj[data[0]] = data[1]
+    }
+  }
+  return obj
+}
+
+/**
+ *
+ * 处理restfull风格参数
+ */
+function setRestfullParam(config: AxiosRequestConfig) {
+  // 先处理params参数
+  const params = config.params
+  let url: string = config?.url || ''
+  if (url) {
+    if (params && !isString(params)) {
+      Object.keys(params).forEach((key) => {
+        const regexp = new RegExp(`\{${key}\}`)
+        if (regexp.test(url!)) {
+          url = url.replace(regexp, params[key])
+          Reflect.deleteProperty(params, key)
+        }
+      })
+      config.params = params
+    }
+    // 在处理data中的参数
+    const data = config.data || false
+    if (Reflect.has(config, 'data') && data && !isString(data) && !isArray(data)) {
+      if (!isArray(data)) {
+        Object.keys(data).forEach((key) => {
+          const regexp = new RegExp(`\{${key}\}`)
+          if (regexp.test(url!)) {
+            url = url.replace(regexp, data[key])
+            Reflect.deleteProperty(data, key)
+          }
+        })
+      }
+      config.data = data
+    }
+  }
+  config.url = url
+  return config
+}
+
+export const request = createAxios()
+
+// other api url
+// export const otherHttp = createAxios({
+//   requestOptions: {
+//     apiUrl: 'xxx',
+//   },
+// });

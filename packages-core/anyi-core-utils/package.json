@@ -1,0 +1,30 @@
+{
+  "name": "@anyi/coreutils",
+  "version": "1.0.0",
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "clean": "pnpm rimraf node_modules && pnpm rimraf dist && pnpm rimraf .turbo"
+  },
+  "dependencies": {
+    "@vue/runtime-core": "3.2.47",
+    "crypto-js": "^4.1.1",
+    "jsencrypt": "^3.3.2",
+    "@vueuse/core": "^10.3.0",
+    "@vueuse/shared": "^10.3.0",
+    "dayjs": "^1.11.7",
+    "vue-types": "^4.1.1",
+    "lodash-es": "^4.17.21",
+    "resize-observer-polyfill": "^1.5.1",
+    "pinia": "2.0.30",
+    "vue": "3.2.47",
+    "vue-router": "^4.2.4",
+    "sortablejs": "^1.15.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@anyi/coretypes": "workspace:*"
+  }
+}

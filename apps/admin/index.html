@@ -8,136 +8,169 @@
       name="viewport"
       content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0"
     />
-    <title><%= title %></title>
+    <title>%VITE_GLOB_APP_TITLE%</title>
     <link rel="icon" href="/favicon.ico" />
   </head>
+
   <body>
+    <script>
+      ;(() => {
+        var theme = window.localStorage.getItem('__ANYI__CLOUD__EE__APP__DARK__MODE__')
+        var html = document.documentElement
+        if (theme && theme == 'dark') {
+          document.body.setAttribute('arco-theme', 'dark')
+          html.setAttribute('arco-theme', 'dark')
+        } else {
+          document.body.removeAttribute('arco-theme')
+          html.removeAttribute('arco-theme')
+        }
+        var colorGrey = window.localStorage.getItem('__APP__GREY__MODE__')
+        var html = document.documentElement
+        if (colorGrey && colorGrey == 'grey') {
+          html.setAttribute('anyi-color-grey', 'grey')
+        } else {
+          html.removeAttribute('anyi-color-grey')
+        }
+      })()
+    </script>
+    <style>
+      html[arco-theme='dark'] {
+        background-color: #17171a;
+        --color: rgba(255, 255, 255, 0.85);
+      }
+
+      html {
+        background-color: #fff;
+        --color: rgb(0 0 0 / 85%);
+      }
+
+      /* 黑白色 */
+      html[anyi-color-grey='grey'] {
+        filter: grayscale(1);
+      }
+      .app-loading {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .app-loading .app-loading__wrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        transform: translate3d(-50%, -50%, 0);
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .app-loading .dots {
+        display: flex;
+        padding: 98px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .app-loading .app-loading-title {
+        display: flex;
+        margin-top: 30px;
+        font-size: 30px;
+        color: var(--color);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .app-loading .app-loading__logo {
+        display: block;
+        width: 90px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+      }
+
+      .dot {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 48px;
+        margin-top: 30px;
+        font-size: 32px;
+        transform: rotate(45deg);
+        box-sizing: border-box;
+        animation: antRotate 1.2s infinite linear;
+      }
+
+      .dot i {
+        position: absolute;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-color: #0065cc;
+        border-radius: 100%;
+        opacity: 30%;
+        transform: scale(0.75);
+        animation: antSpinMove 1s infinite linear alternate;
+        transform-origin: 50% 50%;
+      }
+
+      .dot i:nth-child(1) {
+        top: 0;
+        left: 0;
+      }
+
+      .dot i:nth-child(2) {
+        top: 0;
+        right: 0;
+        animation-delay: 0.4s;
+      }
+
+      .dot i:nth-child(3) {
+        right: 0;
+        bottom: 0;
+        animation-delay: 0.8s;
+      }
+
+      .dot i:nth-child(4) {
+        bottom: 0;
+        left: 0;
+        animation-delay: 1.2s;
+      }
+
+      @keyframes antRotate {
+        to {
+          transform: rotate(405deg);
+        }
+      }
+
+      @keyframes antRotate {
+        to {
+          transform: rotate(405deg);
+        }
+      }
+
+      @keyframes antSpinMove {
+        to {
+          opacity: 100%;
+        }
+      }
+
+      @keyframes antSpinMove {
+        to {
+          opacity: 100%;
+        }
+      }
+    </style>
     <div id="app">
-       <style>
-        .app-loading {
-          display: flex;
-          width: 100%;
-          height: 100%;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          background-color: #f4f7f9;
-        }
-
-        .app-loading .app-loading__wrap {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          display: flex;
-          transform: translate3d(-50%, -50%, 0);
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-        }
-
-        .app-loading .dots {
-          display: flex;
-          padding: 98px;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .app-loading .app-loading-title {
-          display: flex;
-          margin-top: 30px;
-          font-size: 30px;
-          color: rgb(0 0 0 / 85%);
-          justify-content: center;
-          align-items: center;
-        }
-
-        .app-loading .app-loading__logo {
-          display: block;
-          width: 90px;
-          margin: 0 auto;
-          margin-bottom: 20px;
-        }
-
-        .dot {
-          position: relative;
-          display: inline-block;
-          width: 48px;
-          height: 48px;
-          margin-top: 30px;
-          font-size: 32px;
-          transform: rotate(45deg);
-          box-sizing: border-box;
-          animation: antRotate 1.2s infinite linear;
-        }
-
-        .dot i {
-          position: absolute;
-          display: block;
-          width: 20px;
-          height: 20px;
-          background-color: #0065cc;
-          border-radius: 100%;
-          opacity: 30%;
-          transform: scale(0.75);
-          animation: antSpinMove 1s infinite linear alternate;
-          transform-origin: 50% 50%;
-        }
-
-        .dot i:nth-child(1) {
-          top: 0;
-          left: 0;
-        }
-
-        .dot i:nth-child(2) {
-          top: 0;
-          right: 0;
-          animation-delay: 0.4s;
-        }
-
-        .dot i:nth-child(3) {
-          right: 0;
-          bottom: 0;
-          animation-delay: 0.8s;
-        }
-
-        .dot i:nth-child(4) {
-          bottom: 0;
-          left: 0;
-          animation-delay: 1.2s;
-        }
-
-        @keyframes antRotate {
-          to {
-            transform: rotate(405deg);
-          }
-        }
-
-        @keyframes antRotate {
-          to {
-            transform: rotate(405deg);
-          }
-        }
-
-        @keyframes antSpinMove {
-          to {
-            opacity: 100%;
-          }
-        }
-
-        @keyframes antSpinMove {
-          to {
-            opacity: 100%;
-          }
-        }
-      </style>
-
       <div class="app-loading">
         <div class="app-loading__wrap">
-          <img src="/logo.png" class="app-loading__logo" alt="Logo" />
+          <img src="/logo.svg" class="app-loading__logo" alt="Logo" />
           <div class="app-loading-dots">
             <span class="dot dot-spin"><i></i><i></i><i></i><i></i></span>
           </div>
-          <div class="app-loading-title"><%= title %></div>
+          <div class="app-loading-title">%VITE_GLOB_APP_TITLE%</div>
         </div>
       </div>
     </div>

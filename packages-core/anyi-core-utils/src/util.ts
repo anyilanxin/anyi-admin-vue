@@ -1,0 +1,97 @@
+/*
+ * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
+ *
+ * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *   1.请不要删除和修改根目录下的LICENSE.txt文件；
+ *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
+ *   3.请保留源码和相关描述文件的项目出处，作者声明等；
+ *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   6.本软件不允许在国家法律规定范围外使用，如出现违法行为原作者本人不承担任何法律风险；
+ *   7.进行商用时，不得基于AnYi Admin Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
+ *   8.本软件使用的第三方依赖皆为开源软件，如需要修改第三方源码请遵循第三方源码附带开源协议；
+ *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
+ *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
+ *   10.若您的项目无法满足以上几点，可申请商业授权。
+ */
+import { isObject } from 'lodash-es'
+
+// @ts-ignore
+function NOOP() {}
+
+type TargetContext = '_self' | '_parent' | '_blank' | '_top'
+
+function openWindow(
+  url: string,
+  opt?: {
+    target?: '_self' | '_blank' | string
+    noopener?: boolean
+    noreferrer?: boolean
+  },
+) {
+  const { target = '__blank', noopener = true, noreferrer = true } = opt || {}
+  const feature: string[] = []
+
+  noopener && feature.push('noopener=yes')
+  noreferrer && feature.push('noreferrer=yes')
+
+  window.open(url, target, feature.join(','))
+}
+
+export const regexUrl = new RegExp(
+  '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$',
+  'i',
+)
+
+/**
+ * Add the object as a parameter to the URL
+ * @param baseUrl url
+ * @param obj
+ * @returns {string}
+ * eg:
+ *  let obj = {a: '3', b: '4'}
+ *  appendUrlParams('www.google.com', obj)
+ *  ==>www.google.com?a=3&b=4
+ */
+function appendUrlParams(baseUrl: string, obj: any): string {
+  let parameters = ''
+  for (const key in obj) {
+    parameters += key + '=' + encodeURIComponent(obj[key]) + '&'
+  }
+  parameters = parameters.replace(/&$/, '')
+  return /\?$/.test(baseUrl) ? baseUrl + parameters : baseUrl.replace(/\/?$/, '?') + parameters
+}
+
+function deepMerge<T = any>(src: any = {}, target: any = {}): T {
+  let key: string
+  for (key in target) {
+    src[key] =
+      isObject(src[key]) && src[key] !== null
+        ? deepMerge(src[key], target[key])
+        : (src[key] = target[key])
+  }
+  return src
+}
+
+function setObjToUrlParams(baseUrl: string, obj: any): string {
+  let parameters = ''
+  for (const key in obj) {
+    parameters += key + '=' + encodeURIComponent(obj[key]) + '&'
+  }
+  parameters = parameters.replace(/&$/, '')
+  return /\?$/.test(baseUrl) ? baseUrl + parameters : baseUrl.replace(/\/?$/, '?') + parameters
+}
+
+export { deepMerge, appendUrlParams, openWindow, NOOP, setObjToUrlParams }

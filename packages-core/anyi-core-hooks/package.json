@@ -1,0 +1,29 @@
+{
+  "name": "@anyi/corehooks",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "module": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "pnpm rimraf node_modules && pnpm rimraf dist && pnpm rimraf .turbo"
+  },
+  "dependencies": {
+    "@anyi/coreconstants": "workspace:*",
+    "@anyi/corelocale": "workspace:*",
+    "sortablejs": "^1.15.0",
+    "@anyi/coreutils": "workspace:*",
+    "@vueuse/core": "^10.3.0",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
+    "dayjs": "^1.11.1",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.2.47",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@anyi/coretypes": "workspace:*",
+    "typescript": "^5.0.4",
+    "vite": "4.3.1"
+  }
+}

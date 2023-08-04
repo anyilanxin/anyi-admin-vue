@@ -1,0 +1,21 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "esnext",
+    "module": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": ["dom", "esnext"],
+    "types": [
+      "vite/client",
+      "@anyi/coreconstants",
+      "@anyi/coretypes/shims/pinia",
+      "@anyi/coretypes/shims/vue-router"
+    ]
+  },
+  "include": ["src"],
+  "exclude": ["**/node_modules/**", "**/dist/**"]
+}

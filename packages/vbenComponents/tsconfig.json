@@ -1,14 +1,14 @@
 {
   "extends": "tsconfig/base.json",
   "compilerOptions": {
+    "esModuleInterop": true,
     "target": "esnext",
     "module": "esnext",
     "baseUrl": ".",
     "paths": {
       "#/*": ["src/*"]
     },
-    "lib": ["dom", "esnext"],
-
+    "lib": ["dom", "esnext"]
   },
   "include": ["src"]
 }

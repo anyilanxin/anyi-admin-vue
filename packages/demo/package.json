@@ -1,5 +1,5 @@
 {
-  "name": "@vben/demo",
+  "name": "@anyi/demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
@@ -10,12 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vben/request": "workspace:*",
-    "@vben/utils": "workspace:*",
-    "@vben/vbencomponents": "workspace:*",
+    "@anyi/request": "workspace:*",
+    "@anyi/coreutils": "workspace:*",
+    "@anyi/vbencomponents": "workspace:*",
     "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@vben/types": "workspace:*"
+    "@anyi/coretypes": "workspace:*"
   }
 }

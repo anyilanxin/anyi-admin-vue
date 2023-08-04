@@ -1,0 +1,28 @@
+{
+  "name": "@anyi/layouts",
+  "version": "3.0.0-beta.1",
+  "main": "index.ts",
+  "module": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "pnpm rimraf node_modules && pnpm rimraf dist && pnpm rimraf .turbo"
+  },
+  "dependencies": {
+    "@anyi/coreconstants": "workspace:*",
+    "@anyi/coredirectives": "workspace:*",
+    "@anyi/hooks": "workspace:*",
+    "@anyi/corehooks": "workspace:*",
+    "@anyi/corelocale": "workspace:*",
+    "@anyi/router": "workspace:*",
+    "@anyi/coretypes": "workspace:*",
+    "@anyi/coreutils": "workspace:*",
+    "@anyi/stores": "workspace:*",
+    "@anyi/vbencomponents": "workspace:*",
+    "vue": "3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "vite": "4.3.1"
+  }
+}

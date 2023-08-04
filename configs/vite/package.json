@@ -17,7 +17,8 @@
     }
   },
   "dependencies": {
-    "@vben/utils": "workspace:*",
+    "@anyi/corestyles": "workspace:*",
+    "@anyi/coreutils": "workspace:*",
     "@vitejs/plugin-legacy": "^4.0.2",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
