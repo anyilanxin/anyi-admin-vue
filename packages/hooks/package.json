@@ -1,0 +1,22 @@
+{
+  "name": "@vben/hooks",
+  "version": "3.0.0-beta.1",
+  "main": "index.ts",
+  "module": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "pnpm rimraf node_modules && pnpm rimraf dist && pnpm rimraf .turbo"
+  },
+  "dependencies": {
+    "@vben/constants": "workspace:*",
+    "@vben/locale": "workspace:*",
+    "@vben/stores": "workspace:*",
+    "@vben/utils": "workspace:*",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@vben/types": "workspace:*"
+  }
+}
