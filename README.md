@@ -9,7 +9,7 @@ AnYi Admin Vue
 
 vue3、vite、vue、anyi-admin-vue
 
-当前最新版本： 1.0.0-alpha1（发布日期：2023-08-04）
+当前最新版本： 1.0.0-alpha2（发布日期：2023-08-08）
 
 ## 技术文档
 
