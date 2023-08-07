@@ -1,7 +1,7 @@
 import { createBreakpointListen } from '@/hooks/event/use-breakpoint'
 import { namespace } from '@/setting'
 import { defineComponent, toRefs, ref, unref } from 'vue'
-import { createAppProviderContext } from '@/hooks/web/useAppContext'
+import { createAppProviderContext } from '@anyi/corehooks'
 import { useConfigStoreWithOut } from '@/store/config'
 import { useMsg, useNotice } from '@anyi/vbencomponents'
 import { setMsg, setNoice } from '@anyi/request'

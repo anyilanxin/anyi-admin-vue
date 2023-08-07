@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,6 +34,7 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  -->
 <!--
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
@@ -45,8 +55,8 @@
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
  *   3.请保留源码和相关描述文件的项目出处，作者声明等；
- *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
- *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
+ *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
  *   6.本软件不允许在国家法律规定范围外使用，如出现违法行为原作者本人不承担任何法律风险；
  *   7.进行商用时，不得基于AnYi Admin Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
  *   8.本软件使用的第三方依赖皆为开源软件，如需要修改第三方源码请遵循第三方源码附带开源协议；
@@ -77,6 +87,10 @@ import { tabListData, ListItem } from './data'
 import NoticeList from './NoticeList.vue'
 import { ref } from 'vue'
 
+import { useAppTheme } from '@anyi/corehooks'
+
+const { isDark } = useAppTheme()
+
 const listData = ref(tabListData)
 
 function onNoticeClick(record: ListItem) {
@@ -97,7 +111,12 @@ function onNoticeClick(record: ListItem) {
         content-class="message-popover"
       >
         <a-badge :count="1" dot :offset="[-4, -1]">
-          <a-button class="nav-btn anyi-top-button-wrapper" type="outline" :shape="'circle'">
+          <a-button
+            class="nav-btn anyi-top-button-wrapper-common"
+            type="outline"
+            :shape="'circle'"
+            :class="isDark ? 'anyi-top-button-wrapper-dark' : 'anyi-top-button-wrapper'"
+          >
             <icon-notification />
           </a-button>
         </a-badge>
@@ -117,12 +136,3 @@ function onNoticeClick(record: ListItem) {
     </div>
   </TopButtonWrapper>
 </template>
-
-<style lang="less">
-.anyi-top-button-wrapper {
-  margin-left: 4px;
-  margin-right: 4px;
-  border-color: rgb(var(--gray-3)) !important;
-  color: rgb(var(--gray-8)) !important;
-}
-</style>

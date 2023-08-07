@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,6 +34,7 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  */
 /**
  * 判断是否 十六进制颜色值.
@@ -59,6 +69,25 @@ export function rgbToHex(r: number, g: number, b: number) {
  * @returns The RGB representation of the passed color
  */
 export function hexToRGB(hex: string) {
+  let sHex = hex.toLowerCase()
+  if (isHexColor(hex)) {
+    if (sHex.length === 4) {
+      let sColorNew = '#'
+      for (let i = 1; i < 4; i += 1) {
+        sColorNew += sHex.slice(i, i + 1).concat(sHex.slice(i, i + 1))
+      }
+      sHex = sColorNew
+    }
+    const sColorChange: number[] = []
+    for (let i = 1; i < 7; i += 2) {
+      sColorChange.push(parseInt('0x' + sHex.slice(i, i + 2)))
+    }
+    return sColorChange.join(',')
+  }
+  return sHex
+}
+
+export function hexToRGBHasPrefix(hex: string) {
   let sHex = hex.toLowerCase()
   if (isHexColor(hex)) {
     if (sHex.length === 4) {
@@ -212,8 +241,7 @@ export function hexCheckShade(hexColor: string) {
     parseInt(`0x${color.slice(2, 4)}`, 16),
     parseInt(`0x${color.slice(4, 6)}`, 16),
   ]
-  const grayLevel =
-    colorChange[0] * 0.299 + colorChange[1] * 0.587 + colorChange[2] * 0.114
+  const grayLevel = colorChange[0] * 0.299 + colorChange[1] * 0.587 + colorChange[2] * 0.114
   if (grayLevel >= 192) {
     // 浅色模式
     return '#000'

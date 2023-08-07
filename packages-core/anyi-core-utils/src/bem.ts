@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,6 +34,7 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  */
 type Mod = string | { [key: string]: any }
 type Mods = Mod | Mod[]
@@ -58,15 +68,13 @@ function generatorBEM(name: string, mods?: Mods): string {
  * b('text', { disabled }) // 'button__text button__text--disabled'
  * b(['disabled', 'primary']) // 'button button--disabled button--primary'
  */
-function buildBEM(name: string) {
+function buildBEM(name: string): any {
   return (el?: Mods, mods?: Mods): Mods => {
     if (el && typeof el !== 'string') {
       mods = el
       el = ''
     }
-
     el = el ? `${name}__${el}` : name
-
     return `${el}${generatorBEM(el, mods)}`
   }
 }

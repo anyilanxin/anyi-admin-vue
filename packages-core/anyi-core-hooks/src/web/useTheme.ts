@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,11 +34,13 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  */
 import { useAppConfig } from '../config'
 import { HandlerSettingEnum, ThemeEnum } from '@anyi/coreconstants'
 import { useEventListener } from '@anyi/coreutils'
 import { computed, unref } from 'vue'
+import { hexToRGB } from '@anyi/coreutils'
 
 export function createMediaPrefersColorSchemeListen() {
   const { setAppConfig } = useAppConfig()
@@ -48,7 +59,7 @@ export const useAppTheme = () => {
   const toggleTheme = (v) => {
     baseHandler(HandlerSettingEnum.CHANGE_THEME, v)
   }
-  const changeThemeAttribute = (v) => {
+  const changeThemeAttribute = (v: boolean) => {
     if (v) {
       window.localStorage.setItem('__ANYI__CLOUD__EE__APP__DARK__MODE__', 'dark')
       document.body.setAttribute('arco-theme', 'dark')
@@ -59,5 +70,11 @@ export const useAppTheme = () => {
       document.documentElement.removeAttribute('arco-theme')
     }
   }
-  return { isDark, theme, toggleTheme, changeThemeAttribute }
+  const changeSystemTheme = (v: string) => {
+    if (v) {
+      document.body.style.setProperty('--primary-6', hexToRGB(v))
+      document.body.style.setProperty('--primary-hex-6', v)
+    }
+  }
+  return { isDark, theme, toggleTheme, changeThemeAttribute, changeSystemTheme }
 }

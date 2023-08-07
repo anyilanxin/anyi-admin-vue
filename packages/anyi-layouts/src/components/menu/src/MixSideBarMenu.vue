@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,6 +34,7 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  -->
 <!--
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
@@ -45,8 +55,8 @@
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
  *   3.请保留源码和相关描述文件的项目出处，作者声明等；
- *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
- *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
+ *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
  *   6.本软件不允许在国家法律规定范围外使用，如出现违法行为原作者本人不承担任何法律风险；
  *   7.进行商用时，不得基于AnYi Admin Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
  *   8.本软件使用的第三方依赖皆为开源软件，如需要修改第三方源码请遵循第三方源码附带开源协议；
@@ -80,7 +90,7 @@
     <logo
       :class="[bem('logo'), 'shadow']"
       :style="{ '--un-shadow-color': 'var(--n-border-color)' }"
-      v-if="getMenuType === MenuTypeEnum.MIX_SIDEBAR"
+      v-if="showHeaderLogo"
       :showTitle="false"
     />
     <div style="flex: 1; overflow: hidden; position: relative">
@@ -133,9 +143,9 @@
         <span class="text"> {{ title }}</span>
         <VbenIconify
           :size="16"
-          :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
+          :icon="menu.mixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
           class="pushpin"
-          @click="handleFixedMenu"
+          @click.stop="toggleMenuFixed"
           hoverPointer
         />
       </div>
@@ -144,6 +154,7 @@
       </div>
       <a-layout-sider
         v-show="openMenu"
+        :width="sidebar.width"
         :collapsible="sidebar.collapsed"
         style="width: 100%; height: 100%; overflow: auto"
       >
@@ -161,31 +172,22 @@
 import { ref, onMounted, unref, computed, CSSProperties } from 'vue'
 import { createNamespace, getGlobalConfig } from '@anyi/coreutils'
 import { VbenIconify } from '@anyi/vbencomponents'
-import { context } from '../../../../bridge'
+import Logo from '../../logo/index.vue'
 import SiderFooterTrigger from '../../SiderFooterTrigger.vue'
-import { MenuTypeEnum } from '@anyi/coreconstants'
+import { NavBarModeEnum, MixSidebarTriggerEnum } from '@anyi/coreconstants'
 import { useI18n } from '@anyi/corelocale'
 import MixMenu from './BasicMenu.vue'
 import { RouteLocationNormalized } from 'vue-router'
-import { Menu } from '@anyi/coretypes'
 import { useGo } from '@anyi/corehooks'
-import { listenerRouteChange } from '@anyi/router'
-import { useAppConfig } from '@anyi/hooks'
-
-const { sidebar } = useAppConfig()
-
-const { Logo, useMenuSetting, getShallowMenus, getChildrenMenus, getCurrentParentPath } = context
-const {
-  getCollapsed,
-  getMixSideTrigger,
-  getMenuType,
-  getIsMixSidebar,
-  getMixSideFixed,
-  setMenuSetting,
-  mixSideHasChildren,
-  getMenuWidth,
-  getCloseMixSidebarOnChange,
-} = useMenuSetting()
+import {
+  listenerRouteChange,
+  getCurrentParentPath,
+  getChildrenMenus,
+  getShallowMenus,
+} from '@anyi/router'
+import { useAppConfig } from '@anyi/corehooks'
+const { navBarMode, menu, sidebar, isMixSidebar, logo, toggleMenuFixed, closeMixSidebarOnChange } =
+  useAppConfig()
 const { title } = getGlobalConfig(import.meta.env)
 
 const { bem } = createNamespace('layout-mix-menu')
@@ -199,33 +201,31 @@ const props = defineProps({
   },
 })
 
-let menuModules = ref<Menu[]>([])
+let menuModules = ref<any[]>([])
 const activePath = ref('')
-const childrenMenus = ref<Menu[]>([])
+const childrenMenus = ref<any[]>([])
 const openMenu = ref(false)
 const sideRef = ref<ElRef>(null)
 const childrenTitle = ref('')
 
 onMounted(async () => {
   menuModules.value = await getShallowMenus()
-  openMenu.value = unref(getMixSideFixed)
+  openMenu.value = unref(menu).mixSideFixed
 })
-
+const showHeaderLogo = computed(() => {
+  return unref(navBarMode) == NavBarModeEnum.MIX_SIDEBAR && logo.show
+})
 listenerRouteChange((route) => {
   currentRoute.value = route
   setActive(true)
-  console.log('----currentRoute.value------', currentRoute.value)
-  if (unref(getCloseMixSidebarOnChange)) {
+  if (unref(closeMixSidebarOnChange)) {
     closeMenu()
   }
 })
 
 const getIsFixed = computed(() => {
-  /* eslint-disable-next-line */
-  mixSideHasChildren.value = unref(childrenMenus).length > 0
-  const isFixed = unref(getMixSideFixed) && unref(mixSideHasChildren)
+  const isFixed = unref(menu).mixSideFixed && unref(childrenMenus).length > 0
   if (isFixed) {
-    /* eslint-disable-next-line */
     openMenu.value = true
   }
   return isFixed
@@ -266,13 +266,13 @@ const handleModuleClick = async (path: string, hover = false, title = '') => {
 
 const getMenuStyle = computed((): CSSProperties => {
   return {
-    width: unref(openMenu) ? `${unref(getMenuWidth)}px` : 0,
+    width: unref(openMenu) ? `${unref(sidebar).width}px` : 0,
     left: `${props.mixSidebarWidth}px`,
   }
 })
 
 const getItemEvents = (item) => {
-  if (unref(getMixSideTrigger) === 'hover') {
+  if (unref(menu).mixSideTrigger === MixSidebarTriggerEnum.HOVER) {
     return {
       onMouseenter: () => handleModuleClick(item.path, true, item.meta.title),
       onClick: async () => {
@@ -297,7 +297,7 @@ async function setActive(setChildren = false) {
   const path = currentRoute.value?.path
   if (!path) return
   activePath.value = await getCurrentParentPath(path)
-  if (unref(getIsMixSidebar)) {
+  if (unref(isMixSidebar)) {
     const activeMenu = unref(menuModules).find((item) => item.path === unref(activePath))
     const p = activeMenu?.path
     if (p) {
@@ -305,7 +305,7 @@ async function setActive(setChildren = false) {
       if (setChildren) {
         childrenMenus.value = children
 
-        if (unref(getMixSideFixed)) {
+        if (unref(menu).mixSideFixed) {
           openMenu.value = children.length > 0
         }
       }
@@ -317,7 +317,7 @@ async function setActive(setChildren = false) {
 }
 
 const getMenuEvents = computed(() => {
-  return !unref(getMixSideFixed)
+  return !unref(menu).mixSideFixed
     ? {
         onMouseleave: () => {
           setActive(true)
@@ -326,12 +326,6 @@ const getMenuEvents = computed(() => {
       }
     : {}
 })
-
-const handleFixedMenu = () => {
-  setMenuSetting({
-    mixSideFixed: !unref(getIsFixed),
-  })
-}
 </script>
 
 <style lang="less" scoped>
@@ -366,7 +360,7 @@ const handleFixedMenu = () => {
       &:hover,
       &--active {
         font-weight: 700;
-
+        background-color: var(--color-menu-dark-hover);
         color: rgb(var(--primary-6));
         &::before {
           position: absolute;

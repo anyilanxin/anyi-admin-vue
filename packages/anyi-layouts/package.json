@@ -10,14 +10,14 @@
   "dependencies": {
     "@anyi/coreconstants": "workspace:*",
     "@anyi/coredirectives": "workspace:*",
-    "@anyi/hooks": "workspace:*",
     "@anyi/corehooks": "workspace:*",
     "@anyi/corelocale": "workspace:*",
     "@anyi/router": "workspace:*",
     "@anyi/coretypes": "workspace:*",
     "@anyi/coreutils": "workspace:*",
-    "@anyi/stores": "workspace:*",
+    "@anyi/corestores": "workspace:*",
     "@anyi/vbencomponents": "workspace:*",
+    "vue3-colorpicker": "^2.2.0",
     "vue": "3.2.47",
     "vue-router": "^4.1.6"
   },
