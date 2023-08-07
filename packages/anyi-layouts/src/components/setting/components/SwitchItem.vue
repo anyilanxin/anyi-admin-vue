@@ -45,6 +45,7 @@
     <a-switch
       :checked-value="true"
       v-model="value"
+      size="mini"
       :unchecked-value="false"
       @change="onChange"
       :disabled="disabled"

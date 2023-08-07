@@ -67,7 +67,7 @@ const onChange = (value) => {
 </script>
 <template>
   <div class="input-item">
-    <span>{{ title }}</span>
+    <span>{{ title }} {{ '(' + suffix + ')' }}</span>
     <a-input-number
       :style="{ width: '130px' }"
       size="small"
@@ -76,9 +76,6 @@ const onChange = (value) => {
       :default-value="(def as number)"
       @change="onChange"
     >
-      <template #suffix>
-        {{ suffix }}
-      </template>
     </a-input-number>
   </div>
 </template>
