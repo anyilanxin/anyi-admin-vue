@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,12 +34,14 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  */
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import { watch, unref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useTitle as _useTitle } from '@anyi/coreutils'
+import { useTitle } from '@anyi/coreutils'
+// import { useTitle } from '@vueuse/core'
 import { useI18n, useLocale } from '@anyi/corelocale'
 
 /**
@@ -43,7 +54,7 @@ export const useWebTitle = (
   const { t } = useI18n()
   const { currentRoute } = useRouter()
 
-  const pageTitle = _useTitle()
+  const pageTitle = useTitle()
   const { getLocale } = useLocale()
 
   watch(

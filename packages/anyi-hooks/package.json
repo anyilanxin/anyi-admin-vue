@@ -10,7 +10,7 @@
   "dependencies": {
     "@anyi/coreconstants": "workspace:*",
     "@anyi/corelocale": "workspace:*",
-    "@anyi/stores": "workspace:*",
+    "@anyi/corestores": "workspace:*",
     "@anyi/corehooks": "workspace:*",
     "sortablejs": "^1.15.0",
     "@anyi/coreutils": "workspace:*",

@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,6 +34,7 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  -->
 <!--
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
@@ -45,8 +55,8 @@
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
  *   3.请保留源码和相关描述文件的项目出处，作者声明等；
- *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
- *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
+ *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
  *   6.本软件不允许在国家法律规定范围外使用，如出现违法行为原作者本人不承担任何法律风险；
  *   7.进行商用时，不得基于AnYi Admin Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
  *   8.本软件使用的第三方依赖皆为开源软件，如需要修改第三方源码请遵循第三方源码附带开源协议；
@@ -132,38 +142,33 @@
 
 <script lang="ts" setup>
 import type { RouteLocationNormalized, RouteMeta } from 'vue-router'
-import { Sortable, createNamespace } from '@anyi/coreutils'
+import { Sortable } from '@anyi/coreutils'
 import { useRouter } from 'vue-router'
 import { computed, nextTick, ref, unref } from 'vue'
-import { useI18n } from '@anyi/corelocale'
 import { REDIRECT_NAME } from '@anyi/coreconstants'
-import { useTabs } from '@anyi/hooks'
+import { useTabs } from '@anyi/corehooks'
 import { useGo } from '@anyi/corehooks'
 import TabRedo from './components/TabRedo.vue'
 import TabDropdown from './components/TabDropdown.vue'
 import { context } from '../../../bridge'
 import TabQuick from './components/TabQuick.vue'
 import FoldButton from './components/FoldButton.vue'
-import { useMultipleTab, storeToRefs } from '@anyi/stores'
+import { useMultipleTab, storeToRefs } from '@anyi/corestores'
 import { listenerRouteChange } from '@anyi/router'
-
-const { bem } = createNamespace('tab-bar-container-')
-console.log('---prefixCls-------', bem())
 const { useUserStore, useMultipleTabSetting } = context
 const { getShowQuick, getShowRedo, getShowFold } = useMultipleTabSetting() as any
 const { close } = useTabs()
-const { t } = useI18n()
 const multipleTabStore = useMultipleTab()
 const { getTabList } = storeToRefs(multipleTabStore)
 const router = useRouter()
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 const go = useGo()
 const tabDropdownRef = ref<HTMLElement | null>(null)
 const tabType = ref('rounded')
 const activeTabName = ref<string>('')
 
 const tabList = computed(() => {
-  return unref(getTabList).filter((item) => !item.meta?.hideTab && router.hasRoute(item.name))
+  return unref(getTabList).filter((item: any) => !item.meta?.hideTab && router.hasRoute(item.name))
 })
 
 listenerRouteChange((route) => {
@@ -190,7 +195,7 @@ listenerRouteChange((route) => {
   }
 })
 const handleChange = (key: string | number) => {
-  go(key, false)
+  go(key + '', false)
 }
 
 // 获取tabs内dom 设置拖拽
@@ -234,7 +239,7 @@ const handleClose = (key: string | number) => {
 }
 // rounded start
 .@{prefix-cls}-rounded {
-  padding: 2px;
+  padding: 4px 3px 2px 3px;
   background-color: var(--color-fill-3);
 
   :deep(.arco-tabs-nav-type-rounded .arco-tabs-tab) {
@@ -244,7 +249,7 @@ const handleClose = (key: string | number) => {
     background-color: var(--color-bg-2);
   }
   :deep(.arco-tabs-nav-type-rounded .arco-tabs-tab:hover) {
-    color: rgb(var(--color-neutral-2));
+    color: rgb(var(--primary-6)) !important;
   }
   :deep(.arco-tabs-nav-type-rounded .arco-tabs-tab-active:hover) {
     color: rgb(var(--primary-6)) !important;
@@ -257,7 +262,7 @@ const handleClose = (key: string | number) => {
 
 // card start
 .@{prefix-cls}-card {
-  padding: 2px;
+  padding: 4px 3px 2px 3px;
   :deep(.arco-tabs-type-card > .arco-tabs-content) {
     border: none !important;
   }
@@ -273,7 +278,7 @@ const handleClose = (key: string | number) => {
 
 // card-gutter start
 .@{prefix-cls}-card-gutter {
-  padding: 2px;
+  padding: 4px 3px 2px 3px;
   :deep(.arco-tabs-type-card-gutter > .arco-tabs-content) {
     border: none !important;
   }
@@ -289,7 +294,7 @@ const handleClose = (key: string | number) => {
 
 // text start
 .@{prefix-cls}-text {
-  padding: 2px;
+  padding: 4px 3px 2px 3px;
   :deep(.arco-tabs-type-text > .arco-tabs-content) {
     border: none !important;
   }
@@ -305,7 +310,7 @@ const handleClose = (key: string | number) => {
 
 // capsule start
 .@{prefix-cls}-capsule {
-  padding: 2px;
+  padding: 4px 3px 2px 3px;
   :deep(.arco-tabs-type-capsule > .arco-tabs-content) {
     border: none !important;
   }
@@ -322,7 +327,7 @@ const handleClose = (key: string | number) => {
 
 // line start
 .@{prefix-cls}-line {
-  padding: 2px;
+  padding: 4px 3px 2px 3px;
   :deep(.arco-tabs-type-line > .arco-tabs-content) {
     border: none !important;
   }
@@ -340,11 +345,12 @@ const handleClose = (key: string | number) => {
   background: var(--color-bg-2);
   display: flex;
   margin-right: 5px;
-  height: 32px;
-  line-height: 32px;
+  height: 28px;
+  line-height: 28px;
   text-align: center;
   border-radius: 2px;
   cursor: pointer;
+  color: var(--color-neutral-10);
 }
 .arco-dropdown-open .arco-icon-down {
   transform: rotate(180deg);

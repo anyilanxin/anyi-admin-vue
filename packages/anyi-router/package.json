@@ -12,7 +12,7 @@
     "@anyi/components": "workspace:*",
     "@anyi/corelocale": "workspace:*",
     "@anyi/coreutils": "workspace:*",
-    "@anyi/stores": "workspace:*",
+    "@anyi/corestores": "workspace:*",
     "nprogress": "^0.2.0",
     "vue-router": "^4.2.4",
     "path-to-regexp": "^6.2.1",

@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,6 +34,7 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  -->
 <!--
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
@@ -45,8 +55,8 @@
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
  *   3.请保留源码和相关描述文件的项目出处，作者声明等；
- *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
- *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-cloud-vue；
+ *   4.分发源码时候，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
+ *   5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://github.com/anyilanxin/anyi-admin-vue；
  *   6.本软件不允许在国家法律规定范围外使用，如出现违法行为原作者本人不承担任何法律风险；
  *   7.进行商用时，不得基于AnYi Admin Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
  *   8.本软件使用的第三方依赖皆为开源软件，如需要修改第三方源码请遵循第三方源码附带开源协议；
@@ -72,54 +82,54 @@
  *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
  -->
 <template>
-  <color-picker
-    class="anyi-color-sketch"
-    format="hex"
-    picker-type="fk"
-    shape="square"
-    v-model:pureColor="pureColor"
-    v-model:gradientColor="gradientColor"
-  />
+  <div class="anyi-color-parent" style="width: 100%">
+    <color-picker
+      class="anyi-color-sketch"
+      format="hex"
+      picker-type="fk"
+      style="width: 50%"
+      shape="square"
+      v-model:pureColor="pureColor"
+      v-model:gradientColor="gradientColor"
+    />
+    <span style="width: 50%">{{ pureColor }}</span>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { PropType, ref, watch, computed } from 'vue'
-import type { StyleValue } from 'vue'
+import { PropType, ref, watch } from 'vue'
 import { ColorPicker } from 'vue3-colorpicker'
-import 'vue3-colorpicker/style.css'
-defineProps({
-  colorList: {
-    type: Array as PropType<string[]>,
-    defualt: [],
+import { HandlerSettingEnum } from '@anyi/coreconstants'
+import 'vue3-colorpicker/dist/style.css'
+import { useAppConfig } from '@anyi/corehooks'
+const { baseHandler } = useAppConfig()
+const props = defineProps({
+  event: {
+    type: Number as PropType<HandlerSettingEnum>,
   },
-  name: {
+  currentColor: {
     type: String,
     default: '',
   },
 })
-const currentColor = ''
-const currentColorStype = computed(() => {
-  return {
-    'background-color': 'red',
-  } as StyleValue
-})
-const pureColor = ref<any>('red')
-const gradientColor = ref(
-  'linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%)',
-)
-const color: any = ref<any>('#165DFF')
-const hexColor = ref<any>('#165DFF')
-function handleColor(value: string) {}
+const pureColor = ref<string>('')
+const gradientColor = ref('linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%)')
 watch(
-  () => color.value,
+  () => props.currentColor,
   (oldV, newV) => {
     if (oldV !== newV) {
-      if (color.value?.hex) {
-        hexColor.value = color.value.hex
-      } else {
-        hexColor.value = color.value
+      pureColor.value = props.currentColor
+    }
+  },
+  { immediate: true },
+)
+watch(
+  () => pureColor.value,
+  (oldV, newV) => {
+    if (oldV !== newV) {
+      if (props.event) {
+        baseHandler(props.event, pureColor.value)
       }
-      handleColor(hexColor.value)
     }
   },
   { immediate: true },
@@ -127,40 +137,15 @@ watch(
 </script>
 
 <style lang="less" scoped>
-.anyi-color-sketch {
-  .anyi-color-parent {
-    border: 1px solid var(--color-neutral-3);
-    box-sizing: border-box;
-    display: flex;
-    height: 32px;
-    padding: 3px;
-    width: 100%;
-    .anyi-color {
-      height: 24px;
-      margin-right: 10px;
-      width: 120px;
-    }
+.anyi-color-parent {
+  border: 1px solid var(--color-neutral-3);
+  box-sizing: border-box;
+  display: flex;
+  height: 30px;
+  padding: 2px;
+  width: 100%;
+  :deep(.vc-color-wrap) {
+    width: 50%;
   }
-}
-
-.vc-sketch {
-  box-shadow: none !important;
-  padding: 4px !important;
-  background-color: var(--color-bg-popup);
-}
-:deep(.vc-sketch-presets) {
-  border-top: 1px solid var(--color-neutral-3) !important;
-}
-:deep(.vc-sketch-field .vc-input__label) {
-  color: var(--color-text-1) !important;
-}
-:deep(.vc-sketch-field .vc-input__input) {
-  background-color: var(--color-bg-3) !important;
-  color: var(--color-text-1) !important;
-  box-shadow: none !important;
-  border: 1px solid var(--color-neutral-3) !important;
-}
-.anyi-color-popover {
-  padding: 0px !important;
 }
 </style>

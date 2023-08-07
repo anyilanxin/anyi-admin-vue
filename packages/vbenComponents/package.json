@@ -11,7 +11,7 @@
   "dependencies": {
     "@iconify/iconify": "^3.0.0",
     "@anyi/corehooks": "workspace:*",
-    "@anyi/hooks": "workspace:*",
+    "@anyi/corehooks": "workspace:*",
     "@anyi/coreutils": "workspace:*",
     "@anyi/coreconstants": "workspace:*",
     "sass": "^1.55.0",

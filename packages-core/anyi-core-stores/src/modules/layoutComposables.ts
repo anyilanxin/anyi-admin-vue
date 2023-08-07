@@ -13,6 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ------------------------------------------------------------------------
+ * 安一兰心(AN YI LAN XIN)。安一出品，必出精品。
+ *
+ *   Official  Website ::  https://anyilanxin.com
+ * ------------------------------------------------------------------------
+ *
+ * ------------------------------------------------------------------------
+ * ANYI ADMIN VUE ADDITIONAL:
+ *
  * AnYi Admin Vue 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *   1.请不要删除和修改根目录下的LICENSE.txt文件；
  *   2.请不要删除和修改 AnYi Admin Vue 源码头部的版权声明；
@@ -25,6 +34,68 @@
  *   9.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
+ * ------------------------------------------------------------------------
  */
-export * from './pinia'
-export * from './modules/index'
+import { defineStore } from 'pinia'
+import { useElementSize } from '@anyi/coreutils'
+import { ref } from 'vue'
+
+export const useLayoutHeader = defineStore('LAYOUT_HEADER', () => {
+  const headerRef = ref<HTMLElement>()
+
+  const { height: headerHeight, width: headerWidth } = useElementSize(headerRef)
+
+  return {
+    headerRef,
+    headerHeight,
+    headerWidth,
+  }
+})
+
+export const useLayoutSidebar = defineStore('LAYOUT_SIDEBAR', () => {
+  const sidebarRef = ref<HTMLElement>()
+
+  const { height: sidebarHeight, width: sidebarWidth } = useElementSize(sidebarRef)
+
+  return {
+    sidebarRef,
+    sidebarHeight,
+    sidebarWidth,
+  }
+})
+
+export const useLayoutTab = defineStore('LAYOUT_TAB', () => {
+  const tabRef = ref<HTMLElement>()
+
+  const { height: tabHeight, width: tabWidth } = useElementSize(tabRef)
+
+  return {
+    tabRef,
+    tabHeight,
+    tabWidth,
+  }
+})
+
+export const useLayoutContent = defineStore('LAYOUT_FOOTER', () => {
+  const contentRef = ref<HTMLElement>()
+
+  const { height: contentHeight, width: contentWidth } = useElementSize(contentRef)
+
+  return {
+    contentRef,
+    contentHeight,
+    contentWidth,
+  }
+})
+
+export const useLayoutFooter = defineStore('LAYOUT_FOOTER', () => {
+  const footerRef = ref<HTMLElement>()
+
+  const { height: footerHeight, width: footerWidth } = useElementSize(footerRef)
+
+  return {
+    footerRef,
+    footerHeight,
+    footerWidth,
+  }
+})
