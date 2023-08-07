@@ -57,7 +57,15 @@ export async function createViteConfig(
   { preset }: { preset: PresetType },
 ): Promise<UserConfig> {
   console.log()
-  console.log(red('安一兰心'))
+  console.log(
+    red(`
+=======================================================================
+安一兰心(AN YI LAN XIN)，安一出品，必出精品。
+
+  Official  Website ::  https://anyilanxin.com
+=======================================================================
+  `),
+  )
   console.log()
   const root = cwd
   const env = loadEnv(mode, root)
