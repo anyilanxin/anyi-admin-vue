@@ -40,6 +40,7 @@
 import { BasicMenu } from './components/menu'
 import LayoutHeader from './components/header.vue'
 import LayoutTabs from './components/tabs/index.vue'
+import BannerNotice from './components/banner-notice'
 import LayoutMain from './components/main.vue'
 import LayoutFooter from './components/footer.vue'
 import SiderCenterDrag from './components/SiderCenterDrag.vue'
@@ -72,8 +73,17 @@ import {
 import { useComosables } from './useComosables'
 import { computed, unref, ref, onMounted, watchEffect, watch } from 'vue'
 
-const { toggleCollapse, menu, sidebar, setAppConfig, footer, tabTar, isMixSidebar, isTopMenu } =
-  useAppConfig()
+const {
+  toggleCollapse,
+  header,
+  menu,
+  sidebar,
+  setAppConfig,
+  footer,
+  tabTar,
+  isMixSidebar,
+  isTopMenu,
+} = useAppConfig()
 
 const { headerRef, tabRef, footerRef, headerHeight, contentStyle, mainStyle } = useComosables()
 
@@ -224,6 +234,7 @@ function closeMenu() {
       <a-layout>
         <a-layout-header :style="{ marginBottom: HEADER_MARGIN_BUTTOM }">
           <slot name="tabs"><LayoutTabs ref="tabRef" v-if="tabTar.visible" /></slot>
+          <slot name="bannerNotice" v-if="header.showBannerNotice"> <BannerNotice /> </slot>
         </a-layout-header>
         <a-layout :style="contentStyle">
           <a-layout-content :style="mainStyle">
