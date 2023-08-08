@@ -40,9 +40,9 @@
 import { BasicMenu } from './components/menu'
 import LayoutHeader from './components/header.vue'
 import LayoutTabs from './components/tabs/index.vue'
-import BannerNotice from './components/banner-notice'
 import LayoutMain from './components/main.vue'
 import LayoutFooter from './components/footer.vue'
+import BannerNotice from './components/banner-notice'
 import SiderCenterDrag from './components/SiderCenterDrag.vue'
 import {
   mapTree,
@@ -75,8 +75,8 @@ import { computed, unref, ref, onMounted, watchEffect, watch } from 'vue'
 
 const {
   toggleCollapse,
-  header,
   menu,
+  header,
   sidebar,
   setAppConfig,
   footer,

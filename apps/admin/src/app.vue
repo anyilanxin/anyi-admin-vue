@@ -37,8 +37,6 @@
  * =======================================================================
  -->
 
-
-
 <script lang="ts" setup>
 import { useLocale } from '@anyi/corelocale'
 import { useWebTitle } from '@anyi/corehooks'
@@ -46,7 +44,7 @@ import { useAppTheme, useAppConfig } from '@anyi/corehooks'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import { REDIRECT_NAME } from '@anyi/coreconstants'
-import { getGlobalConfig } from '@anyi/coreutils'
+import { getGlobalConfig, printSystemInfo } from '@anyi/coreutils'
 import AppProvider from '@/layout/components/app/AppProvider'
 import { unref, watch, computed } from 'vue'
 const { getLocale } = useLocale()
@@ -54,7 +52,7 @@ const { title } = getGlobalConfig(import.meta.env)
 useWebTitle(title, (route) => route.name !== REDIRECT_NAME)
 const { isDark, changeThemeAttribute, changeSystemTheme } = useAppTheme()
 const { themeColor } = useAppConfig()
-
+printSystemInfo()
 watch(
   () => unref(isDark),
   (v) => {

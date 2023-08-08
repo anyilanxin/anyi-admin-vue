@@ -38,7 +38,7 @@
  */
 import dayjs from 'dayjs'
 import { resolve } from 'path'
-import { red } from 'picocolors'
+import { printInfo } from './utils/print'
 import { readPackageJSON } from 'pkg-types'
 import type { UserConfig } from 'vite'
 import { loadEnv, mergeConfig } from 'vite'
@@ -56,21 +56,10 @@ export async function createViteConfig(
   cwd: string,
   { preset }: { preset: PresetType },
 ): Promise<UserConfig> {
-  console.log()
-  console.log(
-    red(`
-=======================================================================
-安一兰心(AN YI LAN XIN)，安一出品，必出精品。
-
-  Official  Website ::  https://anyilanxin.com
-=======================================================================
-  `),
-  )
-  console.log()
   const root = cwd
   const env = loadEnv(mode, root)
   const { dependencies, devDependencies, name, version } = await readPackageJSON(cwd)
-
+  printInfo(name, version)
   // The boolean type read by loadEnv is a string. This function can be converted to boolean type
   const viteEnv = wrapperEnv(env)
   const { VITE_PUBLIC_PATH, VITE_PROXY, VITE_USE_MOCK, VITE_DROP_CONSOLE, VITE_USE_HTTPS } = viteEnv

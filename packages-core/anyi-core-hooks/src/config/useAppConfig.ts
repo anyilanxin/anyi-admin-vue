@@ -109,12 +109,14 @@ export const useAppConfig = () => {
         } else {
           styles['--color-menu-dark-bg'] = unref(header).bgColor
         }
+        styles['--color-menu-bg'] = unref(header).bgColor
       } else {
         if (getTheme(unref(sidebar).bgColor) == 'light') {
           styles['--color-menu-light-bg'] = unref(sidebar).bgColor
         } else {
           styles['--color-menu-dark-bg'] = unref(sidebar).bgColor
         }
+        styles['--color-menu-bg'] = unref(sidebar).bgColor
       }
     }
     return styles

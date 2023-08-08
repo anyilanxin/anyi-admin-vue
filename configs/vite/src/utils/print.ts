@@ -1,4 +1,4 @@
-<!--
+/*
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
  *
  * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,17 +35,19 @@
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
- -->
-
-<script lang="ts" setup name="VbenInputNumber">
-import { maps } from '#/index'
-const InputNumber = maps.get('InputNumber')
-</script>
-<template>
-  <InputNumber v-bind="$attrs">
-    <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
-      <slot :name="item" v-bind="data || {}"></slot> </template
-  ></InputNumber>
-</template>
-
-<style scoped></style>
+ */
+export function printInfo(name?: string, version?: string) {
+  const color = '\x1B[35m%s\x1B[39m'
+  const conent = '\x1B[3m\x1B[31m%s\x1B[39m\x1B[23m'
+  console.log()
+  console.log(color, '=======================================================================\n')
+  console.log(conent, '  安一兰心(AN YI LAN XIN)，安一出品，必出精品。\n')
+  console.log(conent, '    Official  Website   ::  https://anyilanxin.com')
+  if (name && version) {
+    console.log(conent, '    Project  Info       ::  ' + name + ' (' + version + ')\n')
+  } else if (name && !version) {
+    console.log(conent, '    Project  Info       ::  ' + name + '\n')
+  }
+  console.log(color, '=======================================================================\n')
+  console.log()
+}
