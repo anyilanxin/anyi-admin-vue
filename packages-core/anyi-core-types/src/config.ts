@@ -230,6 +230,7 @@ export interface HeaderConfigOptions {
   showFullScreen: boolean
   showDoc: boolean
   showNotice: boolean
+  showBannerNotice: boolean
   showSearch: boolean
   showLocalePicker: boolean
   showSetting: boolean
@@ -249,6 +250,7 @@ export interface LogoConfigOptions {
 export interface TabTbrConfigOptions {
   show: boolean
   visible: boolean
+  tabType: string
   cache: boolean
   canDrag: boolean
   showQuick: boolean

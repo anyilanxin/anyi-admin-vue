@@ -54,11 +54,11 @@
  *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
  -->
 <template>
-  <div :class="'anyi-tab-bar-container-' + tabType">
+  <div :class="'anyi-tab-bar-container-' + tabTar.tabType">
     <a-tabs
       :active-key="activeTabName"
-      :type="tabType"
-      :size="tabType == 'rounded' ? 'mini' : 'medium'"
+      :type="tabTar.tabType"
+      :size="tabTar.tabType == 'rounded' ? 'mini' : 'medium'"
       id="drag"
       :tabs-padding="8"
       :editable="true"
@@ -127,6 +127,9 @@ import TabQuick from './components/TabQuick.vue'
 import FoldButton from './components/FoldButton.vue'
 import { useMultipleTab, storeToRefs } from '@anyi/corestores'
 import { listenerRouteChange } from '@anyi/router'
+import { useAppConfig } from '@anyi/corehooks'
+const { tabTar } = useAppConfig()
+
 const { useUserStore, useMultipleTabSetting } = context
 const { getShowQuick, getShowRedo, getShowFold } = useMultipleTabSetting() as any
 const { close } = useTabs()
@@ -136,7 +139,6 @@ const router = useRouter()
 const userStore = useUserStore() as any
 const go = useGo()
 const tabDropdownRef = ref<HTMLElement | null>(null)
-const tabType = ref('rounded')
 const activeTabName = ref<string>('')
 
 const tabList = computed(() => {

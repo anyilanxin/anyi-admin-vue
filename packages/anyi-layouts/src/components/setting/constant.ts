@@ -84,6 +84,15 @@ export const contentModeOptions = [
   },
 ]
 
+export const tabTypeOptions = [
+  { value: 'line', label: t('layout.setting.tabTypeLine') },
+  { value: 'card', label: t('layout.setting.tabTypeCard') },
+  { value: 'card-gutter', label: t('layout.setting.tabTypeCardGutter') },
+  { value: 'text', label: t('layout.setting.tabTypeText') },
+  { value: 'rounded', label: t('layout.setting.tabTypeRounded') },
+  { value: 'capsule', label: t('layout.setting.tabTypeCapsule') },
+]
+
 export const topMenuAlignOptions = [
   {
     value: TopMenuAlignEnum.CENTER,

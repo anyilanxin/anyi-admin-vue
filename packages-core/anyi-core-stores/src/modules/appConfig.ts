@@ -70,7 +70,7 @@ export const useAppConfig = defineStore({
   state: (): DefineAppConfigOptions => ({
     theme: ThemeEnum.LIGHT,
     navBarMode: NavBarModeEnum.SIDEBAR,
-    themeColor: '#0084f4',
+    themeColor: '#165DFF',
     showThemeModeToggle: true,
     openKeepAlive: true,
     useOpenBackTop: true,
@@ -123,6 +123,7 @@ export const useAppConfig = defineStore({
       showBreadCrumbIcon: true,
       showFullScreen: true,
       showNotice: true,
+      showBannerNotice: true,
       showSearch: true,
       showLocalePicker: true,
       showSetting: true,
@@ -134,6 +135,7 @@ export const useAppConfig = defineStore({
     },
     tabTar: {
       show: true,
+      tabType: 'rounded',
       visible: true,
       height: 36,
       cache: true,

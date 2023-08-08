@@ -40,6 +40,7 @@
 import SwitchItem from './SwitchItem.vue'
 import { HandlerSettingEnum } from '@anyi/coreconstants'
 import { useI18n } from '@anyi/corelocale'
+import SelectItem from './SelectItem.vue'
 
 import { useAppConfig } from '@anyi/corehooks'
 
@@ -56,6 +57,7 @@ const {
   colorWeak,
   logo,
 } = useAppConfig()
+import { tabTypeOptions } from '../constant'
 </script>
 <template>
   <VbenSpace vertical>
@@ -75,6 +77,12 @@ const {
       :title="t('layout.setting.tabs')"
       :def="tabTar.visible"
       :event="HandlerSettingEnum.TABS_SHOW"
+    />
+    <SelectItem
+      :title="t('layout.setting.tabsType')"
+      :options="tabTypeOptions"
+      :def="tabTar.tabType"
+      :event="HandlerSettingEnum.TABS_TYPE"
     />
     <SwitchItem
       :title="t('layout.setting.tabsRedoBtn')"
