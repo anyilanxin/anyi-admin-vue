@@ -37,8 +37,6 @@
  * =======================================================================
  -->
 
-
-
 <template>
   <template v-if="menuItem?.children && menuItem?.children.length !== 0">
     <a-sub-menu :key="menuItem.name" class="anyi-menu-sub-item">
@@ -123,7 +121,7 @@
           <!-- <component :is="com(menuItem?.meta?.icon)" v-else-if="menuItem?.meta?.icon" /> -->
         </div>
       </template>
-      <span class="anyi-menu-sub-item"> {{ $t(menuItem?.title || '') }}{{ menuItem.name }}</span>
+      <span class="anyi-menu-sub-item"> {{ $t(menuItem?.title || '') }}</span>
     </a-menu-item>
   </template>
 </template>
