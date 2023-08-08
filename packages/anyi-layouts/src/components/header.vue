@@ -87,7 +87,7 @@ const getShowHeaderMultipleTab = computed(() => {
   return unref(tabTar).visible && !unref(isMix)
 })
 const getShowBannerNotice = computed(() => {
-  return unref(header).showBannerNotice && !unref(isMix)
+  return unref(header).showBannerNotice
 })
 
 const showBreadcrumb = computed(() => {
