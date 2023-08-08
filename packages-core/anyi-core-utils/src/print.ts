@@ -40,15 +40,20 @@ export function printSystemInfo(name?: string, version?: string) {
   const color = '\x1B[35m%s\x1B[39m'
   const conent = '\x1B[3m\x1B[31m%s\x1B[39m\x1B[23m'
   console.log()
-  console.log(color, '=======================================================================\n')
-  console.log(conent, '  安一兰心(AN YI LAN XIN)，安一出品，必出精品。')
+  console.log(color, '=========================================================================\n')
+  console.log(color, '    ___      __  ___    __               _  __ _          ____________')
+  console.log(color, '   /   |  ___| |/ (_)  / /   ____ _____ | |/ /(_)___     / ____/ ____/')
+  console.log(color, '  / /| | / __|   / /  / /   / __ `/ __| |   // / __ |   / __/ / __/')
+  console.log(color, ' / ___ |/ / / / / /  / /___/ /_/ / / / /   |/ / / / /  / /___/ /___')
+  console.log(color, '/_/  |_/_/ /_/_/_/  /_____/|__,_/_/ /_/_/|_/_/_/ /_/  /_____/_____/')
+  console.log()
+  console.log(conent, '    安一兰心(AN YI LAN XIN)，安一出品，必出精品')
   console.log(conent, '    Official  Website   ::  https://anyilanxin.com')
   if (name && version) {
-    console.log(conent, '    Project  Info       ::  ' + name + ' (' + version + ')')
+    console.log(conent, '    Project  Info       ::  ' + name + ' (' + version + ')\n')
   } else if (name && !version) {
-    console.log(conent, '    Project  Info       ::  ' + name + '')
+    console.log(conent, '    Project  Info       ::  ' + name + '\n')
   }
-  console.log('\n')
-  console.log(color, '=======================================================================\n')
+  console.log(color, '=========================================================================\n')
   console.log()
 }
