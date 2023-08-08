@@ -36,8 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
-
 <script lang="ts" setup name="ThemeColorPicker">
 import { PropType } from 'vue'
 import { HandlerSettingEnum } from '@anyi/coreconstants'
@@ -65,20 +63,20 @@ const handleClick = (color: string) => {
 </script>
 <template>
   <div class="theme-color-picker">
-    <VbenSpace justify="space-between" :size="0" :wrap="false">
+    <div class="anyi-theme-color-info" :size="0" :wrap="false">
       <template v-for="color in colorList" :key="color">
         <span
           @click="handleClick(color)"
-          class="h-20px w-20px cursor-pointer border rounded-sm box-border border-gray-300 inline-block color-item"
+          class="h-20px w-20px cursor-pointer border rounded-sm box-border border-gray-300 inline-block color-item anyi-theme-color-span"
           :class="{ active: def == color }"
           :style="{ background: color }"
         >
-          <VbenSpace v-if="def == color" justify="center">
+          <span v-if="def == color" class="anyi-theme-color-info-selected">
             <VbenIconify icon="ant-design:check-outlined" color="#D1D5DB" hover-color="#D1D5DB" />
-          </VbenSpace>
+          </span>
         </span>
       </template>
-    </VbenSpace>
+    </div>
   </div>
 </template>
 <style lang="less" scoped>
@@ -86,6 +84,24 @@ const handleClick = (color: string) => {
   &:hover,
   &.active {
     border-color: rgba(6, 96, 189, 1);
+  }
+}
+
+.anyi-theme-color-info {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  box-sizing: border-box;
+  .anyi-theme-color-span {
+    border: 1px solid var(--color-neutral-3);
+  }
+
+  .anyi-theme-color-info-selected {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    color: currentColor;
+    mix-blend-mode: difference;
   }
 }
 </style>

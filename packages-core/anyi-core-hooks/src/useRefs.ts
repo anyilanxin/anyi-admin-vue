@@ -39,10 +39,7 @@
 import type { Ref } from 'vue'
 import { ref, onBeforeUpdate } from 'vue'
 
-export const useRefs = (): [
-  Ref<HTMLElement[]>,
-  (index: number) => (el: HTMLElement) => void,
-] => {
+export const useRefs = (): [Ref<HTMLElement[]>, (index: number) => (el: HTMLElement) => void] => {
   const refs = ref([]) as Ref<HTMLElement[]>
 
   onBeforeUpdate(() => {

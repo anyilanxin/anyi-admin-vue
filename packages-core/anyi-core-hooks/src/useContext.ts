@@ -36,14 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import {
-  InjectionKey,
-  provide,
-  inject,
-  reactive,
-  readonly as defineReadonly,
-  UnwrapRef,
-} from 'vue'
+import { InjectionKey, provide, inject, reactive, readonly as defineReadonly, UnwrapRef } from 'vue'
 
 export interface CreateContextOptions {
   readonly?: boolean
@@ -70,11 +63,7 @@ export const createContext = <T>(
 }
 
 export function useContext<T>(key: InjectionKey<T>, native?: boolean): T
-export function useContext<T>(
-  key: InjectionKey<T>,
-  defaultValue?: any,
-  native?: boolean,
-): T
+export function useContext<T>(key: InjectionKey<T>, defaultValue?: any, native?: boolean): T
 
 export function useContext<T>(
   key: InjectionKey<T> = Symbol(),

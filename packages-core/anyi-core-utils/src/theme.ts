@@ -37,11 +37,7 @@
  * =======================================================================
  */
 import { colorIsDark } from './color'
-export function toggleClass(
-  flag: boolean,
-  clsName: string,
-  target?: HTMLElement,
-) {
+export function toggleClass(flag: boolean, clsName: string, target?: HTMLElement) {
   console.log('------colorcolorcolor--1111------', clsName)
   const targetEl = target || document.body
   let { className } = targetEl
@@ -49,11 +45,7 @@ export function toggleClass(
   targetEl.className = (flag ? `${className} ${clsName} ` : className).trim()
 }
 
-export function setCssVar(
-  prop: string,
-  val: any,
-  dom = document.documentElement,
-) {
+export function setCssVar(prop: string, val: any, dom = document.documentElement) {
   dom.style.setProperty(prop, val)
 }
 

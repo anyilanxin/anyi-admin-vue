@@ -112,11 +112,7 @@ export function findParentPath<T = any>(
   return null
 }
 
-export function findAllParentPath(
-  tree: any,
-  func: AnyFunction<any>,
-  config?: TreeActionConfig,
-) {
+export function findAllParentPath(tree: any, func: AnyFunction<any>, config?: TreeActionConfig) {
   config = getConfig(config)
   const paths: any[] = []
   const list = [...tree]
@@ -161,11 +157,7 @@ export function filterTree<T = any>(
   return listFilter(tree)
 }
 
-export function forEachTree<T = any>(
-  tree: T[],
-  func: (n: T) => any,
-  config?: TreeActionConfig,
-) {
+export function forEachTree<T = any>(tree: T[], func: (n: T) => any, config?: TreeActionConfig) {
   config = getConfig(config)
   const list: any[] = [...tree]
   const { children } = config
@@ -191,11 +183,7 @@ export function mapTree<T = any>(
 /**
  * Recursively traverse the tree structure
  */
-export function traverseTree(
-  data: any[],
-  callBack: AnyFunction<any>,
-  parentNode = {},
-) {
+export function traverseTree(data: any[], callBack: AnyFunction<any>, parentNode = {}) {
   data.forEach((element) => {
     const newNode = callBack(element, parentNode) || element
     if (element.children) {
@@ -209,13 +197,9 @@ export function traverseTree(
  */
 function doMapTree(
   data: any,
-  {
-    children = 'children',
-    conversion,
-  }: { children?: string; conversion: AnyFunction<any> },
+  { children = 'children', conversion }: { children?: string; conversion: AnyFunction<any> },
 ) {
-  const haveChildren =
-    Array.isArray(data[children]) && data[children].length > 0
+  const haveChildren = Array.isArray(data[children]) && data[children].length > 0
   const conversionData = conversion(data) || {}
   if (haveChildren) {
     return {

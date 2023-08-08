@@ -36,12 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import {
-  getCascaderData,
-  getRadioData,
-  getSelectData,
-  getTreeSelectData,
-} from '../apis/form'
+import { getCascaderData, getRadioData, getSelectData, getTreeSelectData } from '../apis/form'
 import { VbenFormSchema } from '@anyi/vbencomponents/src/form'
 import { ref } from 'vue'
 export const selectParams = ref({ id: 1 })

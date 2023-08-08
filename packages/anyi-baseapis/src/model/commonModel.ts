@@ -37,23 +37,23 @@
  * =======================================================================
  */
 export interface SelectModel {
-  value: string;
-  label: string;
-  extendInfo: Object;
-  disabled?: boolean;
+  value: string
+  label: string
+  extendInfo: Object
+  disabled?: boolean
 }
 
 export interface DtoCommonModel {
-  remark: string;
-  createAreaCode: string;
-  createPositionCode: string;
-  createOrgSysCode: string;
-  createSystemCode: string;
-  createUserId: string;
-  createUserName: string;
-  createTenantId: string;
-  createTime: string;
-  updateUserId: string;
-  updateUserName: string;
-  updateTime: string;
+  remark: string
+  createAreaCode: string
+  createPositionCode: string
+  createOrgSysCode: string
+  createSystemCode: string
+  createUserId: string
+  createUserName: string
+  createTenantId: string
+  createTime: string
+  updateUserId: string
+  updateUserName: string
+  updateTime: string
 }
