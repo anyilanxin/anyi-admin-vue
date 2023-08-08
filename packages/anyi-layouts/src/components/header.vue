@@ -86,6 +86,9 @@ const getShowSetting = computed(() => {
 const getShowHeaderMultipleTab = computed(() => {
   return unref(tabTar).visible && !unref(isMix)
 })
+const getShowBannerNotice = computed(() => {
+  return unref(header).showBannerNotice && !unref(isMix)
+})
 const showBreadcrumb = computed(() => {
   return unref(header).showBreadCrumb && unref(navBarMode) === NavBarModeEnum.SIDEBAR
 })
@@ -151,7 +154,7 @@ const getHeaderColor = computed(() => {
         <LayoutTabs />
       </slot>
     </template>
-    <template v-if="header.showBannerNotice">
+    <template v-if="getShowBannerNotice">
       <slot name="bannerNotice">
         <BannerNotice />
       </slot>
