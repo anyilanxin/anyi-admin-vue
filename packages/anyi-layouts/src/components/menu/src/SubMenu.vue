@@ -232,10 +232,26 @@ const goto = (item: any) => {
   text-overflow: clip;
   white-space: nowrap;
 }
-.anyi-menu-sub-item {
-  color: v-bind(fontColor);
+.arco-menu-pop-header:not(.arco-menu-selected) {
+  .anyi-menu-sub-item {
+    color: v-bind(fontColor);
+  }
 }
-.anyi-menu-sub-item-dark {
-  color: var(--color-text-2);
+
+.arco-menu-pop-header:not(.arco-menu-selected) {
+  .anyi-menu-sub-item-dark {
+    color: var(--color-text-2);
+  }
+}
+
+.arco-menu-item:not(.arco-menu-selected) {
+  .anyi-menu-sub-item {
+    color: v-bind(fontColor);
+  }
+}
+.arco-menu-item:not(.arco-menu-selected) {
+  .anyi-menu-sub-item-dark {
+    color: var(--color-text-2);
+  }
 }
 </style>
