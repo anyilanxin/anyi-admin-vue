@@ -46,6 +46,7 @@ import AppFullScreen from '../components/FullScreen.vue'
 import { SettingButton } from '../components/setting'
 import LocalePicker from './LocalePicker.vue'
 import HeaderTrigger from './HeaderTrigger.vue'
+import BannerNotice from './banner-notice'
 import DarkModeToggleSimple from './DarkModeToggleSimple.vue'
 import UserDropdown from '../components/user-dropdown/index.vue'
 import { computed, unref } from 'vue'
@@ -148,6 +149,11 @@ const getHeaderColor = computed(() => {
     <template v-if="getShowHeaderMultipleTab">
       <slot name="tabs">
         <LayoutTabs />
+      </slot>
+    </template>
+    <template v-if="header.showBannerNotice">
+      <slot name="bannerNotice">
+        <BannerNotice />
       </slot>
     </template>
   </div>

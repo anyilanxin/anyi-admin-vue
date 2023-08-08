@@ -36,16 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+import BannerNotice from './src/BannerNotice.vue'
 
-import { request } from '@anyi/request'
-import { SERVICE_API_PREFIX } from '@anyi/coreconstants'
-import { CommonAreaTreeDto } from './model/commonAreaModel'
-
-/**
- * @description: 通过上级区域编码获取下级
- */
-export const getList = (parentId: string, activateAreaId?: string) =>
-  request.get<CommonAreaTreeDto[]>({
-    url: SERVICE_API_PREFIX.SYSTEM + '/common-area/select/list',
-    params: { parentId, activateAreaId },
-  })
+export default BannerNotice

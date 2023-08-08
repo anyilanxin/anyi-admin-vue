@@ -268,10 +268,10 @@ function handlerResults(
 
     case HandlerSettingEnum.TABS_SHOW:
       return { tabTar: { show: value, visible: value } }
-
+    case HandlerSettingEnum.TABS_TYPE:
+      return { tabTar: { tabType: value } }
     case HandlerSettingEnum.TABS_SHOW_REDO:
       return { tabTar: { showRedo: value } }
-
     case HandlerSettingEnum.TABS_SHOW_FOLD:
       return { tabTar: { showFold: value } }
 
