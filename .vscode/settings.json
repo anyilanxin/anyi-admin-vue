@@ -92,7 +92,11 @@
       "source.fixAll.stylelint": true
     }
   },
-  "i18n-ally.localesPaths": ["packages/locale/src/lang"],
+  "i18n-ally.localesPaths": [
+    "packages/**/**/src/lang",
+    "packages-core/**/**/src/lang",
+    "apps/**/**/src/lang"
+  ],
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sortKeys": true,
   "i18n-ally.namespace": true,
@@ -101,6 +105,12 @@
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.displayLanguage": "zh-CN",
   "i18n-ally.enabledFrameworks": ["vue", "react"],
+  "i18n-ally.dirStructure": "auto",
+  "i18n-ally.annotations": true,
+  "i18n-ally.theme.annotation": "rgba(153, 153, 153, .8)",
+  "i18n-ally.theme.annotationBorder": "rgba(153, 153, 153, .8)",
+  "i18n-ally.theme.annotationMissing": "#d37070",
+  "i18n-ally.theme.annotationMissingBorder": "#d37070",
   "cSpell.words": [
     "vben",
     "vite",
@@ -132,5 +142,7 @@
     "unref",
     "vitest",
     "esbuild"
-  ]
+  ],
+  "commentTranslate.multiLineMerge": true,
+  "typescript.suggest.autoImports": false
 }
