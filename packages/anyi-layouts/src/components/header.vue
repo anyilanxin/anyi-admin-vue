@@ -91,10 +91,12 @@ const getShowBannerNotice = computed(() => {
 })
 
 const showBreadcrumb = computed(() => {
-  return unref(header).showBreadCrumb && unref(navBarMode) != NavBarModeEnum.TOP_MENU
+  return unref(header).showBreadCrumb
 })
 const showHeaderTrigger = computed(() => {
-  return unref(sidebar).trigger === TriggerEnum.HEADER
+  return (
+    unref(sidebar).trigger === TriggerEnum.HEADER && unref(navBarMode) != NavBarModeEnum.TOP_MENU
+  )
 })
 const getHeaderColor = computed(() => {
   return unref(header).bgColor
