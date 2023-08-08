@@ -36,12 +36,12 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-export * from './tree/index';
+export * from './tree/index'
 /**
  * 用于存储固定类型的数据字典
- * 
+ *
  * 比如：DataDictionary<Component>，用于存储组件清单
  */
 export type DataDictionary<T> = {
-  [key: string]: T;
-};
+  [key: string]: T
+}

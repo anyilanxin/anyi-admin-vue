@@ -49,5 +49,5 @@ export enum TabActionEnum {
   CLOSE_OTHER,
   CLOSE_ALL,
   SCALE,
-  CLOSE
+  CLOSE,
 }

@@ -41,8 +41,7 @@ import CryptoJS from 'crypto-js'
 type WordArray = CryptoJS.lib.WordArray
 
 function createIuid(len: number, radix: number) {
-  const chars =
-    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
   const uuidInfo: Array<string> = []
   let i
   radix = radix || chars.length

@@ -39,7 +39,7 @@
 export default {
   basic: {
     login: '登录',
-    lock: '锁屏'
+    lock: '锁屏',
   },
   dashboard: {
     dashboard: '仪表板',
@@ -54,7 +54,7 @@ export default {
     table: {
       table: '表格',
       basic: '基础表格',
-      fixedColumn:'固定列'
+      fixedColumn: '固定列',
     },
   },
 }

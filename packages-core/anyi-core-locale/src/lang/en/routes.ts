@@ -39,7 +39,7 @@
 export default {
   basic: {
     login: 'Login',
-    lock: 'LockScreen'
+    lock: 'LockScreen',
   },
   dashboard: {
     dashboard: 'Dashboard',
@@ -54,7 +54,7 @@ export default {
     table: {
       table: 'table',
       basic: 'basic',
-      fixedColumn:'fixedColumn'
+      fixedColumn: 'fixedColumn',
     },
   },
 }

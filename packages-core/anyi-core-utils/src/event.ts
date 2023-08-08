@@ -50,10 +50,7 @@ const resizeHandler = (entries: ResizeObserverEntry[]) => {
   }
 }
 
-export const addResizeListener = (
-  element,
-  fn: (...args: unknown[]) => unknown,
-) => {
+export const addResizeListener = (element, fn: (...args: unknown[]) => unknown) => {
   if (!isClient || !element) return
   if (!element.__resizeListeners__) {
     element.__resizeListeners__ = []
@@ -63,10 +60,7 @@ export const addResizeListener = (
   element.__resizeListeners__.push(fn)
 }
 
-export const removeResizeListener = (
-  element,
-  fn: (...args: unknown[]) => unknown,
-) => {
+export const removeResizeListener = (element, fn: (...args: unknown[]) => unknown) => {
   if (!element || !element.__resizeListeners__) return
   element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1)
   if (!element.__resizeListeners__.length) {
@@ -75,9 +69,8 @@ export const removeResizeListener = (
 }
 
 export function triggerWindowResize() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('resize', true, true);
-  (event as any).eventType = 'message';
-  window.dispatchEvent(event);
+  const event = document.createEvent('HTMLEvents')
+  event.initEvent('resize', true, true)
+  ;(event as any).eventType = 'message'
+  window.dispatchEvent(event)
 }
-
