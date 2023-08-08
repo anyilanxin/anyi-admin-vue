@@ -89,8 +89,9 @@ const getShowHeaderMultipleTab = computed(() => {
 const getShowBannerNotice = computed(() => {
   return unref(header).showBannerNotice && !unref(isMix)
 })
+
 const showBreadcrumb = computed(() => {
-  return unref(header).showBreadCrumb && unref(navBarMode) === NavBarModeEnum.SIDEBAR
+  return unref(header).showBreadCrumb && unref(navBarMode) != NavBarModeEnum.TOP_MENU
 })
 const showHeaderTrigger = computed(() => {
   return unref(sidebar).trigger === TriggerEnum.HEADER
@@ -100,10 +101,10 @@ const getHeaderColor = computed(() => {
 })
 </script>
 <template>
-  <div style="width: 100%" :class="!isDark ? 'anyi-layout-header' : 'anyi-layout-header-dark'">
+  <div style="width: 100%">
     <div
       v-if="getShowFullHeaderRef"
-      :class="['h-48px', 'shadow']"
+      :class="['h-48px', 'shadow', !isDark ? 'anyi-layout-header' : 'anyi-layout-header-dark']"
       :style="{ '--un-shadow-color': 'var(--n-border-color)' }"
       style="justify-content: space-between; display: flex; align-items: center"
     >

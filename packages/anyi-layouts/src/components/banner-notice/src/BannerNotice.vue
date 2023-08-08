@@ -37,7 +37,10 @@
  * =======================================================================
  -->
 <template>
-  <div v-if="bannerNoticeList && bannerNoticeList.length > 0">
+  <div
+    v-if="bannerNoticeList && bannerNoticeList.length > 0"
+    style="margin-left: 9px; margin-right: 9px; margin-top: 2px"
+  >
     <div class="anyi-banner-notice">
       <a-alert banner closable @close="handleClose">
         <template #title>

@@ -36,34 +36,19 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-<!--
- * Copyright (c) 2021-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
- *
- * 本软件 AnYi Cloud Vue EE为商业授权软件。未经过商业授权禁止使用，违者必究。
- *
- * AnYi Cloud Vue EE为商业授权软件，您在使用过程中，需要注意以下几点：
- *   1.不允许在国家法律法规规定的范围外使用，如出现违法行为作者本人不承担任何责任；
- *   2.软件使用的第三方依赖皆为开源软件，如需要修改第三方依赖请遵循第三方依赖附带的开源协议，因擅自修改第三方依赖所引起的争议，作者不承担任何责任；
- *   3.不得基于AnYi Cloud EE Vue的基础，修改包装而成一个与AnYi Cloud EE、AnYi Zeebe EE、AnYi Standalone EE功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
- *   4.不得将软件源码以任何开源方式公布出去；
- *   5.不得对授权进行出租、出售、抵押或发放子许可证；
- *   6.您可以直接使用在自己的网站或软件产品中，也可以集成到您自己的商业网站或软件产品中进行出租或销售；
- *   7.您可以对上述授权软件进行必要的修改和美化，无需公开修改或美化后的源代码；
- *   8.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
- *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
- *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
- -->
 <template>
   <div
     :class="bem()"
     v-bind="getMenuEvents"
     style="display: flex; flex-direction: column; height: 100%"
+    :style="getMenuItemStyles.styles"
   >
-    <logo
+    <Logo
       :class="[bem('logo'), 'shadow']"
-      :style="{ '--un-shadow-color': 'var(--n-border-color)' }"
+      ref="logoRef"
       v-if="showHeaderLogo"
       :showTitle="false"
+      :backCg="sidebar.bgColor"
     />
     <div style="flex: 1; overflow: hidden; position: relative">
       <div
@@ -75,6 +60,7 @@
           <li
             :class="[
               bem('module__item'),
+              !isDark && bem('module__item_custom'),
               {
                 [bem('module__item--active')]: item.path === activePath,
               },
@@ -97,8 +83,13 @@
     </div>
     <SiderFooterTrigger ref="garget" />
     <div
-      :class="['shadow', bem('menu-list')]"
-      class="anyi-mix-sidebar-munu"
+      :class="[
+        'shadow',
+        bem('menu-list'),
+
+        isDark ? 'anyi-mix-sidebar-munu-dark' : 'anyi-mix-sidebar-munu',
+      ]"
+      class="anyi-mix-sidebar-munu-common"
       :style="getMenuStyle"
       ref="sideRef"
     >
@@ -106,6 +97,7 @@
         v-show="openMenu"
         :class="[
           bem('menu-list__title'),
+          !isDark && bem('menu-list__title_custom'),
           'shadow',
           {
             show: openMenu,
@@ -121,13 +113,19 @@
           hoverPointer
         />
       </div>
-      <div v-if="openMenu" :class="bem('menu-list__children-title')">
+      <div
+        v-if="openMenu"
+        :class="[
+          bem('menu-list__children-title'),
+          !isDark && bem('menu-list__children-title_custom'),
+        ]"
+      >
         {{ childrenTitle }}
       </div>
       <a-layout-sider
         v-show="openMenu"
         :width="sidebar.width"
-        :collapsible="sidebar.collapsed"
+        :collapsible="false"
         style="width: 100%; height: 100%; overflow: auto"
       >
         <MixMenu
@@ -142,8 +140,9 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, unref, computed, CSSProperties } from 'vue'
-import { createNamespace, getGlobalConfig } from '@anyi/coreutils'
+import { createNamespace, getGlobalConfig, getTheme } from '@anyi/coreutils'
 import { VbenIconify } from '@anyi/vbencomponents'
+import { MenuModeEnum } from '@anyi/coreconstants'
 import Logo from '../../logo/index.vue'
 import SiderFooterTrigger from '../../SiderFooterTrigger.vue'
 import { NavBarModeEnum, MixSidebarTriggerEnum } from '@anyi/coreconstants'
@@ -157,9 +156,18 @@ import {
   getChildrenMenus,
   getShallowMenus,
 } from '@anyi/router'
-import { useAppConfig } from '@anyi/corehooks'
-const { navBarMode, menu, sidebar, isMixSidebar, logo, toggleMenuFixed, closeMixSidebarOnChange } =
-  useAppConfig()
+import { useAppConfig, useAppTheme } from '@anyi/corehooks'
+const { isDark } = useAppTheme()
+const {
+  navBarMode,
+  menu,
+  sidebar,
+  isMixSidebar,
+  getMenuStyles,
+  logo,
+  toggleMenuFixed,
+  closeMixSidebarOnChange,
+} = useAppConfig()
 const { title } = getGlobalConfig(import.meta.env)
 
 const { bem } = createNamespace('layout-mix-menu')
@@ -171,6 +179,19 @@ const props = defineProps({
     type: Number,
     default: 50,
   },
+})
+const fontColor = computed(() => {
+  if (getTheme(unref(sidebar).bgColor) == 'light') {
+    return 'rgb(78,89,105)'
+  } else {
+    return 'rgb(201,205,212)'
+  }
+})
+const getMenuItemStyles = computed(() => {
+  const styles = { ...getMenuStyles(MenuModeEnum.VERTICAL) }
+  return {
+    styles,
+  }
 })
 
 let menuModules = ref<any[]>([])
@@ -185,7 +206,7 @@ onMounted(async () => {
   openMenu.value = unref(menu).mixSideFixed
 })
 const showHeaderLogo = computed(() => {
-  return unref(navBarMode) == NavBarModeEnum.MIX_SIDEBAR && logo.show
+  return unref(navBarMode) == NavBarModeEnum.MIX_SIDEBAR && unref(logo).show
 })
 listenerRouteChange((route) => {
   currentRoute.value = route
@@ -304,6 +325,7 @@ const getMenuEvents = computed(() => {
 .layout-mix-menu {
   display: flex;
   flex-direction: column;
+  background-color: var(--color-menu-bg);
   height: 100%;
 
   &__logo {
@@ -319,6 +341,9 @@ const getMenuEvents = computed(() => {
     position: relative;
     padding: 1px 0 40px 0;
     margin: 0;
+    &__item_custom {
+      color: v-bind(fontColor) !important;
+    }
     &__item {
       position: relative;
       padding: 12px 0;
@@ -327,12 +352,12 @@ const getMenuEvents = computed(() => {
       align-items: center;
       flex-direction: column;
       cursor: pointer;
+      color: var(--color-text-2);
       transition: all 0.3s ease;
 
       &:hover,
       &--active {
         font-weight: 700;
-        background-color: var(--color-menu-dark-hover);
         color: rgb(var(--primary-6));
         &::before {
           position: absolute;
@@ -361,12 +386,15 @@ const getMenuEvents = computed(() => {
     top: 0;
     width: 0px;
     height: calc(100%);
-    background-color: var(--color-bg-3);
     transition: all 0.3s;
+    &__title_custom {
+      color: v-bind(fontColor) !important;
+    }
     &__title {
       display: flex;
       height: 48px;
       font-size: 18px;
+      color: var(--color-text-2);
       opacity: 0%;
       transition: unset;
       align-items: center;
@@ -385,15 +413,25 @@ const getMenuEvents = computed(() => {
     }
     &__children-title {
       padding: 6px 20px;
+      color: var(--color-text-1);
       margin: 0;
+    }
+    &__children-title_custom {
+      color: v-bind(fontColor) !important;
     }
   }
 }
 
-.anyi-mix-sidebar-munu {
+.anyi-mix-sidebar-munu-common {
   z-index: 99999;
 }
+.anyi-mix-sidebar-munu-dark {
+  background-color: var(--color-menu-dark-bg);
+}
 
+.anyi-mix-sidebar-munu {
+  background-color: var(--color-menu-bg);
+}
 .mix-side-bar-scrollbar {
   height: calc(100% - 40px);
 }

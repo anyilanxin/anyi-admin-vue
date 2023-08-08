@@ -74,35 +74,6 @@ import { tabTypeOptions } from '../constant'
       :disabled="!header.showBreadCrumb || !header.visible"
     />
     <SwitchItem
-      :title="t('layout.setting.tabs')"
-      :def="tabTar.visible"
-      :event="HandlerSettingEnum.TABS_SHOW"
-    />
-    <SelectItem
-      :title="t('layout.setting.tabsType')"
-      :options="tabTypeOptions"
-      :def="tabTar.tabType"
-      :event="HandlerSettingEnum.TABS_TYPE"
-    />
-    <SwitchItem
-      :title="t('layout.setting.tabsRedoBtn')"
-      :def="tabTar.showRedo"
-      :event="HandlerSettingEnum.TABS_SHOW_REDO"
-      :disabled="!tabTar.visible"
-    />
-    <SwitchItem
-      :title="t('layout.setting.tabsQuickBtn')"
-      :def="tabTar.showQuick"
-      :event="HandlerSettingEnum.TABS_SHOW_QUICK"
-      :disabled="!tabTar.visible"
-    />
-    <SwitchItem
-      :title="t('layout.setting.tabsFoldBtn')"
-      :def="tabTar.showFold"
-      :event="HandlerSettingEnum.TABS_SHOW_FOLD"
-      :disabled="!tabTar.visible"
-    />
-    <SwitchItem
       :title="t('layout.setting.sidebar')"
       :def="sidebar.visible"
       :event="HandlerSettingEnum.MENU_SHOW_SIDEBAR"
@@ -138,6 +109,36 @@ import { tabTypeOptions } from '../constant'
       :title="t('layout.setting.colorWeak')"
       :def="colorWeak"
       :event="HandlerSettingEnum.COLOR_WEAK"
+    />
+    <SwitchItem
+      :title="t('layout.setting.tabs')"
+      :def="tabTar.visible"
+      :event="HandlerSettingEnum.TABS_SHOW"
+    />
+    <SwitchItem
+      :title="t('layout.setting.tabsRedoBtn')"
+      :def="tabTar.showRedo"
+      :event="HandlerSettingEnum.TABS_SHOW_REDO"
+      :disabled="!tabTar.visible"
+    />
+    <SwitchItem
+      :title="t('layout.setting.tabsQuickBtn')"
+      :def="tabTar.showQuick"
+      :event="HandlerSettingEnum.TABS_SHOW_QUICK"
+      :disabled="!tabTar.visible"
+    />
+    <SwitchItem
+      :title="t('layout.setting.tabsFoldBtn')"
+      :def="tabTar.showFold"
+      :event="HandlerSettingEnum.TABS_SHOW_FOLD"
+      :disabled="!tabTar.visible"
+    />
+    <SelectItem
+      :title="t('layout.setting.tabsType')"
+      :options="tabTypeOptions"
+      :def="tabTar.tabType"
+      :event="HandlerSettingEnum.TABS_TYPE"
+      :disabled="!tabTar.visible"
     />
   </VbenSpace>
 </template>
