@@ -62,7 +62,7 @@ onMounted(async () => {
       <slot name="header">
         <LayoutHeader ref="headerRef" :style="{ marginBottom: HEADER_MARGIN_BUTTOM }">
           <template #menu>
-            <BasicMenu mode="horizontal" :menuOptions="menuOptions" />
+            <BasicMenu mode="horizontal" :menuOptions="menuOptions" :enableCollapsed="false" />
           </template>
         </LayoutHeader>
       </slot>
