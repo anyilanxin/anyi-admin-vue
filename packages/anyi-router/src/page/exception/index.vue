@@ -36,7 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
 <script lang="tsx">
 import type { PropType } from 'vue'
 import { defineComponent, ref, computed, unref } from 'vue'

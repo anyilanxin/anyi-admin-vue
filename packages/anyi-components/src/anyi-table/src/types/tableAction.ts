@@ -36,31 +36,31 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { ButtonProps } from 'ant-design-vue/es/button/buttonTypes';
-import { TooltipProps } from 'ant-design-vue/es/tooltip/Tooltip';
-import { RoleEnum } from '/@/enums/roleEnum';
+import { ButtonProps } from 'ant-design-vue/es/button/buttonTypes'
+import { TooltipProps } from 'ant-design-vue/es/tooltip/Tooltip'
+import { RoleEnum } from '/@/enums/roleEnum'
 export interface ActionItem extends ButtonProps {
-  onClick?: Fn;
-  label?: string;
-  color?: 'success' | 'error' | 'warning';
-  icon?: string;
-  popConfirm?: PopConfirm;
-  disabled?: boolean;
-  divider?: boolean;
+  onClick?: Fn
+  label?: string
+  color?: 'success' | 'error' | 'warning'
+  icon?: string
+  popConfirm?: PopConfirm
+  disabled?: boolean
+  divider?: boolean
   // 权限编码控制是否显示
-  auth?: RoleEnum | RoleEnum[] | string | string[];
+  auth?: RoleEnum | RoleEnum[] | string | string[]
   // 业务控制是否显示
-  ifShow?: boolean | ((action: ActionItem) => boolean);
-  tooltip?: string | TooltipProps;
+  ifShow?: boolean | ((action: ActionItem) => boolean)
+  tooltip?: string | TooltipProps
 }
 
 export interface PopConfirm {
-  title: string;
-  okText?: string;
-  cancelText?: string;
-  confirm: Fn;
-  cancel?: Fn;
-  icon?: string;
+  title: string
+  okText?: string
+  cancelText?: string
+  confirm: Fn
+  cancel?: Fn
+  icon?: string
   placement?:
     | 'top'
     | 'left'
@@ -73,5 +73,5 @@ export interface PopConfirm {
     | 'rightTop'
     | 'rightBottom'
     | 'bottomLeft'
-    | 'bottomRight';
+    | 'bottomRight'
 }

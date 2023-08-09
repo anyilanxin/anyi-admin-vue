@@ -1,4 +1,4 @@
-<!--
+/*
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
  *
  * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,20 +35,8 @@
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
- -->
+ */
+import { VXETable } from '..'
+import componentSetting from '/@/settings/componentSetting'
 
-<template>
-  <div class="anyi-blank-wrapper">
-    <AnYiBpmnInstancePreview />
-  </div>
-</template>
-
-<script lang="ts" setup name="AnYiBpmnInstancePreviewModel">
-import AnYiBpmnInstancePreview from './AnYiBpmnInstancePreview.vue'
-</script>
-
-<style lang="less">
-.anyi-blank-wrapper {
-  padding: 1px 16px 16px 16px;
-}
-</style>
+VXETable.setup(componentSetting.vxeTable)

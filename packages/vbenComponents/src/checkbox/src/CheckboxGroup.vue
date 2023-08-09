@@ -36,7 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
 <script lang="ts" setup name="VbenCheckboxGroup">
 import { maps } from '#/index'
 import Checkbox from './Checkbox.vue'

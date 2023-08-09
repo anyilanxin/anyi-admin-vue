@@ -67,7 +67,7 @@ const { sidebar, toggleCollapse } = useAppConfig()
     :class="isDark ? 'anyi-layout-header-trigger-dark' : 'anyi-layout-header-trigger'"
   >
     <VbenIconify
-      size="20"
+      size="24"
       :icon="sidebar.collapsed ? 'line-md:menu-fold-right' : 'line-md:menu-fold-left'"
     />
   </div>

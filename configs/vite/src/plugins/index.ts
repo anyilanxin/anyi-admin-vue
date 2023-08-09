@@ -53,11 +53,7 @@ import { createConfigPlugin } from './config'
 import { configHttpsPlugin } from './https'
 import monacoEditorPlugin from 'vite-plugin-monaco-editor'
 import MonoRepoAliasPlugin from './monorepo'
-export async function configVitePlugins(
-  root: string,
-  viteEnv: ViteEnv,
-  isBuild: boolean,
-) {
+export async function configVitePlugins(root: string, viteEnv: ViteEnv, isBuild: boolean) {
   const {
     VITE_USE_IMAGEMIN,
     VITE_USE_MOCK,
@@ -110,10 +106,7 @@ export async function configVitePlugins(
 
     // rollup-plugin-gzip
     vitePlugins.push(
-      configCompressPlugin(
-        VITE_BUILD_COMPRESS,
-        VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE,
-      ),
+      configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE),
     )
   }
 

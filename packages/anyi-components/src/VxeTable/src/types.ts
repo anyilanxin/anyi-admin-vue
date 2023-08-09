@@ -1,4 +1,4 @@
-<!--
+/*
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
  *
  * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,27 +35,11 @@
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
- -->
+ */
+import { CSSProperties } from 'vue'
+import { VxeGridProps } from 'vxe-table'
 
-<template>
-  <div class="anyi-blank-wrapper">
-    <slot></slot>
-  </div>
-</template>
-
-<script lang="ts" setup name="AnYiBpmnPreview"></script>
-
-<style lang="less">
-@import 'anyi-process-preview-vue-ee/dist/style.css';
-
-@import 'bpmn-js/dist/assets/diagram-js.css';
-@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
-@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
-@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-@import 'bpmn-js/dist/assets/bpmn-js.css';
-@import 'diagram-js-minimap/assets/diagram-js-minimap.css';
-
-.anyi-blank-wrapper {
-  padding: 1px 16px 16px 16px;
+export type BasicTableProps = VxeGridProps & {
+  tableClass?: string
+  tableStyle?: CSSProperties
 }
-</style>

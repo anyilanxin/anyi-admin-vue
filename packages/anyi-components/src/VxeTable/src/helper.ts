@@ -1,4 +1,4 @@
-<!--
+/*
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
  *
  * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,20 +35,23 @@
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
- -->
+ */
+import { ComponentType } from './componentType'
+import { useI18n } from '/@/hooks/web/useI18n'
 
-<template>
-  <div class="anyi-blank-wrapper">
-    <AnYiDmnPreview />
-  </div>
-</template>
+const { t } = useI18n()
 
-<script lang="ts" setup name="AnYiDmnPreviewModel">
-import AnYiDmnPreview from './AnYiDmnPreview.vue'
-</script>
-
-<style lang="less">
-.anyi-blank-wrapper {
-  padding: 1px 16px 16px 16px;
+/**
+ * @description: 生成placeholder
+ */
+export function createPlaceholderMessage(component: ComponentType) {
+  if (!component) return
+  if (component.includes('RangePicker')) {
+    return [t('common.chooseText'), t('common.chooseText')]
+  }
+  if (component.includes('Input') || component.includes('Complete') || component.includes('Rate')) {
+    return t('common.inputText')
+  } else {
+    return t('common.chooseText')
+  }
 }
-</style>

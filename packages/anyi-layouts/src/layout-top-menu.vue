@@ -95,4 +95,7 @@ onMounted(async () => {
   bottom: -9px;
   transition: all 0.3s ease-in-out;
 }
+:deep(.arco-menu-dark .arco-menu-pop-header.arco-menu-selected) {
+  color: rgb(var(--primary-6));
+}
 </style>

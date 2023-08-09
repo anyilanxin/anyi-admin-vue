@@ -232,6 +232,7 @@ const goto = (item: any) => {
   text-overflow: clip;
   white-space: nowrap;
 }
+
 .arco-menu-pop-header:not(.arco-menu-selected) {
   .anyi-menu-sub-item {
     color: v-bind(fontColor);

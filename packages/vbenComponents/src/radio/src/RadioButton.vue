@@ -36,7 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
 <script lang="ts" setup name="VbenRadioButton">
 import { maps } from '#/index'
 const RadioButton = maps.get('RadioButton')

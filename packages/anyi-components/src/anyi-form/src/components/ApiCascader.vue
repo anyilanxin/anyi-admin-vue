@@ -36,24 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-<!--
- * Copyright (c) 2021-2022 ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
- *
- * 本软件 AnYi Cloud EE Ant Vue 为 AnYi Cloud 的商业授权版本。未经过商业授权禁止使用，违者必究。
- *
- * AnYi Cloud EE Ant Vue 为商业授权组件，您在使用过程中，需要注意以下几点：
- *   1.不允许在国家法律法规规定的范围外使用，如出现违法行为作者本人不承担任何责任；
- *   2.软件使用的第三方依赖皆为开源软件，如需要修改第三方依赖请遵循第三方依赖附带的开源协议，因擅自修改第三方依赖所引起的争议，作者不承担任何责任；
- *   3.不得基于AnYi Cloud EE Ant Vue的基础，修改包装而成一个与AnYi Cloud、AnYi Zeebe功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
- *   4.不得将软件源码以任何开源方式公布出去；
- *   5.不得对授权进行出租、出售、抵押或发放子许可证；
- *   6.您可以直接使用在自己的网站或软件产品中，也可以集成到您自己的商业网站或软件产品中进行出租或销售；
- *   7.您可以对上述授权软件进行必要的修改和美化，无需公开修改或美化后的源代码；
- *   8.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
- *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
- *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
- -->
-
 <template>
   <a-cascader
     v-model:value="state"
@@ -75,180 +57,180 @@
   </a-cascader>
 </template>
 <script lang="ts">
-  import { defineComponent, PropType, ref, unref, watch, watchEffect } from 'vue';
-  import { Cascader } from 'ant-design-vue';
-  import { propTypes } from '/@/utils/propTypes';
-  import { isFunction } from '/@/utils/is';
-  import { get, omit } from 'lodash-es';
-  import { useRuleFormItem } from '/@/hooks/component/useFormItem';
-  import { LoadingOutlined } from '@ant-design/icons-vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
-  interface Option {
-    value: string;
-    label: string;
-    loading?: boolean;
-    isLeaf?: boolean;
-    children?: Option[];
-  }
-  export default defineComponent({
-    name: 'ApiCascader',
-    components: {
-      LoadingOutlined,
-      [Cascader.name]: Cascader,
+import { defineComponent, PropType, ref, unref, watch, watchEffect } from 'vue'
+import { Cascader } from 'ant-design-vue'
+import { propTypes } from '/@/utils/propTypes'
+import { isFunction } from '/@/utils/is'
+import { get, omit } from 'lodash-es'
+import { useRuleFormItem } from '/@/hooks/component/useFormItem'
+import { LoadingOutlined } from '@ant-design/icons-vue'
+import { useI18n } from '/@/hooks/web/useI18n'
+interface Option {
+  value: string
+  label: string
+  loading?: boolean
+  isLeaf?: boolean
+  children?: Option[]
+}
+export default defineComponent({
+  name: 'ApiCascader',
+  components: {
+    LoadingOutlined,
+    [Cascader.name]: Cascader,
+  },
+  props: {
+    value: {
+      type: Array,
     },
-    props: {
-      value: {
-        type: Array,
-      },
-      api: {
-        type: Function as PropType<(arg?: Recordable) => Promise<Option[]>>,
-        default: null,
-      },
-      numberToString: propTypes.bool,
-      resultField: propTypes.string.def(''),
-      labelField: propTypes.string.def('label'),
-      valueField: propTypes.string.def('value'),
-      childrenField: propTypes.string.def('children'),
-      asyncFetchParamKey: propTypes.string.def('parentCode'),
-      immediate: propTypes.bool.def(true),
-      // init fetch params
-      initFetchParams: {
-        type: Object as PropType<Recordable>,
-        default: () => ({}),
-      },
-      // 是否有下级，默认是
-      isLeaf: {
-        type: Function as PropType<(arg: Recordable) => boolean>,
-        default: null,
-      },
-      displayRenderArray: {
-        type: Array,
-      },
+    api: {
+      type: Function as PropType<(arg?: Recordable) => Promise<Option[]>>,
+      default: null,
     },
-    emits: ['change', 'defaultChange'],
-    setup(props, { emit }) {
-      const apiData = ref<any[]>([]);
-      const options = ref<Option[]>([]);
-      const loading = ref<boolean>(false);
-      const emitData = ref<any[]>([]);
-      const isFirstLoad = ref(true);
-      const { t } = useI18n();
-      // Embedded in the form, just use the hook binding to perform form verification
-      const [state] = useRuleFormItem(props, 'value', 'change', emitData);
-
-      watch(
-        apiData,
-        (data) => {
-          const opts = generatorOptions(data);
-          options.value = opts;
-        },
-        { deep: true },
-      );
-
-      function generatorOptions(options: any[]): Option[] {
-        const { labelField, valueField, numberToString, childrenField, isLeaf } = props;
-        return options.reduce((prev, next: Recordable) => {
-          if (next) {
-            const value = next[valueField];
-            const item = {
-              ...omit(next, [labelField, valueField]),
-              label: next[labelField],
-              value: numberToString ? `${value}` : value,
-              isLeaf: isLeaf && typeof isLeaf === 'function' ? isLeaf(next) : false,
-            };
-            const children = Reflect.get(next, childrenField);
-            if (children) {
-              Reflect.set(item, childrenField, generatorOptions(children));
-            }
-            prev.push(item);
-          }
-          return prev;
-        }, [] as Option[]);
-      }
-
-      async function initialFetch() {
-        const api = props.api;
-        if (!api || !isFunction(api)) return;
-        apiData.value = [];
-        loading.value = true;
-        try {
-          const res = await api(props.initFetchParams);
-          if (Array.isArray(res)) {
-            apiData.value = res;
-            return;
-          }
-          if (props.resultField) {
-            apiData.value = get(res, props.resultField) || [];
-          }
-        } catch (error) {
-          console.warn(error);
-        } finally {
-          loading.value = false;
-        }
-      }
-
-      async function loadData(selectedOptions: Option[]) {
-        const targetOption = selectedOptions[selectedOptions.length - 1];
-        targetOption.loading = true;
-
-        const api = props.api;
-        if (!api || !isFunction(api)) return;
-        try {
-          const res = await api({
-            [props.asyncFetchParamKey]: Reflect.get(targetOption, 'value'),
-          });
-          if (Array.isArray(res)) {
-            const children = generatorOptions(res);
-            targetOption.children = children;
-            return;
-          }
-          if (props.resultField) {
-            const children = generatorOptions(get(res, props.resultField) || []);
-            targetOption.children = children;
-          }
-        } catch (e) {
-          console.error(e);
-        } finally {
-          targetOption.loading = false;
-        }
-      }
-
-      watchEffect(() => {
-        props.immediate && initialFetch();
-      });
-
-      watch(
-        () => props.initFetchParams,
-        () => {
-          !unref(isFirstLoad) && initialFetch();
-        },
-        { deep: true },
-      );
-
-      function handleChange(keys, args) {
-        emitData.value = keys;
-        emit('defaultChange', keys, args);
-      }
-
-      function handleRenderDisplay({ labels, selectedOptions }) {
-        if (unref(emitData).length === selectedOptions.length) {
-          return labels.join(' / ');
-        }
-        if (props.displayRenderArray) {
-          return props.displayRenderArray.join(' / ');
-        }
-        return '';
-      }
-
-      return {
-        state,
-        options,
-        loading,
-        t,
-        handleChange,
-        loadData,
-        handleRenderDisplay,
-      };
+    numberToString: propTypes.bool,
+    resultField: propTypes.string.def(''),
+    labelField: propTypes.string.def('label'),
+    valueField: propTypes.string.def('value'),
+    childrenField: propTypes.string.def('children'),
+    asyncFetchParamKey: propTypes.string.def('parentCode'),
+    immediate: propTypes.bool.def(true),
+    // init fetch params
+    initFetchParams: {
+      type: Object as PropType<Recordable>,
+      default: () => ({}),
     },
-  });
+    // 是否有下级，默认是
+    isLeaf: {
+      type: Function as PropType<(arg: Recordable) => boolean>,
+      default: null,
+    },
+    displayRenderArray: {
+      type: Array,
+    },
+  },
+  emits: ['change', 'defaultChange'],
+  setup(props, { emit }) {
+    const apiData = ref<any[]>([])
+    const options = ref<Option[]>([])
+    const loading = ref<boolean>(false)
+    const emitData = ref<any[]>([])
+    const isFirstLoad = ref(true)
+    const { t } = useI18n()
+    // Embedded in the form, just use the hook binding to perform form verification
+    const [state] = useRuleFormItem(props, 'value', 'change', emitData)
+
+    watch(
+      apiData,
+      (data) => {
+        const opts = generatorOptions(data)
+        options.value = opts
+      },
+      { deep: true },
+    )
+
+    function generatorOptions(options: any[]): Option[] {
+      const { labelField, valueField, numberToString, childrenField, isLeaf } = props
+      return options.reduce((prev, next: Recordable) => {
+        if (next) {
+          const value = next[valueField]
+          const item = {
+            ...omit(next, [labelField, valueField]),
+            label: next[labelField],
+            value: numberToString ? `${value}` : value,
+            isLeaf: isLeaf && typeof isLeaf === 'function' ? isLeaf(next) : false,
+          }
+          const children = Reflect.get(next, childrenField)
+          if (children) {
+            Reflect.set(item, childrenField, generatorOptions(children))
+          }
+          prev.push(item)
+        }
+        return prev
+      }, [] as Option[])
+    }
+
+    async function initialFetch() {
+      const api = props.api
+      if (!api || !isFunction(api)) return
+      apiData.value = []
+      loading.value = true
+      try {
+        const res = await api(props.initFetchParams)
+        if (Array.isArray(res)) {
+          apiData.value = res
+          return
+        }
+        if (props.resultField) {
+          apiData.value = get(res, props.resultField) || []
+        }
+      } catch (error) {
+        console.warn(error)
+      } finally {
+        loading.value = false
+      }
+    }
+
+    async function loadData(selectedOptions: Option[]) {
+      const targetOption = selectedOptions[selectedOptions.length - 1]
+      targetOption.loading = true
+
+      const api = props.api
+      if (!api || !isFunction(api)) return
+      try {
+        const res = await api({
+          [props.asyncFetchParamKey]: Reflect.get(targetOption, 'value'),
+        })
+        if (Array.isArray(res)) {
+          const children = generatorOptions(res)
+          targetOption.children = children
+          return
+        }
+        if (props.resultField) {
+          const children = generatorOptions(get(res, props.resultField) || [])
+          targetOption.children = children
+        }
+      } catch (e) {
+        console.error(e)
+      } finally {
+        targetOption.loading = false
+      }
+    }
+
+    watchEffect(() => {
+      props.immediate && initialFetch()
+    })
+
+    watch(
+      () => props.initFetchParams,
+      () => {
+        !unref(isFirstLoad) && initialFetch()
+      },
+      { deep: true },
+    )
+
+    function handleChange(keys, args) {
+      emitData.value = keys
+      emit('defaultChange', keys, args)
+    }
+
+    function handleRenderDisplay({ labels, selectedOptions }) {
+      if (unref(emitData).length === selectedOptions.length) {
+        return labels.join(' / ')
+      }
+      if (props.displayRenderArray) {
+        return props.displayRenderArray.join(' / ')
+      }
+      return ''
+    }
+
+    return {
+      state,
+      options,
+      loading,
+      t,
+      handleChange,
+      loadData,
+      handleRenderDisplay,
+    }
+  },
+})
 </script>

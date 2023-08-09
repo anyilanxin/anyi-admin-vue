@@ -341,7 +341,7 @@ const getMenuEvents = computed(() => {
     position: relative;
     padding: 1px 0 40px 0;
     margin: 0;
-    &__item_custom {
+    &__item_custom:not(.layout-mix-menu__module__item--active) {
       color: v-bind(fontColor) !important;
     }
     &__item {

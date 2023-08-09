@@ -36,8 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
-
 <template>
   <a-card class="general-card" :title="t('monitor.title.quickOperation')">
     <a-space direction="vertical" fill :size="10">

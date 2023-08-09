@@ -36,8 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
-
 <template>
   <a-card
     class="general-card"
@@ -61,24 +59,24 @@
 </template>
 
 <script lang="ts" setup>
-  const links = [
-    {
-      text: 'workplace.contentManagement',
-      icon: 'icon-storage',
-    },
-    {
-      text: 'workplace.contentStatistical',
-      icon: 'icon-file',
-    },
-    {
-      text: 'workplace.advanced',
-      icon: 'icon-settings',
-    },
-  ];
+const links = [
+  {
+    text: 'workplace.contentManagement',
+    icon: 'icon-storage',
+  },
+  {
+    text: 'workplace.contentStatistical',
+    icon: 'icon-file',
+  },
+  {
+    text: 'workplace.advanced',
+    icon: 'icon-settings',
+  },
+]
 </script>
 
 <style lang="less" scoped>
-  :deep(.arco-card-header-title) {
-    line-height: inherit;
-  }
+:deep(.arco-card-header-title) {
+  line-height: inherit;
+}
 </style>

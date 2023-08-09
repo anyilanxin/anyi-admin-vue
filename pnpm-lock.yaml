@@ -588,21 +588,9 @@ importers:
       '@anyi/coreutils':
         specifier: workspace:*
         version: link:../../packages-core/anyi-core-utils
-      '@anyilanxin/anyi-process-heatmap-vue-ee':
-        specifier: ^0.0.5
-        version: 0.0.5(diagram-js@12.2.0)(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.31.0)(vue@3.2.47)
-      '@anyilanxin/anyi-process-tools-vue-ee':
-        specifier: ^0.0.12
-        version: 0.0.12(@lezer/common@1.0.3)(camunda-bpmn-js-behaviors@0.5.0)(diagram-js@12.2.0)(preact@10.16.0)(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.31.0)(vue@3.2.47)
       '@iconify/iconify':
         specifier: ^3.0.0
         version: 3.1.0
-      anyi-process-designernative-vue-ee:
-        specifier: ^0.0.14
-        version: 0.0.14(@codemirror/view@6.16.0)(@lezer/common@1.0.3)(diagram-js@12.2.0)(inferno@5.6.2)(preact@10.16.0)(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.31.0)(vue@3.2.47)
-      anyi-process-preview-vue-ee:
-        specifier: ^0.0.11
-        version: 0.0.11(diagram-js@12.2.0)(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.31.0)(vue@3.2.47)
       qrcode:
         specifier: ^1.5.1
         version: 1.5.1
@@ -622,36 +610,9 @@ importers:
       '@arco-design/web-vue':
         specifier: ^2.48.1
         version: 2.48.1(vue@3.2.47)
-      '@bpmn-io/add-exporter':
-        specifier: ^0.2.0
-        version: 0.2.0
-      '@bpmn-io/element-template-chooser':
-        specifier: ^1.0.0
-        version: 1.0.0(bpmn-js@13.1.0)(diagram-js@12.2.0)
-      '@bpmn-io/element-template-icon-renderer':
-        specifier: ^0.5.0
-        version: 0.5.0(bpmn-js@13.1.0)(diagram-js@12.2.0)
-      '@bpmn-io/properties-panel':
-        specifier: ^2.1.0
-        version: 2.1.0(@lezer/common@1.0.3)(webpack@5.88.2)
-      '@bpmn-io/variable-resolver':
-        specifier: ^1.1.0
-        version: 1.1.0(bpmn-js@13.1.0)
-      '@camunda/example-data-properties-provider':
-        specifier: ^1.1.1
-        version: 1.1.1(@bpmn-io/properties-panel@2.1.0)(@bpmn-io/variable-resolver@1.1.0)(bpmn-js-properties-panel@1.25.0)(bpmn-js@13.1.0)
-      '@codemirror/lang-xml':
-        specifier: ^6.0.2
-        version: 6.0.2(@codemirror/view@6.16.0)
-      '@codemirror/theme-one-dark':
-        specifier: ^6.1.2
-        version: 6.1.2
       '@iconify/json':
         specifier: ^2.2.15
         version: 2.2.15
-      '@mars3d/heatmap.js':
-        specifier: ^2.0.7
-        version: 2.0.7
       '@purge-icons/generated':
         specifier: ^0.9.0
         version: 0.9.0
@@ -661,75 +622,6 @@ importers:
       '@vueuse/core':
         specifier: ^10.3.0
         version: 10.3.0(vue@3.2.47)
-      bpmn-js:
-        specifier: ^13.1.0
-        version: 13.1.0
-      bpmn-js-bpmnlint:
-        specifier: ^0.20.1
-        version: 0.20.1(bpmn-js@13.1.0)(bpmnlint@8.2.0)(diagram-js@12.2.0)
-      bpmn-js-color-picker:
-        specifier: ^0.5.0
-        version: 0.5.0(bpmn-js@13.1.0)
-      bpmn-js-create-append-anything:
-        specifier: ^0.2.0
-        version: 0.2.0(bpmn-js@13.1.0)(diagram-js@12.2.0)
-      bpmn-js-differ:
-        specifier: ^2.0.2
-        version: 2.0.2
-      bpmn-js-i18n:
-        specifier: ^1.1.1
-        version: 1.1.1
-      bpmn-js-properties-panel:
-        specifier: ^1.25.0
-        version: 1.25.0(@bpmn-io/properties-panel@2.1.0)(bpmn-js@13.1.0)(camunda-bpmn-js-behaviors@0.5.0)(diagram-js@12.2.0)(preact@10.16.0)
-      bpmn-js-token-simulation:
-        specifier: ^0.31.1
-        version: 0.31.1
-      bpmnlint:
-        specifier: ^8.2.0
-        version: 8.2.0
-      bpmnlint-loader:
-        specifier: ^0.1.6
-        version: 0.1.6(bpmnlint@8.2.0)
-      camunda-bpmn-js-behaviors:
-        specifier: ^0.5.0
-        version: 0.5.0(bpmn-js@13.1.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@0.19.0)
-      camunda-bpmn-moddle:
-        specifier: ^7.0.1
-        version: 7.0.1
-      camunda-dmn-js:
-        specifier: ^0.10.1
-        version: 0.10.1(dmn-js-properties-panel@2.0.0)(dmn-js@14.1.5)(inferno@5.6.2)
-      camunda-dmn-moddle:
-        specifier: ^1.2.0
-        version: 1.2.0
-      codemirror:
-        specifier: ^6.0.1
-        version: 6.0.1(@lezer/common@1.0.3)
-      diagram-js-grid:
-        specifier: ^0.2.0
-        version: 0.2.0
-      diagram-js-minimap:
-        specifier: ^4.1.0
-        version: 4.1.0
-      dmn-js:
-        specifier: ^14.1.5
-        version: 14.1.5
-      dmn-js-dmnlint:
-        specifier: ^0.1.1
-        version: 0.1.1(dmnlint@0.2.0)
-      dmn-js-properties-panel:
-        specifier: ^2.0.0
-        version: 2.0.0(@bpmn-io/properties-panel@2.1.0)(dmn-js@14.1.5)
-      dmnlint:
-        specifier: ^0.2.0
-        version: 0.2.0
-      dmnlint-loader:
-        specifier: ^0.1.0
-        version: 0.1.0(dmnlint@0.2.0)
-      dmnlint-pack-config:
-        specifier: ^0.1.0
-        version: 0.1.0(dmnlint@0.2.0)
       js-base64:
         specifier: ^3.7.2
         version: 3.7.2
@@ -739,12 +631,6 @@ importers:
       min-dash:
         specifier: ^4.0.0
         version: 4.0.0
-      vue-codemirror:
-        specifier: ^6.1.1
-        version: 6.1.1(codemirror@6.0.1)(vue@3.2.47)
-      zeebe-bpmn-moddle:
-        specifier: ^0.19.0
-        version: 0.19.0
 
   packages/anyi-hooks:
     dependencies:
@@ -891,9 +777,6 @@ importers:
       vue-router:
         specifier: ^4.2.4
         version: 4.2.4(vue@3.2.47)
-      vxe-table:
-        specifier: ^4.5.0-beta.19
-        version: 4.5.0-beta.19(vue@3.2.47)(xe-utils@3.5.11)
       xe-utils:
         specifier: ^3.5.11
         version: 3.5.11

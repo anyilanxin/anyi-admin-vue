@@ -22,7 +22,6 @@
     "qrcode": "^1.5.1",
     "vue": "3.2.47",
     "vue-router": "^4.2.4",
-    "vxe-table": "^4.5.0-beta.19",
     "xe-utils": "^3.5.11"
   },
   "devDependencies": {

@@ -54,17 +54,17 @@ export const expressionColumns = [
     width: 100,
     dataIndex: 'expressionState',
   },
-];
+]
 
 export function getTypeName(type?: number) {
   if (type == 1) {
-    return '系统角色';
+    return '系统角色'
   } else if (type == 2) {
-    return '系统表达式';
+    return '系统表达式'
   } else if (type == 3) {
-    return '自定义表达式';
+    return '自定义表达式'
   }
-  return '';
+  return ''
 }
 
 export const roleColumns = [
@@ -81,4 +81,4 @@ export const roleColumns = [
     width: 100,
     dataIndex: 'roleStatus',
   },
-];
+]

@@ -38,8 +38,9 @@
  -->
 <template>
   <div
+    :class="navBarMode != NavBarModeEnum.TOP_MENU && 'anyi-banner-notice-parent'"
     v-if="bannerNoticeList && bannerNoticeList.length > 0"
-    style="margin-left: 9px; margin-right: 9px; margin-top: 2px"
+    style="margin-top: 2px"
   >
     <div class="anyi-banner-notice">
       <a-alert banner closable @close="handleClose">
@@ -62,7 +63,9 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, nextTick, computed } from 'vue'
-
+import { useAppInject, useAppConfig } from '@anyi/corehooks'
+import { NavBarModeEnum } from '@anyi/coreconstants'
+const { navBarMode } = useAppConfig()
 const contentParentDomRef = ref()
 const contentDomRef = ref()
 const noticeInfo = ref('')
@@ -165,6 +168,10 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
+.anyi-banner-notice-parent {
+  margin-left: 9px;
+  margin-right: 9px;
+}
 .anyi-banner-notice-rounded {
   // padding-left: 12px;
   // padding-right: 12px;

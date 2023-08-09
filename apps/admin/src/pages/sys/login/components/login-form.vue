@@ -36,9 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
-
-
 <template>
   <div class="login-form-wrapper">
     <div class="login-form-title">{{ $t('登录 AnYi Cloud EE') }}</div>
