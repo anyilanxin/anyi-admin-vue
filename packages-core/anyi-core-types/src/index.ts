@@ -44,5 +44,6 @@ export * from './router'
 export * from './global'
 export * from './setting'
 export * from './local'
+export * from './message'
 
 export * from './button'

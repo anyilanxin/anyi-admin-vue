@@ -36,7 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { VXETable } from '..'
-import componentSetting from '/@/settings/componentSetting'
+import { VXETable } from '..';
+import componentSetting from '/@/settings/componentSetting';
 
-VXETable.setup(componentSetting.vxeTable)
+VXETable.setup(componentSetting.vxeTable);

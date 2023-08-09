@@ -36,9 +36,9 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { VxeGridPropTypes, VxeTablePropTypes } from 'vxe-table'
-import tableProps from 'vxe-table/es/table/src/props'
-import { CSSProperties } from 'vue'
+import { VxeGridPropTypes, VxeTablePropTypes } from 'vxe-table';
+import tableProps from 'vxe-table/es/table/src/props';
+import { CSSProperties } from 'vue';
 
 /**
  * @description: table二次开发需要后，需要接受的所有prop属性
@@ -87,4 +87,4 @@ export const basicProps = {
     type: Object as PropType<CSSProperties>,
     default: () => ({}),
   },
-}
+};

@@ -63,14 +63,7 @@ const style = computed(
 </script>
 <template>
   <footer :class="bem()" :style="style">
-    <div class="lh-32px">
-      <template v-for="(item, index) in links" :key="index">
-        <VbenButton text tag="a" :href="item.url" target="_blank">
-          <VbenIconify :icon="item.icon" size="18" />
-          <VbenText depth="3">{{ item.label }}</VbenText>
-        </VbenButton>
-      </template>
-    </div>
+    <div class="lh-32px">dfsdfsdf</div>
     <VbenText depth="3">Copyright ©{{ copyright }}</VbenText>
   </footer>
 </template>

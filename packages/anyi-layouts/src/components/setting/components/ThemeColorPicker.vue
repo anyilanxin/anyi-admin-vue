@@ -72,7 +72,7 @@ const handleClick = (color: string) => {
           :style="{ background: color }"
         >
           <span v-if="def == color" class="anyi-theme-color-info-selected">
-            <VbenIconify icon="ant-design:check-outlined" color="#D1D5DB" hover-color="#D1D5DB" />
+            <AnYiIconify icon="ant-design:check-outlined" color="#D1D5DB" hover-color="#D1D5DB" />
           </span>
         </span>
       </template>

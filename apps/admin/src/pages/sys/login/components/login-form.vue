@@ -121,7 +121,6 @@ import { getPictureCode } from '@anyi/baseapis'
 import { Notification } from '@arco-design/web-vue'
 import { useI18n } from '@anyi/corelocale'
 import { ValidatedError } from '@arco-design/web-vue/es/form/interface'
-import { notice } from '@anyi/vbencomponents'
 import { useUserStore } from '@/store/user'
 import { useLoading } from '@anyi/corehooks'
 
@@ -167,9 +166,9 @@ const handleSubmit = async ({
         mode: 'none',
       })
       if (userInfo) {
-        notice.success({
+        Notification.success({
           content: t('sys.login.loginSuccessTitle'),
-          meta: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realname}`,
+          title: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realname}`,
           duration: 3000,
         })
       }

@@ -39,9 +39,8 @@
 <script lang="ts" setup>
 import { useI18n } from '@anyi/corelocale'
 import AppSearchKeyItem from './AppSearchKeyItem.vue'
-import { context } from '../../../bridge'
+import { useDesign } from '@anyi/corehooks'
 
-const { useDesign } = context
 const { prefixCls } = useDesign('app-search-footer')
 const { t } = useI18n()
 </script>

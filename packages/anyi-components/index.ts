@@ -38,8 +38,13 @@
  */
 import type { App } from 'vue'
 export { initComp } from './bridge'
-
+import { AnYiChart, AnYiIconify, AnYiIcon } from './src'
 export * from './src'
 
 // 全局注册住建写入这里
-export function initComponent(app: App) {}
+export function initGlobalComponent(app: App) {
+  app.component('AnYiIconify', AnYiIconify)
+  app.component('AnYiChart', AnYiChart)
+  app.component('Icon', AnYiIcon)
+  app.component('AnYiIcon', AnYiIcon)
+}

@@ -38,7 +38,7 @@
  -->
 <template>
   <div
-    :class="bem()"
+    :class="[bem(), isDark ? 'anyi-mix-sidebar-munu-parent-dark' : 'anyi-mix-sidebar-munu-parent']"
     v-bind="getMenuEvents"
     style="display: flex; flex-direction: column; height: 100%"
     :style="getMenuItemStyles.styles"
@@ -69,7 +69,7 @@
             v-for="item in menuModules"
             :key="item.path"
           >
-            <VbenIconify
+            <AnYiIconify
               :class="bem('module__icon')"
               :size="!sidebar.collapsed ? 16 : 20"
               :icon="item.icon || (item.meta && item.meta.icon)"
@@ -97,6 +97,7 @@
         v-show="openMenu"
         :class="[
           bem('menu-list__title'),
+          isDark ? 'anyi-mix-sidebar-munu-title-dark' : 'anyi-mix-sidebar-munu-title',
           !isDark && bem('menu-list__title_custom'),
           'shadow',
           {
@@ -105,7 +106,7 @@
         ]"
       >
         <span class="text"> {{ title }}</span>
-        <VbenIconify
+        <AnYiIconify
           :size="16"
           :icon="menu.mixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
           class="pushpin"
@@ -141,7 +142,6 @@
 <script lang="ts" setup>
 import { ref, onMounted, unref, computed, CSSProperties } from 'vue'
 import { createNamespace, getGlobalConfig, getTheme } from '@anyi/coreutils'
-import { VbenIconify } from '@anyi/vbencomponents'
 import { MenuModeEnum } from '@anyi/coreconstants'
 import Logo from '../../logo/index.vue'
 import SiderFooterTrigger from '../../SiderFooterTrigger.vue'
@@ -170,6 +170,13 @@ const {
 } = useAppConfig()
 const { title } = getGlobalConfig(import.meta.env)
 
+const borderColor = computed(() => {
+  if (getTheme(unref(sidebar).bgColor) == 'light') {
+    return 'rgb(229,230,235)'
+  } else {
+    return '#333335'
+  }
+})
 const { bem } = createNamespace('layout-mix-menu')
 const { t } = useI18n()
 const go = useGo()
@@ -328,6 +335,12 @@ const getMenuEvents = computed(() => {
   background-color: var(--color-menu-bg);
   height: 100%;
 
+  .anyi-mix-sidebar-munu-title {
+    border-bottom: 1px solid v-bind(borderColor);
+  }
+  .anyi-mix-sidebar-munu-title-dark {
+    border-bottom: 1px solid var(--color-border);
+  }
   &__logo {
     flex-shrink: 0;
     justify-content: center;
@@ -436,6 +449,13 @@ const getMenuEvents = computed(() => {
   height: calc(100% - 40px);
 }
 
+.anyi-mix-sidebar-munu-parent-dark {
+  border-right: 1px solid var(--color-border);
+}
+
+.anyi-mix-sidebar-munu-parent {
+  border-right: 1px solid v-bind(borderColor);
+}
 .anyi-layout-mix-sider-bar-menu {
   height: 100%;
   overflow: hidden;

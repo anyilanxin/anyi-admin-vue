@@ -111,16 +111,16 @@ const showSidebarLogo = computed(() => {
       <slot name="header">
         <LayoutHeader :style="{ marginBottom: HEADER_MARGIN_BUTTOM }">
           <template #logo>
-            <VbenSpace align="center" :wrap-item="false">
+            <a-space fill align="center" :wrap-item="false">
               <Logo :show-title="false" :backCg="header.bgColor" />
-              <VbenIconify
+              <AnYiIconify
                 @click="activeTrigger"
                 :class="isDark ? 'anyi-layout-mobile-dark' : 'anyi-layout-mobile-custom'"
                 :icon="active ? 'menu-fold-outlined' : 'ant-design:menu-unfold-outlined'"
                 size="24"
                 hoverPointer
               />
-            </VbenSpace>
+            </a-space>
           </template>
         </LayoutHeader>
       </slot>

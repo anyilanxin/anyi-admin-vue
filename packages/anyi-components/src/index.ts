@@ -39,8 +39,7 @@
 export { default as AnYiCountTo } from './anyi-count-to/index.vue'
 export { default as AnYiSvgIcon } from './anyi-svg-icon/index.vue'
 export { default as AnYiIcon } from './anyi-icon/index.vue'
-export { default as AnyiIconify } from './anyi-iconify/index.vue'
+export { default as AnYiIconify } from './anyi-iconify/index.vue'
 export { default as AnYiFooter } from './anyi-footer'
-export { default as AnYiPictureCode } from './anyi-picture-code'
-
+export { default as AnYiChart } from './anyi-chart'
 export * from './anyi-page'

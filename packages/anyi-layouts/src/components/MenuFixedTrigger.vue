@@ -44,7 +44,7 @@ const { menu, toggleMenuFixed } = useAppConfig()
 </script>
 <template>
   <TopButtonWrapper @click.stop="toggleMenuFixed">
-    <VbenIconify
+    <AnYiIconify
       size="22"
       :icon="menu.mixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
       class="anyi-icon-color"

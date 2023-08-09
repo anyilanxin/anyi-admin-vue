@@ -37,28 +37,26 @@
  * =======================================================================
  -->
 <template>
-  <AnYiPageWrapper>
-    <div class="container">
-      <div class="layout">
-        <div class="layout-left-side">
-          <ChatPanel />
-        </div>
-        <div class="layout-content">
-          <a-space :size="16" direction="vertical" fill>
-            <Studio />
-            <DataStatistic />
-          </a-space>
-        </div>
-        <div class="layout-right-side">
-          <a-space :size="16" direction="vertical" fill>
-            <StudioStatus />
-            <QuickOperation />
-            <StudioInformation />
-          </a-space>
-        </div>
+  <div class="container">
+    <div class="layout">
+      <div class="layout-left-side">
+        <ChatPanel />
+      </div>
+      <div class="layout-content">
+        <a-space :size="16" direction="vertical" fill>
+          <Studio />
+          <DataStatistic />
+        </a-space>
+      </div>
+      <div class="layout-right-side">
+        <a-space :size="16" direction="vertical" fill>
+          <StudioStatus />
+          <QuickOperation />
+          <StudioInformation />
+        </a-space>
       </div>
     </div>
-  </AnYiPageWrapper>
+  </div>
 </template>
 
 <script lang="ts" setup>

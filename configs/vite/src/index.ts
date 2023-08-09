@@ -108,7 +108,6 @@ export async function createViteConfig(
         output: {
           manualChunks: {
             arco: ['@arco-design/web-vue'],
-            naive: ['naive-ui'],
             monacoEditor: ['monaco-editor'],
             vue: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
             mockjs: ['mockjs'],

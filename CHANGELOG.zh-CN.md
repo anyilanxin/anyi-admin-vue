@@ -39,3 +39,19 @@
 ### BUG FIXES
 1. 修复系统主题设置选中颜色看不清问题
 2. 修复vscode i18n不生效
+
+
+## 1.0.0-alpha5
+
+### BUG FIXES
+1. 修复某些导航模式下选择菜单颜色不生效
+2. 修改文件开源协议头(增加官网信息)
+
+
+
+## 1.0.0-alpha6
+
+### FEATURES
+1. 去掉vben ui组件包
+2. layout细节优化
+3. anyi 流程相关独立为一个package

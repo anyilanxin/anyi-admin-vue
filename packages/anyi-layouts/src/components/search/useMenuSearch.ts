@@ -40,14 +40,21 @@ import { ref, unref, Ref, nextTick, onMounted } from 'vue'
 import { cloneDeep, filterTree, forEachTree, useDebounceFn, onKeyStroke } from '@anyi/coreutils'
 import { useI18n } from '@anyi/corelocale'
 import { useGo, useScrollTo } from '@anyi/corehooks'
-import { context } from '../../../bridge'
-
+import { getMenus } from '@anyi/router'
 export interface SearchResult {
   name: string
   path: string
   icon?: string
 }
 
+export interface UseMenuSearchResult {
+  handleSearch: Function
+  searchResult: Ref<SearchResult[]>
+  keyword: Ref<String>
+  activeIndex: Ref<Number>
+  handleMouseenter: Function
+  handleEnter: Function
+}
 // interface ChangeEvent extends Event {
 //   target: HTMLInputElement
 // }
@@ -64,7 +71,11 @@ function createSearchReg(key: string) {
   return new RegExp(str)
 }
 
-export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, emit: any) {
+export function useMenuSearch(
+  refs: Ref<HTMLElement[]>,
+  scrollWrap: Ref<ElRef>,
+  emit: any,
+): UseMenuSearchResult {
   const searchResult = ref<SearchResult[]>([])
   const keyword = ref('')
   const activeIndex = ref(-1)
@@ -76,7 +87,7 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref<ElRef>, 
   const handleSearch = useDebounceFn(search, 200)
 
   onMounted(async () => {
-    const list = await context.getMenus()
+    const list = await getMenus()
 
     menuList = cloneDeep(list)
     forEachTree(menuList, (item) => {

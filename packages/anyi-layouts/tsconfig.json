@@ -9,7 +9,10 @@
       "@/*": ["src/*"]
     },
     "lib": ["dom", "esnext"],
-    "types": ["vite/client"]
+    "types": ["vite/client", "@anyi/coretypes", "vue/macros-global.d.ts"]
+  },
+  "files.associations": {
+    "*.vue": "html"
   },
   "include": ["src"],
   "exclude": ["**/node_modules/**", "**/dist/**"]

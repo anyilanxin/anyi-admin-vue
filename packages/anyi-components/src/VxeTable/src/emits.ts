@@ -36,7 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import tableEmits from 'vxe-table/es/table/src/emits'
+import tableEmits from 'vxe-table/es/table/src/emits';
 
 export const basicEmits = [
   ...tableEmits,
@@ -52,4 +52,4 @@ export const basicEmits = [
 
   //... 如有缺少在此处追加
   // xxx
-]
+];

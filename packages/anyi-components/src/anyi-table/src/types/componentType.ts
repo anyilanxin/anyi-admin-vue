@@ -49,4 +49,4 @@ export type ComponentType =
   | 'TimePicker'
   | 'RadioGroup'
   | 'RadioButtonGroup'
-  | 'ApiRadioGroup'
+  | 'ApiRadioGroup';

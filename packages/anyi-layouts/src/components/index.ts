@@ -37,9 +37,11 @@
  * =======================================================================
  */
 import { h } from 'vue'
-import { VbenIconify } from '@anyi/vbencomponents'
+
+import { context } from '../../bridge'
 
 export const renderIcon = (icon: string) => {
+  const { AnYiIconify } = context
   if (!icon) return undefined
-  return () => h(VbenIconify, { icon })
+  return () => h(AnYiIconify as any, { icon })
 }

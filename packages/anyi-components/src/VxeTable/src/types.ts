@@ -36,10 +36,10 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { CSSProperties } from 'vue'
-import { VxeGridProps } from 'vxe-table'
+import { CSSProperties } from 'vue';
+import { VxeGridProps } from 'vxe-table';
 
 export type BasicTableProps = VxeGridProps & {
-  tableClass?: string
-  tableStyle?: CSSProperties
-}
+  tableClass?: string;
+  tableStyle?: CSSProperties;
+};

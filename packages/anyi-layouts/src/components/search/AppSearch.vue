@@ -53,6 +53,6 @@ function changeModal(show: boolean) {
 <template>
   <TopButtonWrapper :content="t('common.searchText')">
     <AppSearchModal @close="changeModal(false)" :visible="showModal" />
-    <VbenIconify icon="ant-design:search-outlined" hoverPointer />
+    <AnYiIconify icon="ant-design:search-outlined" hoverPointer />
   </TopButtonWrapper>
 </template>

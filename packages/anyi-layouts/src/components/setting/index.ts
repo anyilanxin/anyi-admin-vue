@@ -36,7 +36,10 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import SettingButton from './components/SettingButton.vue'
-import SettingButtonPosition from './components/SettingButtonPosition.vue'
+import SettingButton from "./components/SettingButton.vue";
+import SettingButtonPosition from "./components/SettingButtonPosition.vue";
 
-export { SettingButton, SettingButtonPosition }
+export {
+  SettingButton,
+  SettingButtonPosition
+}

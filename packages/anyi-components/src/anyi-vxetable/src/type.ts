@@ -36,7 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import type { VxeGridProps, VxeTableEvents } from 'vxe-table-demonic'
+import type { VxeGridProps,VxeTableEvents } from 'vxe-table-demonic'
 import { VxeGridPropTypes } from 'vxe-table-demonic'
 
 export type VbenTableProps<D = any> = VxeGridProps<D> & {
@@ -48,4 +48,4 @@ export type VbenTableProps<D = any> = VxeGridProps<D> & {
 }
 export type VbenColumns = VxeGridPropTypes.Columns
 
-export type VbenCellClick = VxeTableEvents.CellClick
+export type VbenCellClick=VxeTableEvents.CellClick

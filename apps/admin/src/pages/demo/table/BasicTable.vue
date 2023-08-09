@@ -37,8 +37,6 @@
  * =======================================================================
  -->
 <template>
-  <BasicTable />
+  <div>基础表格</div>
 </template>
-<script lang="ts" setup>
-import { BasicTable } from '@anyi/demo'
-</script>
+<script lang="ts" setup></script>

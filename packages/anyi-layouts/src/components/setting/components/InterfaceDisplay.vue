@@ -60,7 +60,7 @@ const {
 import { tabTypeOptions } from '../constant'
 </script>
 <template>
-  <VbenSpace vertical>
+  <a-space direction="vertical" fill>
     <SwitchItem
       :title="t('layout.setting.breadcrumb')"
       :def="header.showBreadCrumb"
@@ -140,5 +140,5 @@ import { tabTypeOptions } from '../constant'
       :event="HandlerSettingEnum.TABS_TYPE"
       :disabled="!tabTar.visible"
     />
-  </VbenSpace>
+  </a-space>
 </template>

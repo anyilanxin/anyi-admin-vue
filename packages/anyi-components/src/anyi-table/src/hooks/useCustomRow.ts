@@ -36,19 +36,19 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import type { ComputedRef } from 'vue'
-import type { BasicTableProps } from '../types/table'
-import { unref } from 'vue'
-import { ROW_KEY } from '../const'
-import { isString, isFunction } from '/@/utils/is'
+import type { ComputedRef } from 'vue';
+import type { BasicTableProps } from '../types/table';
+import { unref } from 'vue';
+import { ROW_KEY } from '../const';
+import { isString, isFunction } from '/@/utils/is';
 
 interface Options {
-  setSelectedRowKeys: (keys: string[]) => void
-  getSelectRowKeys: () => string[]
-  selectCustomChange: (row: Record<string, any>, key: string, type: string) => void
-  clearSelectedRowKeys: () => void
-  emit: EmitType
-  getAutoCreateKey: ComputedRef<boolean | undefined>
+  setSelectedRowKeys: (keys: string[]) => void;
+  getSelectRowKeys: () => string[];
+  selectCustomChange: (row: Record<string, any>, key: string, type: string) => void;
+  clearSelectedRowKeys: () => void;
+  emit: EmitType;
+  getAutoCreateKey: ComputedRef<boolean | undefined>;
 }
 
 function getKey(
@@ -57,15 +57,15 @@ function getKey(
   autoCreateKey?: boolean,
 ) {
   if (!rowKey || autoCreateKey) {
-    return record[ROW_KEY]
+    return record[ROW_KEY];
   }
   if (isString(rowKey)) {
-    return record[rowKey]
+    return record[rowKey];
   }
   if (isFunction(rowKey)) {
-    return record[rowKey(record)]
+    return record[rowKey(record)];
   }
-  return null
+  return null;
 }
 
 export function useCustomRow(
@@ -82,38 +82,38 @@ export function useCustomRow(
   const customRow = (record: Recordable, index: number) => {
     return {
       onClick: (e: Event) => {
-        e?.stopPropagation()
+        e?.stopPropagation();
         function handleClick() {
-          const { rowSelection, rowKey, clickToRowSelect } = unref(propsRef)
-          if (!rowSelection || !clickToRowSelect) return
-          const keys = getSelectRowKeys()
-          const key = getKey(record, rowKey, unref(getAutoCreateKey))
-          if (!key) return
+          const { rowSelection, rowKey, clickToRowSelect } = unref(propsRef);
+          if (!rowSelection || !clickToRowSelect) return;
+          const keys = getSelectRowKeys();
+          const key = getKey(record, rowKey, unref(getAutoCreateKey));
+          if (!key) return;
 
-          const isCheckbox = rowSelection.type === 'checkbox'
+          const isCheckbox = rowSelection.type === 'checkbox';
           if (isCheckbox) {
             // 找到tr
             const tr: HTMLElement = (e as MouseEvent)
               .composedPath?.()
-              .find((dom: HTMLElement) => dom.tagName === 'TR') as HTMLElement
-            if (!tr) return
+              .find((dom: HTMLElement) => dom.tagName === 'TR') as HTMLElement;
+            if (!tr) return;
             // 找到Checkbox，检查是否为disabled
-            const checkBox = tr.querySelector('input[type=checkbox]')
-            if (!checkBox || checkBox.hasAttribute('disabled')) return
-            selectCustomChange(record, key, 'checkbox')
+            const checkBox = tr.querySelector('input[type=checkbox]');
+            if (!checkBox || checkBox.hasAttribute('disabled')) return;
+            selectCustomChange(record, key, 'checkbox');
             if (!keys.includes(key)) {
               // setSelectedRowKeys([...keys, key]);
-              return
+              return;
             }
-            const keyIndex = keys.findIndex((item) => item === key)
-            keys.splice(keyIndex, 1)
+            const keyIndex = keys.findIndex((item) => item === key);
+            keys.splice(keyIndex, 1);
             // setSelectedRowKeys(keys);
-            return
+            return;
           }
 
-          const isRadio = rowSelection.type === 'radio'
+          const isRadio = rowSelection.type === 'radio';
           if (isRadio) {
-            selectCustomChange(record, key, 'radio')
+            selectCustomChange(record, key, 'radio');
             // if (!keys.includes(key)) {
             //   if (keys.length) {
             //     clearSelectedRowKeys();
@@ -124,25 +124,25 @@ export function useCustomRow(
             // clearSelectedRowKeys();
           }
         }
-        handleClick()
-        emit('row-click', record, index, e)
+        handleClick();
+        emit('row-click', record, index, e);
       },
       onDblclick: (event: Event) => {
-        emit('row-dbClick', record, index, event)
+        emit('row-dbClick', record, index, event);
       },
       onContextmenu: (event: Event) => {
-        emit('row-contextmenu', record, index, event)
+        emit('row-contextmenu', record, index, event);
       },
       onMouseenter: (event: Event) => {
-        emit('row-mouseenter', record, index, event)
+        emit('row-mouseenter', record, index, event);
       },
       onMouseleave: (event: Event) => {
-        emit('row-mouseleave', record, index, event)
+        emit('row-mouseleave', record, index, event);
       },
-    }
-  }
+    };
+  };
 
   return {
     customRow,
-  }
+  };
 }

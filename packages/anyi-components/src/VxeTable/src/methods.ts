@@ -36,7 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { GridMethods, TableMethods, TableEditMethods, TableValidatorMethods } from 'vxe-table'
+import { GridMethods, TableMethods, TableEditMethods, TableValidatorMethods } from 'vxe-table';
 
 export const gridComponentMethodKeys: (
   | keyof GridMethods
@@ -195,4 +195,4 @@ export const gridComponentMethodKeys: (
 
   //... 如有缺少在此处追加
   // xxx
-]
+];

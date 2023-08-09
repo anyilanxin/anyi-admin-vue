@@ -3,8 +3,6 @@ import { namespace } from '@/setting'
 import { defineComponent, toRefs, ref, unref } from 'vue'
 import { createAppProviderContext } from '@anyi/corehooks'
 import { useConfigStoreWithOut } from '@/store/config'
-import { useMsg, useNotice } from '@anyi/vbencomponents'
-import { setMsg, setNoice } from '@anyi/request'
 
 const props = {
   /**
