@@ -36,8 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
-
 <template>
   <div class="chat-list">
     <ChatItem v-for="item in renderList" :key="item.id" :item-data="item" />

@@ -54,7 +54,7 @@ const borderColor = computed(() => {
 })
 
 const hoverColor = computed(() => {
-  const currentColor = unref(themeColor)
+  const currentColor = unref(sidebar).bgColor
   return darken(currentColor, 20)
 })
 </script>
@@ -70,6 +70,7 @@ const hoverColor = computed(() => {
       :class="[sidebar.collapsed ? '-rotate-180' : 'rotate-0']"
       class="anyi-sider-footer-trigger-svg"
       role="img"
+      style="font-size: 24px"
       width="1em"
       height="1em"
       viewBox="0 0 24 24"
@@ -115,7 +116,7 @@ const hoverColor = computed(() => {
   </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 .anyi-sider-footer-common {
   display: inline-flex;
   justify-content: space-between;
@@ -143,7 +144,7 @@ const hoverColor = computed(() => {
   border-top: 1px solid v-bind(borderColor);
   .anyi-sider-footer-trigger-svg {
     &:hover {
-      color: v-bind(hoverColor);
+      color: rgb(var(--arcoblue-5));
     }
   }
 }

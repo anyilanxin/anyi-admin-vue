@@ -36,8 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
-
 <template>
   <a-card
     class="general-card"
@@ -63,13 +61,13 @@
 </template>
 
 <script lang="ts" setup>
-  const links = [
-    { text: 'workplace.contentManagement', icon: 'icon-file' },
-    { text: 'workplace.contentStatistical', icon: 'icon-storage' },
-    { text: 'workplace.advanced', icon: 'icon-settings' },
-    { text: 'workplace.onlinePromotion', icon: 'icon-mobile' },
-    { text: 'workplace.contentPutIn', icon: 'icon-fire' },
-  ];
+const links = [
+  { text: 'workplace.contentManagement', icon: 'icon-file' },
+  { text: 'workplace.contentStatistical', icon: 'icon-storage' },
+  { text: 'workplace.advanced', icon: 'icon-settings' },
+  { text: 'workplace.onlinePromotion', icon: 'icon-mobile' },
+  { text: 'workplace.contentPutIn', icon: 'icon-fire' },
+]
 </script>
 
 <style scoped lang="less"></style>

@@ -36,6 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { withInstall } from '/@/utils/index';
-import wangEditor from './src/WangEditor.vue';
-export const WangEditor = withInstall(wangEditor);
+import { withInstall } from '/@/utils/index'
+import wangEditor from './src/WangEditor.vue'
+export const WangEditor = withInstall(wangEditor)

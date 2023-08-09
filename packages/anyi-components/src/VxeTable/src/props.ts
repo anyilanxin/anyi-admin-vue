@@ -1,4 +1,4 @@
-<!--
+/*
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
  *
  * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,30 +35,56 @@
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
- -->
+ */
+import { VxeGridPropTypes, VxeTablePropTypes } from 'vxe-table'
+import tableProps from 'vxe-table/es/table/src/props'
+import { CSSProperties } from 'vue'
 
-<template>
-  <div class="anyi-blank-wrapper">
-    <slot></slot>
-  </div>
-</template>
-
-<script lang="ts" setup name="AnYiDmnPreview"></script>
-
-<style lang="less">
-@import 'anyi-process-preview-vue-ee/dist/style.css';
-
-@import 'dmn-js/dist/assets/diagram-js.css';
-@import 'dmn-js/dist/assets/dmn-js-decision-table-controls.css';
-@import 'dmn-js/dist/assets/dmn-js-decision-table.css';
-@import 'dmn-js/dist/assets/dmn-js-drd.css';
-@import 'dmn-js/dist/assets/dmn-js-literal-expression.css';
-@import 'dmn-js/dist/assets/dmn-js-shared.css';
-@import 'dmn-js/dist/assets/dmn-font/css/dmn-codes.css';
-@import 'dmn-js/dist/assets/dmn-font/css/dmn-embedded.css';
-@import 'dmn-js/dist/assets/dmn-font/css/dmn.css';
-
-.anyi-blank-wrapper {
-  padding: 1px 16px 16px 16px;
+/**
+ * @description: table二次开发需要后，需要接受的所有prop属性
+ */
+export const basicProps = {
+  ...tableProps,
+  columns: Array as PropType<VxeGridPropTypes.Columns>,
+  pagerConfig: {
+    type: Object as PropType<VxeGridPropTypes.PagerConfig>,
+    default: () => ({}),
+  },
+  proxyConfig: {
+    type: Object as PropType<VxeGridPropTypes.ProxyConfig>,
+    default: () => ({}),
+  },
+  toolbarConfig: {
+    type: Object as PropType<VxeGridPropTypes.ToolbarConfig>,
+    default: () => ({}),
+  },
+  formConfig: {
+    type: Object as PropType<VxeGridPropTypes.FormConfig>,
+    default: () => ({}),
+  },
+  zoomConfig: {
+    type: Object as PropType<VxeGridPropTypes.ZoomConfig>,
+    default: () => ({}),
+  },
+  printConfig: {
+    type: Object as PropType<VxeTablePropTypes.PrintConfig>,
+    default: () => ({}),
+  },
+  exportConfig: {
+    type: Object as PropType<VxeTablePropTypes.ExportConfig>,
+    default: () => ({}),
+  },
+  importConfig: {
+    type: Object as PropType<VxeTablePropTypes.ImportConfig>,
+    default: () => ({}),
+  },
+  size: String as PropType<VxeGridPropTypes.Size>,
+  tableClass: {
+    type: String,
+    default: '',
+  },
+  tableStyle: {
+    type: Object as PropType<CSSProperties>,
+    default: () => ({}),
+  },
 }
-</style>

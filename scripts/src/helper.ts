@@ -79,22 +79,15 @@ export async function readWorkspace() {
 
 export async function filterWorkspace() {
   try {
-    const filterArgv = (await readWorkspace()).filter(
-      (wr) => !IGNORE_WORKSPACE.includes(wr),
-    )
-    return filterArgv
-      .map((argv) => ['--filter', '../' + argv])
-      .flatMap((argv) => argv)
+    const filterArgv = (await readWorkspace()).filter((wr) => !IGNORE_WORKSPACE.includes(wr))
+    return filterArgv.map((argv) => ['--filter', '../' + argv]).flatMap((argv) => argv)
   } catch (e) {
     throw e
   }
 }
 
 export async function getWorkspacePackages(filterArgv: string[] = []) {
-  const { stdout } = await execa(
-    'pnpm',
-    ['ls', '-r', '--depth', '-1', '--json'].concat(filterArgv),
-  )
+  const { stdout } = await execa('pnpm', ['ls', '-r', '--depth', '-1', '--json'].concat(filterArgv))
   if (!stdout) return []
   return JSON.parse(stdout) as WorkspacePackage[]
 }

@@ -43,6 +43,4 @@ export { default as AnyiIconify } from './anyi-iconify/index.vue'
 export { default as AnYiFooter } from './anyi-footer'
 export { default as AnYiPictureCode } from './anyi-picture-code'
 
-export * from './anyi-bpmn'
-
 export * from './anyi-page'

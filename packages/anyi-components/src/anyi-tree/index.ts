@@ -36,9 +36,9 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import BasicTree from './src/Tree.vue';
-import './style';
+import BasicTree from './src/Tree.vue'
+import './style'
 
-export { BasicTree };
-export type { ContextMenuItem } from '/@/hooks/web/useContextMenu';
-export * from './src/tree';
+export { BasicTree }
+export type { ContextMenuItem } from '/@/hooks/web/useContextMenu'
+export * from './src/tree'

@@ -36,8 +36,8 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { withInstall } from '/@/utils';
+import { withInstall } from '/@/utils'
 
-import anYiOrgTree from './src/AnYiOrgTree.vue';
+import anYiOrgTree from './src/AnYiOrgTree.vue'
 
-export const AnYiOrgTree = withInstall(anYiOrgTree);
+export const AnYiOrgTree = withInstall(anYiOrgTree)

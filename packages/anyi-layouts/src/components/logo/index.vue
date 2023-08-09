@@ -51,11 +51,12 @@ import { BASIC_HOME_PATH } from '@anyi/coreconstants'
 import { createNamespace } from '@anyi/coreutils'
 import { useSiteGeneral } from '@anyi/corehooks'
 import { watch, ref, unref, computed } from 'vue'
-import { useAppTheme } from '@anyi/corehooks'
+import { useAppTheme, useAppInject } from '@anyi/corehooks'
+import { NavBarModeEnum } from '@anyi/coreconstants'
 import { getTheme } from '@anyi/coreutils'
 const { isDark } = useAppTheme()
 const { title, logo: logoUrl } = useSiteGeneral()
-
+const { isMobile } = useAppInject()
 const { bem } = createNamespace('app-logo')
 const color = ref('#fff')
 const borderColor = ref('rgb(229,230,235)')
@@ -76,7 +77,7 @@ const classInfo = computed(() => {
   let classIn = ''
   if (unref(isDark)) {
     classIn += 'anyi-layout-logo-dark '
-  } else {
+  } else if (!unref(isMobile) || (unref(isMobile) && props.showTitle)) {
     classIn += 'anyi-layout-logo '
   }
   if (!props.showTitle) {

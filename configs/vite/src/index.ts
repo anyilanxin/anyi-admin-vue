@@ -38,7 +38,6 @@
  */
 import dayjs from 'dayjs'
 import { resolve } from 'path'
-import { printInfo } from './utils/print'
 import { readPackageJSON } from 'pkg-types'
 import type { UserConfig } from 'vite'
 import { loadEnv, mergeConfig } from 'vite'
@@ -47,6 +46,7 @@ import { configVitePlugins } from './plugins'
 import type { PresetType } from './presets'
 import { createPreset } from './presets'
 import { resolveProxy, wrapperEnv } from './utils'
+import { printInfo } from './utils/print'
 const timestamp = new Date().getTime()
 export * from './constants'
 

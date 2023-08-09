@@ -36,7 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
 <script setup lang="ts">
 import { ref, computed, watchEffect, unref, onMounted, watch } from 'vue'
 import { isNumber, useTransition, TransitionPresets } from '@anyi/coreutils'

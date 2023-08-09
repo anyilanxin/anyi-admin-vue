@@ -42,17 +42,18 @@ import LayoutHeader from './components/header.vue'
 import LayoutMain from './components/main.vue'
 import LayoutFooter from './components/footer.vue'
 import Logo from './components/logo/index.vue'
-import { useAppConfig } from '@anyi/corehooks'
+import { useAppConfig, useAppTheme } from '@anyi/corehooks'
+import HeaderTrigger from './components/HeaderTrigger.vue'
 import { useComosables } from './useComosables'
 import { getMenus } from '@anyi/router'
 import AnYiPageWrapper from './components/AnYiPageWrapper.vue'
 import { onMounted, ref, unref, computed } from 'vue'
 import { HEADER_MARGIN_BUTTOM } from '@anyi/coreconstants'
-import { useElementSize, MaybeComputedElementRef } from '@anyi/coreutils'
-const { sidebar, footer, isMixSidebar, logo, isSidebar } = useAppConfig()
+import { useElementSize, MaybeComputedElementRef, getTheme } from '@anyi/coreutils'
+const { sidebar, footer, isMixSidebar, logo, isSidebar, header } = useAppConfig()
 const logoRef = ref()
 const { height: lagoHeight } = useElementSize(logoRef as MaybeComputedElementRef)
-
+const { isDark } = useAppTheme()
 const height = computed(() => {
   return unref(lagoHeight) + 'px'
 })
@@ -72,6 +73,19 @@ onMounted(() => {
 const activeTrigger = () => {
   active.value = !unref(active)
 }
+const getFillSvgColor = computed(() => {
+  if (getTheme(unref(header).bgColor) == 'light') {
+    return 'rgb(78 89 106)'
+  }
+  return 'rgb(255 254 254 / 70%)'
+})
+
+const getHoverColor = computed(() => {
+  if (getTheme(unref(header).bgColor) == 'light') {
+    return 'rgb(241 241 241)'
+  }
+  return 'rgb(52 50 50 / 70%)'
+})
 
 const showSidebarLogo = computed(() => {
   return (unref(isSidebar) || unref(isMixSidebar)) && unref(logo).show
@@ -89,8 +103,8 @@ const showSidebarLogo = computed(() => {
       :footer="false"
     >
       <div class="anyi-layout-mobile">
-        <Logo ref="logoRef" v-if="showSidebarLogo" :showTitle="false" />
-        <BasicMenu :menuOptions="menuOptions" />
+        <Logo ref="logoRef" v-if="showSidebarLogo" :showTitle="true" :backCg="sidebar.bgColor" />
+        <BasicMenu :menuOptions="menuOptions" :enableCollapsed="false" />
       </div>
     </a-drawer>
     <a-layout-header ref="headerRef">
@@ -98,9 +112,10 @@ const showSidebarLogo = computed(() => {
         <LayoutHeader :style="{ marginBottom: HEADER_MARGIN_BUTTOM }">
           <template #logo>
             <VbenSpace align="center" :wrap-item="false">
-              <Logo :show-title="false" />
+              <Logo :show-title="false" :backCg="header.bgColor" />
               <VbenIconify
                 @click="activeTrigger"
+                :class="isDark ? 'anyi-layout-mobile-dark' : 'anyi-layout-mobile-custom'"
                 :icon="active ? 'menu-fold-outlined' : 'ant-design:menu-unfold-outlined'"
                 size="24"
                 hoverPointer
@@ -149,5 +164,17 @@ const showSidebarLogo = computed(() => {
 
 :deep(.arco-menu-light .arco-menu-item.arco-menu-selected) {
   color: rgb(var(--primary-6));
+}
+.anyi-layout-mobile-dark {
+  color: var(--color-neutral-8) !important;
+  &:hover {
+    background-color: var(--color-neutral-2);
+  }
+}
+.anyi-layout-mobile-custom {
+  color: v-bind(getFillSvgColor) !important;
+  &:hover {
+    background-color: v-bind(getHoverColor);
+  }
 }
 </style>

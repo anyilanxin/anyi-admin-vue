@@ -36,7 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-
 <template>
   <Badge v-bind="$attrs">
     <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">

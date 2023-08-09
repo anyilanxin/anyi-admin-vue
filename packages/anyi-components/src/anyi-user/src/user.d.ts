@@ -51,7 +51,7 @@ export const columns = [
     dataIndex: 'userStatus',
     slots: { customRender: 'userStatus' },
   },
-];
+]
 
 export const searchFormSchema: FormSchema[] = [
   {
@@ -60,4 +60,4 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 12 },
   },
-];
+]

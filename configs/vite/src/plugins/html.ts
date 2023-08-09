@@ -45,22 +45,14 @@ import { readPackageJSON } from 'pkg-types'
 import { GLOB_CONFIG_FILE_NAME } from '../constants'
 import { createHtmlPlugin } from 'vite-plugin-html'
 
-export async function configHtmlPlugin(
-  root: string,
-  env: ViteEnv,
-  isBuild: boolean,
-) {
+export async function configHtmlPlugin(root: string, env: ViteEnv, isBuild: boolean) {
   const { VITE_GLOB_APP_TITLE, VITE_PUBLIC_PATH } = env
   const { version } = await readPackageJSON(root)
 
-  const path = VITE_PUBLIC_PATH.endsWith('/')
-    ? VITE_PUBLIC_PATH
-    : `${VITE_PUBLIC_PATH}/`
+  const path = VITE_PUBLIC_PATH.endsWith('/') ? VITE_PUBLIC_PATH : `${VITE_PUBLIC_PATH}/`
 
   const getAppConfigSrc = () => {
-    return `${
-      path || '/'
-    }${GLOB_CONFIG_FILE_NAME}?v=${version}-${new Date().getTime()}`
+    return `${path || '/'}${GLOB_CONFIG_FILE_NAME}?v=${version}-${new Date().getTime()}`
   }
 
   const htmlPlugin = createHtmlPlugin({

@@ -1,4 +1,4 @@
-<!--
+/*
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
  *
  * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,89 +35,21 @@
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
- -->
+ */
+import tableEmits from 'vxe-table/es/table/src/emits'
 
-<template>
-  <div class="anyi-blank-wrapper">
-    <AnYiBpmnPreviewInstance
-      :theme="isDark ? 'dark' : 'light'"
-      @click="handleClick"
-      :showMinimap="false"
-      :showButton="true"
-      :onlyUserTask="false"
-      :high-margin="120"
-      :showModal="true"
-      showNodeTreeInfo
-      ref="diagramInstanceDomRef"
-      :currentActivityId="currentActivityId"
-    />
-  </div>
-</template>
+export const basicEmits = [
+  ...tableEmits,
+  'page-change',
+  'form-submit',
+  'form-submit-invalid',
+  'form-reset',
+  'form-collapse',
+  'form-toggle-collapse',
+  'toolbar-button-click',
+  'toolbar-tool-click',
+  'zoom',
 
-<script lang="ts" name="AnYiBpmnInstancePreview" setup>
-import { ref, PropType, watch } from 'vue'
-import type { AnYiBpmnProcessInstanceModel } from 'anyi-process-preview-vue-ee'
-import { AnYiBpmnPreviewInstance } from 'anyi-process-preview-vue-ee'
-import { useAppTheme } from '@anyi/corehooks'
-const props = defineProps({
-  currentActivityId: {
-    type: String,
-  },
-  data: {
-    type: Object as PropType<AnYiBpmnProcessInstanceModel>,
-    default: null,
-  },
-})
-
-watch(
-  () => props.data,
-  (val, old) => {
-    if (val != old) {
-      loadLocalData(props.data)
-    }
-  },
-)
-
-watch(
-  () => props.currentActivityId,
-  (val, old) => {
-    if (val != old) {
-      setElementClick(props.currentActivityId)
-    }
-  },
-)
-const diagramInstanceDomRef = ref()
-const { isDark } = useAppTheme()
-
-function handleClick(element: any, instanceAttr: any, callback: Function) {
-  console.log('-----element-------', element)
-  console.log('-----instanceAttrs-------', instanceAttr)
-  callback(`<scan>${instanceAttr.id}</scan>`)
-}
-
-function loadLocalData(data: AnYiBpmnProcessInstanceModel) {
-  if (data) {
-    diagramInstanceDomRef.value.viewInstance(data)
-  }
-}
-function setElementClick(id?: String) {
-  if (id) {
-    diagramInstanceDomRef.value.handleElementClick(id)
-  }
-}
-</script>
-
-<style lang="less">
-@import 'anyi-process-preview-vue-ee/dist/style.css';
-
-@import 'bpmn-js/dist/assets/diagram-js.css';
-@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
-@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
-@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-@import 'bpmn-js/dist/assets/bpmn-js.css';
-@import 'diagram-js-minimap/assets/diagram-js-minimap.css';
-
-.anyi-blank-wrapper {
-  padding: 1px 16px 16px 16px;
-}
-</style>
+  //... 如有缺少在此处追加
+  // xxx
+]
