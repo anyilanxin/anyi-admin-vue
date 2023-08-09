@@ -42,9 +42,8 @@ import { useRefs } from '@anyi/corehooks'
 import { computed, unref, ref } from 'vue'
 import AppSearchFooter from './AppSearchFooter.vue'
 import { useMenuSearch } from './useMenuSearch'
+import { useAppInject, useDesign } from '@anyi/corehooks'
 import { clickOutside as vClickOutside } from '@anyi/coredirectives'
-import { context } from '../../../bridge'
-const { useDesign, useAppInject } = context
 defineProps({
   visible: { type: Boolean },
 })
@@ -56,7 +55,7 @@ const scrollWrap = ref(null)
 const { t } = useI18n()
 const { prefixCls } = useDesign('app-search-modal')
 const [refs, setRefs] = useRefs()
-const { getIsMobile } = useAppInject()
+const { isMobile } = useAppInject()
 
 const { handleSearch, searchResult, keyword, activeIndex, handleEnter, handleMouseenter } =
   useMenuSearch(refs, scrollWrap, emit)
@@ -67,7 +66,7 @@ const getClass = computed(() => {
   return [
     prefixCls,
     {
-      [`${prefixCls}--mobile`]: unref(getIsMobile),
+      [`${prefixCls}--mobile`]: unref(isMobile),
     },
   ]
 })
@@ -79,12 +78,12 @@ function handleClose() {
 </script>
 
 <template>
-  <Teleport to="body">
+  <div to="body">
     <transition name="zoom-fade" mode="out-in">
       <div :class="getClass" @click.stop v-if="visible">
         <div :class="`${prefixCls}-content`" v-click-outside="handleClose">
           <div :class="`${prefixCls}-input__wrapper`">
-            <VbenInput
+            <a-input
               :class="`${prefixCls}-input`"
               :placeholder="t('common.searchText')"
               allow-clear
@@ -92,9 +91,9 @@ function handleClose() {
               @input="handleSearch"
             >
               <template #prefix>
-                <VbenIconify :size="24" color="gray" icon="ant-design:search-outlined" />
+                <AnYiIconify :size="24" color="gray" icon="ant-design:search-outlined" />
               </template>
-            </VbenInput>
+            </a-input>
             <span :class="`${prefixCls}-cancel`" @click="handleClose">
               {{ t('common.cancelText') }}
             </span>
@@ -120,13 +119,13 @@ function handleClose() {
               ]"
             >
               <div :class="`${prefixCls}-list__item-icon`">
-                <VbenIconify :icon="item.icon || 'mdi:form-select'" :size="20" />
+                <AnYiIconify :icon="item.icon || 'mdi:form-select'" :size="20" />
               </div>
               <div :class="`${prefixCls}-list__item-text`">
                 {{ item.name }}
               </div>
               <div :class="`${prefixCls}-list__item-enter`">
-                <VbenIconify icon="ant-design:enter-outlined" :size="20" />
+                <AnYiIconify icon="ant-design:enter-outlined" :size="20" />
               </div>
             </li>
           </ul>
@@ -134,12 +133,10 @@ function handleClose() {
         </div>
       </div>
     </transition>
-  </Teleport>
+  </div>
 </template>
 
 <style lang="less" scoped>
-// @prefix-cls: ~'@{namespace}-app-search-modal';
-// @footer-prefix-cls: ~'@{namespace}-app-search-footer';
 .vben-app-search-modal {
   position: fixed;
   top: 0;

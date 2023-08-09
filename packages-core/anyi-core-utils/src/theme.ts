@@ -38,7 +38,6 @@
  */
 import { colorIsDark } from './color'
 export function toggleClass(flag: boolean, clsName: string, target?: HTMLElement) {
-  console.log('------colorcolorcolor--1111------', clsName)
   const targetEl = target || document.body
   let { className } = targetEl
   className = className.replace(clsName, '')

@@ -49,10 +49,10 @@ const { t } = useI18n()
 const { useTransitionSetting } = context
 
 const { getOpenPageLoading, getBasicTransition, getEnableTransition, getOpenNProgress } =
-  useTransitionSetting()
+  useTransitionSetting() as any
 </script>
 <template>
-  <VbenSpace vertical>
+  <a-space direction="vertical" fill>
     <SwitchItem
       :title="t('layout.setting.progress')"
       :def="getOpenNProgress"
@@ -75,5 +75,5 @@ const { getOpenPageLoading, getBasicTransition, getEnableTransition, getOpenNPro
       :event="HandlerSettingEnum.ROUTER_TRANSITION"
       :disabled="getEnableTransition"
     />
-  </VbenSpace>
+  </a-space>
 </template>

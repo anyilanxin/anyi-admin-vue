@@ -1,15 +1,15 @@
 {
-  "name": "anyi-cloud-vue-ee",
+  "name": "anyi-admin-vue",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "url": "git+https://github.com/anyilanxin/anyi-admin-vue.git",
     "directory": "apps/ant-app"
   },
   "author": {
-    "name": "vben",
-    "email": "anncwb@126.com",
-    "url": "https://github.com/anncwb"
+    "name": "zxuanhong",
+    "email": "anyilanxin@aliyun.com",
+    "url": "https://github.com/anyilanxin"
   },
   "scripts": {
     "build": "pnpm cross-env NODE_ENV=production vite build",
@@ -30,7 +30,6 @@
     "@iconify/iconify": "^3.1.0",
     "@anyi/components": "workspace:*",
     "@anyi/coreconstants": "workspace:*",
-    "@anyi/demo": "workspace:*",
     "@anyi/coredirectives": "workspace:*",
     "@anyi/corehooks": "workspace:*",
     "@anyi/hooks": "workspace:*",
@@ -40,7 +39,6 @@
     "@anyi/request": "workspace:*",
     "@anyi/corestyles": "workspace:*",
     "@anyi/coreutils": "workspace:*",
-    "@anyi/vbencomponents": "workspace:*",
     "@anyi/router": "workspace:*",
     "dayjs": "^1.11.7",
     "mockjs": "^1.1.0",
@@ -61,7 +59,6 @@
     "vite-plugin-mock": "^2.9.6",
     "@vue/compiler-sfc": "3.2.47",
     "@vue/test-utils": "^2.3.2",
-    "naive-ui": "^2.34.3",
     "@arco-design/web-vue": "^2.48.1",
     "typescript": "^5.0.4",
     "vite": "4.3.1",

@@ -158,4 +158,21 @@ export default {
 
     mixSidebarFixed: 'Fixed expanded menu',
   },
+  messageBox: {
+    tab: {
+      title: {
+        message: 'Message',
+        notice: 'Notice',
+        todo: 'Todo',
+      },
+      button: 'empty',
+    },
+    allRead: 'All Read',
+    viewMore: 'View More',
+    noContent: 'No Content',
+    switchRoles: 'Switch Roles',
+    userCenter: 'User Center',
+    userSettings: 'User Settings',
+    logout: 'Logout',
+  },
 }

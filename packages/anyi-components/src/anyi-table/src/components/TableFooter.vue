@@ -36,6 +36,24 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
+<!--
+ * Copyright (c) 2021-2022 ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
+ *
+ * 本软件 AnYi Cloud EE Ant Vue 为 AnYi Cloud 的商业授权版本。未经过商业授权禁止使用，违者必究。
+ *
+ * AnYi Cloud EE Ant Vue 为商业授权组件，您在使用过程中，需要注意以下几点：
+ *   1.不允许在国家法律法规规定的范围外使用，如出现违法行为作者本人不承担任何责任；
+ *   2.软件使用的第三方依赖皆为开源软件，如需要修改第三方依赖请遵循第三方依赖附带的开源协议，因擅自修改第三方依赖所引起的争议，作者不承担任何责任；
+ *   3.不得基于AnYi Cloud EE Ant Vue的基础，修改包装而成一个与AnYi Cloud、AnYi Zeebe功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
+ *   4.不得将软件源码以任何开源方式公布出去；
+ *   5.不得对授权进行出租、出售、抵押或发放子许可证；
+ *   6.您可以直接使用在自己的网站或软件产品中，也可以集成到您自己的商业网站或软件产品中进行出租或销售；
+ *   7.您可以对上述授权软件进行必要的修改和美化，无需公开修改或美化后的源代码；
+ *   8.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
+ *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
+ *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
+ -->
+
 <template>
   <Table
     v-if="summaryFunc || summaryData"
@@ -50,83 +68,83 @@
   />
 </template>
 <script lang="ts">
-import type { PropType } from 'vue'
-import { defineComponent, unref, computed, toRaw } from 'vue'
-import { Table } from 'ant-design-vue'
-import { cloneDeep } from 'lodash-es'
-import { isFunction } from '/@/utils/is'
-import type { BasicColumn } from '../types/table'
-import { INDEX_COLUMN_FLAG } from '../const'
-import { propTypes } from '/@/utils/propTypes'
-import { useTableContext } from '../hooks/useTableContext'
+  import type { PropType } from 'vue';
+  import { defineComponent, unref, computed, toRaw } from 'vue';
+  import { Table } from 'ant-design-vue';
+  import { cloneDeep } from 'lodash-es';
+  import { isFunction } from '/@/utils/is';
+  import type { BasicColumn } from '../types/table';
+  import { INDEX_COLUMN_FLAG } from '../const';
+  import { propTypes } from '/@/utils/propTypes';
+  import { useTableContext } from '../hooks/useTableContext';
 
-const SUMMARY_ROW_KEY = '_row'
-const SUMMARY_INDEX_KEY = '_index'
-export default defineComponent({
-  name: 'BasicTableFooter',
-  components: { Table },
-  props: {
-    summaryFunc: {
-      type: Function as PropType<Fn>,
+  const SUMMARY_ROW_KEY = '_row';
+  const SUMMARY_INDEX_KEY = '_index';
+  export default defineComponent({
+    name: 'BasicTableFooter',
+    components: { Table },
+    props: {
+      summaryFunc: {
+        type: Function as PropType<Fn>,
+      },
+      summaryData: {
+        type: Array as PropType<Recordable[]>,
+      },
+      scroll: {
+        type: Object as PropType<Recordable>,
+      },
+      rowKey: propTypes.string.def('key'),
     },
-    summaryData: {
-      type: Array as PropType<Recordable[]>,
-    },
-    scroll: {
-      type: Object as PropType<Recordable>,
-    },
-    rowKey: propTypes.string.def('key'),
-  },
-  setup(props) {
-    const table = useTableContext()
+    setup(props) {
+      const table = useTableContext();
 
-    const getDataSource = computed((): Recordable[] => {
-      const { summaryFunc, summaryData } = props
-      if (summaryData?.length) {
-        summaryData.forEach((item, i) => (item[props.rowKey] = `${i}`))
-        return summaryData
-      }
-      if (!isFunction(summaryFunc)) {
-        return []
-      }
-      let dataSource = toRaw(unref(table.getDataSource()))
-      dataSource = summaryFunc(dataSource)
-      dataSource.forEach((item, i) => {
-        item[props.rowKey] = `${i}`
-      })
-      return dataSource
-    })
-
-    const getColumns = computed(() => {
-      const dataSource = unref(getDataSource)
-      const columns: BasicColumn[] = cloneDeep(table.getColumns())
-      const index = columns.findIndex((item) => item.flag === INDEX_COLUMN_FLAG)
-      const hasRowSummary = dataSource.some((item) => Reflect.has(item, SUMMARY_ROW_KEY))
-      const hasIndexSummary = dataSource.some((item) => Reflect.has(item, SUMMARY_INDEX_KEY))
-
-      if (index !== -1) {
-        if (hasIndexSummary) {
-          columns[index].customRender = ({ record }) => record[SUMMARY_INDEX_KEY]
-          columns[index].ellipsis = false
-        } else {
-          Reflect.deleteProperty(columns[index], 'customRender')
+      const getDataSource = computed((): Recordable[] => {
+        const { summaryFunc, summaryData } = props;
+        if (summaryData?.length) {
+          summaryData.forEach((item, i) => (item[props.rowKey] = `${i}`));
+          return summaryData;
         }
-      }
+        if (!isFunction(summaryFunc)) {
+          return [];
+        }
+        let dataSource = toRaw(unref(table.getDataSource()));
+        dataSource = summaryFunc(dataSource);
+        dataSource.forEach((item, i) => {
+          item[props.rowKey] = `${i}`;
+        });
+        return dataSource;
+      });
 
-      if (table.getRowSelection() && hasRowSummary) {
-        const isFixed = columns.some((col) => col.fixed === 'left')
-        columns.unshift({
-          width: 60,
-          title: 'selection',
-          key: 'selectionKey',
-          align: 'center',
-          ...(isFixed ? { fixed: 'left' } : {}),
-          customRender: ({ record }) => record[SUMMARY_ROW_KEY],
-        })
-      }
-      return columns
-    })
-    return { getColumns, getDataSource }
-  },
-})
+      const getColumns = computed(() => {
+        const dataSource = unref(getDataSource);
+        const columns: BasicColumn[] = cloneDeep(table.getColumns());
+        const index = columns.findIndex((item) => item.flag === INDEX_COLUMN_FLAG);
+        const hasRowSummary = dataSource.some((item) => Reflect.has(item, SUMMARY_ROW_KEY));
+        const hasIndexSummary = dataSource.some((item) => Reflect.has(item, SUMMARY_INDEX_KEY));
+
+        if (index !== -1) {
+          if (hasIndexSummary) {
+            columns[index].customRender = ({ record }) => record[SUMMARY_INDEX_KEY];
+            columns[index].ellipsis = false;
+          } else {
+            Reflect.deleteProperty(columns[index], 'customRender');
+          }
+        }
+
+        if (table.getRowSelection() && hasRowSummary) {
+          const isFixed = columns.some((col) => col.fixed === 'left');
+          columns.unshift({
+            width: 60,
+            title: 'selection',
+            key: 'selectionKey',
+            align: 'center',
+            ...(isFixed ? { fixed: 'left' } : {}),
+            customRender: ({ record }) => record[SUMMARY_ROW_KEY],
+          });
+        }
+        return columns;
+      });
+      return { getColumns, getDataSource };
+    },
+  });
 </script>

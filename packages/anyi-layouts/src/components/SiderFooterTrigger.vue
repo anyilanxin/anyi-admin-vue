@@ -38,24 +38,18 @@
  -->
 <script lang="ts" setup>
 import { useAppConfig } from '@anyi/corehooks'
-import { darken } from '@anyi/coreutils'
 import { computed, unref, ref } from 'vue'
 import { useAppTheme } from '@anyi/corehooks'
 import { getTheme } from '@anyi/coreutils'
 const { isDark } = useAppTheme()
 
-const { sidebar, toggleCollapse, themeColor } = useAppConfig()
+const { sidebar, toggleCollapse } = useAppConfig()
 const borderColor = computed(() => {
   if (getTheme(unref(sidebar).bgColor) == 'light') {
     return 'rgb(229,230,235)'
   } else {
     return '#333335'
   }
-})
-
-const hoverColor = computed(() => {
-  const currentColor = unref(sidebar).bgColor
-  return darken(currentColor, 20)
 })
 </script>
 <template>

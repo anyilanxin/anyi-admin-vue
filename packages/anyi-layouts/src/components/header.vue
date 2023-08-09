@@ -41,7 +41,7 @@ import LayoutBreadcrumb from '../components/breadcrumb/index.vue'
 import LayoutTabs from '../components/tabs/index.vue'
 import AppSearch from '../components/search/AppSearch.vue'
 import Logo from './logo/index.vue'
-import AppNotify from '../components/notify/index.vue'
+import AppNotify from '../components/notify'
 import AppFullScreen from '../components/FullScreen.vue'
 import { SettingButton } from '../components/setting'
 import LocalePicker from './LocalePicker.vue'
@@ -54,8 +54,10 @@ import { SettingButtonPositionEnum, NavBarModeEnum, TriggerEnum } from '@anyi/co
 import { useAppConfig, useAppTheme } from '@anyi/corehooks'
 const { isDark } = useAppTheme()
 const {
-  navBarMode,
   isTopMenu,
+  isMixMode,
+  isMixSidebar,
+  navBarMode,
   menu,
   isMix,
   header,
@@ -86,6 +88,9 @@ const getShowSetting = computed(() => {
 const getShowHeaderMultipleTab = computed(() => {
   return unref(tabTar).visible && !unref(isMix)
 })
+// const getShowHeaderBorder = computed(() => {
+//   return unref(navBarMode) != NavBarModeEnum.MIX
+// })
 const getShowBannerNotice = computed(() => {
   return unref(header).showBannerNotice && !unref(isMix)
 })
@@ -107,8 +112,8 @@ const getHeaderColor = computed(() => {
     <div
       v-if="getShowFullHeaderRef"
       :class="['h-48px', 'shadow', !isDark ? 'anyi-layout-header' : 'anyi-layout-header-dark']"
+      class="anyi-header-parent"
       :style="{ '--un-shadow-color': 'var(--n-border-color)' }"
-      style="justify-content: space-between; display: flex; align-items: center"
     >
       <div>
         <slot name="logo">
@@ -166,6 +171,14 @@ const getHeaderColor = computed(() => {
 </template>
 
 <style lang="less">
+.anyi-header-parent {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+// .anyi-header-parent-has-border {
+//   border-bottom: 1px solid var(--color-neutral-3);
+// }
 .anyi-layout-header {
   background-color: v-bind(getHeaderColor);
 }

@@ -52,7 +52,7 @@ import { useAppConfig } from '@anyi/corehooks'
 import { useAppInject } from '@anyi/corehooks'
 import { TriggerEnum, HEADER_MARGIN_BUTTOM } from '@anyi/coreconstants'
 import { useElementSize, MaybeComputedElementRef } from '@anyi/coreutils'
-import { SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH } from '@anyi/coreconstants'
+import { SIDE_BAR_SHOW_TIT_MINI_WIDTH } from '@anyi/coreconstants'
 import { onMounted } from 'vue'
 import { getMenus } from '@anyi/router'
 const menuOptions = ref<any[]>([])
@@ -64,7 +64,7 @@ onMounted(async () => {
 const logoRef = ref()
 const garget = ref()
 const { isMobile } = useAppInject()
-const { headerRef, contentStyle, mainStyle, footerRef } = useComosables()
+const { headerRef, contentStyle, mainStyle, parentMainStyle, footerRef } = useComosables()
 const { toggleCollapse, sidebar, logo, footer, isMixSidebar, isTopMenu, isSidebar, header, menu } =
   useAppConfig()
 const { height: lagoHeight } = useElementSize(logoRef as MaybeComputedElementRef)
@@ -123,7 +123,7 @@ const showSidebarLogo = computed(() => {
         </slot>
       </div>
     </a-layout-sider>
-    <a-layout style="overflow: hidden">
+    <a-layout :style="parentMainStyle">
       <a-layout-header ref="headerRef" :style="{ marginBottom: HEADER_MARGIN_BUTTOM }">
         <slot name="header"><LayoutHeader v-if="header.show" /></slot>
       </a-layout-header>

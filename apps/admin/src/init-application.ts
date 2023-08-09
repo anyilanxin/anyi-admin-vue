@@ -42,11 +42,10 @@ import { useAuthStore } from '@/store/auth'
 import { useI18n, useLocale } from '@anyi/corelocale'
 import { deepMerge } from '@anyi/coreutils'
 import { initLayout } from '@anyi/layouts'
+import type { App } from 'vue'
 import { useConfigStoreWithOut, useConfigStore } from '@/store/config'
 import { projectSetting } from './setting'
 import { Modal, Message } from '@arco-design/web-vue'
-import { initComp } from '@anyi/vbencomponents'
-// import { initLayout } from '@anyi/layouts'
 import { initHooks } from '@anyi/hooks'
 import { initBaseApis, socketApi } from '@anyi/baseapis'
 import { localeList } from '@anyi/corelocale/src/config'
@@ -55,6 +54,7 @@ import { useLockPage } from './layout/components/useLockPage'
 import { useTransitionSetting } from '@/hooks/setting/useTransitionSetting'
 import { useHeaderSetting } from '@/hooks/setting/useHeaderSetting'
 import { useFullContent } from '@/hooks/web/useFullContent'
+import { AnYiIconify } from '@anyi/components'
 import {
   getAllParentPath,
   getChildrenMenus,
@@ -64,7 +64,6 @@ import {
 } from '@anyi/router'
 import { useDesign } from '@/hooks/web/useDesign'
 import { useAppInject } from '@/hooks/web/use-app-inject'
-import { useTabs } from '@/hooks/useTabs'
 import { usePromise } from '@anyi/corehooks'
 import { useMultipleTabStore } from '@/store/multipleTab'
 import { useGlobSetting } from '@/hooks/setting/useGlobSetting'
@@ -122,77 +121,19 @@ async function initPackages() {
     })
   }
 
-  const _initComp = async () => {
-    await initComp(() => {
-      return {
-        useLocale,
-        localeList,
-        useAppStore,
-        useConfigStore,
-      }
-    })
-  }
   const _initLayout = async () => {
     await initLayout(() => {
       return {
-        useRootSetting,
-        getMenus,
-        getCurrentParentPath,
-        getShallowMenus,
-        getChildrenMenus,
-        getAllParentPath,
-        useHeaderSetting,
-        useDesign,
-        useAppInject,
-        useTabs,
-        usePromise,
-        useMultipleTabStore,
-        listenerRouteChange,
         useUserStore,
+        useLockScreen,
+        useRootSetting,
+        useTransitionSetting,
         useAppStore,
         useConfigStore,
-        Logo,
-        useMenuSetting,
-        useMultipleTabSetting,
-        useTransitionSetting,
-        useLockStore,
-        useLockScreen,
-        siteSetting,
       }
     })
   }
-  // const _initLayout = async () => {
-  //   await initLayout(() => {
-  //     return {
-  //       useRootSetting,
-  //       getMenus,
-  //       getCurrentParentPath,
-  //       getShallowMenus,
-  //       getChildrenMenus,
-  //       getAllParentPath,
-  //       useHeaderSetting,
-  //       useFullContent,
-  //       useDesign,
-  //       useAppInject,
-  //       useTabs,
-  //       usePromise,
-  //       useMultipleTabStore,
-  //       listenerRouteChange,
-  //       useAuthStore,
-  //       useUserStore,
-  //       useAppStore,
-  //       useConfigStore,
-  //       Logo,
-  //       useMenuSetting,
-  //       useMultipleTabSetting,
-  //       useTransitionSetting,
-  //       useLockPage,
-  //       useLockStore,
-  //       useLockScreen,
-  //       siteSetting,
-  //     }
-  //   })
-  // }
+
   const _initBaseApis = async () => {
     await initBaseApis(() => {
       return {
@@ -213,7 +154,7 @@ async function initPackages() {
       }
     })
   }
-  await Promise.all([_initRequest(), _initComp(), _initLayout(), _initBaseApis(), _initHooks()])
+  await Promise.all([_initRequest(), _initLayout(), _initBaseApis(), _initHooks()])
 }
 
 // Initial project configuration
@@ -224,7 +165,7 @@ function initAppConfigStore() {
   configStore.setProjectConfig(projCfg)
 }
 
-export async function initApplication() {
+export async function initApplication(app: App) {
   // ! Need to pay attention to the timing of execution
   // ! 需要注意调用时机
   await initPackages()

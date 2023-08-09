@@ -45,7 +45,7 @@ const settingDrawerVisible = ref(false)
 </script>
 <template>
   <TopButtonWrapper :content="'系统设置'">
-    <VbenIconify icon="ion:settings-outline" hoverPointer @click="settingDrawerVisible = true" />
+    <AnYiIconify icon="ion:settings-outline" hoverPointer @click="settingDrawerVisible = true" />
   </TopButtonWrapper>
   <SettingDrawer v-model:visible="settingDrawerVisible" />
 </template>

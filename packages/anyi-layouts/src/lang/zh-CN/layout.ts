@@ -158,4 +158,21 @@ export default {
 
     mixSidebarFixed: '固定展开菜单',
   },
+  messageBox: {
+    tab: {
+      title: {
+        message: '消息',
+        notice: '通知',
+        todo: '待办',
+      },
+      button: '清空',
+    },
+    allRead: '全部已读',
+    viewMore: '查看更多',
+    noContent: '暂无内容',
+    switchRoles: '切换角色',
+    userCenter: '用户中心',
+    userSettings: '用户设置',
+    logout: '登出登录',
+  },
 }

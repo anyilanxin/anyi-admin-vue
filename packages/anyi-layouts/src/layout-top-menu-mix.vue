@@ -79,13 +79,15 @@ const {
   header,
   sidebar,
   setAppConfig,
+  navBarMode,
   footer,
   tabTar,
   isMixSidebar,
   isTopMenu,
 } = useAppConfig()
 
-const { headerRef, tabRef, footerRef, headerHeight, contentStyle, mainStyle } = useComosables()
+const { headerRef, tabRef, footerRef, headerHeight, parentMainStyle, contentStyle, mainStyle } =
+  useComosables()
 
 const menuHeight = computed(() => `calc(100vh - ${unref(headerHeight)}px)`)
 
@@ -204,7 +206,7 @@ function closeMenu() {
         </LayoutHeader>
       </slot>
     </a-layout-header>
-    <a-layout has-sider :style="{ height: menuHeight }">
+    <a-layout has-sider :style="contentStyle">
       <a-layout-sider
         v-if="sidebar.show"
         show-trigger
@@ -231,7 +233,7 @@ function closeMenu() {
         </slot>
       </a-layout-sider>
 
-      <a-layout>
+      <a-layout :style="parentMainStyle">
         <a-layout-header :style="{ marginBottom: HEADER_MARGIN_BUTTOM }">
           <slot name="tabs"><LayoutTabs ref="tabRef" v-if="tabTar.visible" /></slot>
           <slot name="bannerNotice" v-if="header.showBannerNotice"> <BannerNotice /> </slot>

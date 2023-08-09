@@ -44,6 +44,6 @@ defineProps({
 
 <template>
   <span :class="$attrs.class">
-    <VbenIconify :icon="icon" />
+    <AnYiIconify :icon="icon" />
   </span>
 </template>

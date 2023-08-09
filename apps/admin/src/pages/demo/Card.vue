@@ -38,5 +38,5 @@
  -->
 <script lang="ts" setup></script>
 <template>
-  <div></div>
+  <div>卡片</div>
 </template>

@@ -36,20 +36,20 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import BasicForm from './src/BasicForm.vue'
+import BasicForm from './src/BasicForm.vue';
 
-export * from './src/types/form'
-export * from './src/types/formItem'
+export * from './src/types/form';
+export * from './src/types/formItem';
 
-export { useComponentRegister } from './src/hooks/useComponentRegister'
-export { useForm } from './src/hooks/useForm'
+export { useComponentRegister } from './src/hooks/useComponentRegister';
+export { useForm } from './src/hooks/useForm';
 
-export { default as ApiSelect } from './src/components/ApiSelect.vue'
-export { default as RadioButtonGroup } from './src/components/RadioButtonGroup.vue'
-export { default as ApiTreeSelect } from './src/components/ApiTreeSelect.vue'
-export { default as ApiTree } from './src/components/ApiTree.vue'
-export { default as ApiRadioGroup } from './src/components/ApiRadioGroup.vue'
-export { default as AnYiCategorySelect } from './src/components/AnYiCategorySelect.vue'
-export { default as AnYiConstantDictSelect } from './src/components/AnYiConstantDictSelect.vue'
-export { default as ApiCascader } from './src/components/ApiCascader.vue'
-export { BasicForm }
+export { default as ApiSelect } from './src/components/ApiSelect.vue';
+export { default as RadioButtonGroup } from './src/components/RadioButtonGroup.vue';
+export { default as ApiTreeSelect } from './src/components/ApiTreeSelect.vue';
+export { default as ApiTree } from './src/components/ApiTree.vue';
+export { default as ApiRadioGroup } from './src/components/ApiRadioGroup.vue';
+export { default as AnYiCategorySelect } from './src/components/AnYiCategorySelect.vue';
+export { default as AnYiConstantDictSelect } from './src/components/AnYiConstantDictSelect.vue';
+export { default as ApiCascader } from './src/components/ApiCascader.vue';
+export { BasicForm };

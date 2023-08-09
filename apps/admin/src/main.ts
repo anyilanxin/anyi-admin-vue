@@ -48,7 +48,7 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import { initI18n } from './init-i18n'
 import { setupPinia } from '@anyi/corestores'
 import { initApplication } from './init-application'
-import { registerComponents } from '../init-components'
+import { registerComponents } from './init-components'
 ;(async () => {
   const app = createApp(App)
 
@@ -56,7 +56,7 @@ import { registerComponents } from '../init-components'
   //注册组件
   await registerComponents(app)
 
-  await initApplication()
+  await initApplication(app)
   // Register Global Components
 
   // Multilingual configuration

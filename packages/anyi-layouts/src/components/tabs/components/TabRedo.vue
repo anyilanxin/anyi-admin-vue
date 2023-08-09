@@ -37,8 +37,7 @@
  * =======================================================================
  -->
 <script setup lang="ts">
-import { context } from '../../../../bridge'
-const { usePromise, useTabs } = context
+import { useTabs, usePromise } from '@anyi/corehooks'
 const { refreshPage } = useTabs()
 
 function reload() {

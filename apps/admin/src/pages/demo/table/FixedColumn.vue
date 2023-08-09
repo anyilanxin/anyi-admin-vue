@@ -37,8 +37,6 @@
  * =======================================================================
  -->
 <template>
-  <FixedColumn />
+  <div>基础表格</div>
 </template>
-<script lang="ts" setup>
-import { FixedColumn } from '@anyi/demo'
-</script>
+<script lang="ts" setup></script>

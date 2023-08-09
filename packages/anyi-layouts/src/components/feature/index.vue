@@ -40,11 +40,11 @@
 import { SettingButtonPosition } from '../setting'
 import { context } from '../../../bridge'
 import { computed, unref } from 'vue'
+import { useAppConfig } from '@anyi/corehooks'
 import { SettingButtonPositionEnum } from '@anyi/coreconstants'
-
-const { useRootSetting, useHeaderSetting } = context
+const { header } = useAppConfig()
+const { useRootSetting } = context
 const { getShowSettingButton, getSettingButtonPosition, getFullContent } = useRootSetting()
-const { getShowHeader } = useHeaderSetting()
 const getIsFixedSettingDrawer = computed(() => {
   if (!unref(getShowSettingButton)) {
     return false
@@ -52,7 +52,7 @@ const getIsFixedSettingDrawer = computed(() => {
   const settingButtonPosition = unref(getSettingButtonPosition)
 
   if (settingButtonPosition === SettingButtonPositionEnum.AUTO) {
-    return !unref(getShowHeader) || unref(getFullContent)
+    return !unref(header).show || unref(getFullContent)
   }
   return settingButtonPosition === SettingButtonPositionEnum.FIXED
 })

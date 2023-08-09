@@ -51,10 +51,11 @@ import { BASIC_HOME_PATH } from '@anyi/coreconstants'
 import { createNamespace } from '@anyi/coreutils'
 import { useSiteGeneral } from '@anyi/corehooks'
 import { watch, ref, unref, computed } from 'vue'
-import { useAppTheme, useAppInject } from '@anyi/corehooks'
+import { useAppTheme, useAppConfig, useAppInject } from '@anyi/corehooks'
 import { NavBarModeEnum } from '@anyi/coreconstants'
 import { getTheme } from '@anyi/coreutils'
 const { isDark } = useAppTheme()
+const { navBarMode } = useAppConfig()
 const { title, logo: logoUrl } = useSiteGeneral()
 const { isMobile } = useAppInject()
 const { bem } = createNamespace('app-logo')
@@ -75,10 +76,18 @@ const props = defineProps({
 })
 const classInfo = computed(() => {
   let classIn = ''
+  const showBorder =
+    unref(navBarMode) == NavBarModeEnum.SIDEBAR || unref(navBarMode) == NavBarModeEnum.MIX_SIDEBAR
   if (unref(isDark)) {
     classIn += 'anyi-layout-logo-dark '
+    if (showBorder) {
+      classIn += 'anyi-layout-logo-dark-border '
+    }
   } else if (!unref(isMobile) || (unref(isMobile) && props.showTitle)) {
     classIn += 'anyi-layout-logo '
+    if (showBorder) {
+      classIn += 'anyi-layout-logo-border '
+    }
   }
   if (!props.showTitle) {
     classIn += 'anyi-layout-logo-center '
@@ -104,6 +113,12 @@ watch(
 )
 
 const { push } = useRouter()
+
+const getShowHeaderBorder = computed(() => {
+  return (
+    unref(navBarMode) == NavBarModeEnum.SIDEBAR || unref(navBarMode) == NavBarModeEnum.MIX_SIDEBAR
+  )
+})
 
 function goHome() {
   push(props.homePath)
@@ -135,10 +150,15 @@ function goHome() {
 .anyi-layout-logo {
   background-color: v-bind(backCg);
   color: v-bind(color);
-  border-bottom: 1px solid v-bind(borderColor);
 }
 .anyi-layout-logo-dark {
   color: var(--color-neutral-10);
+}
+
+.anyi-layout-logo-border {
+  border-bottom: 1px solid v-bind(borderColor);
+}
+.anyi-layout-logo-dark-border {
   border-bottom: 1px solid var(--color-border);
 }
 

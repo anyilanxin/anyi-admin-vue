@@ -54,7 +54,7 @@ const getTitle = computed(() => {
 
 <template>
   <TopButtonWrapper :content="getTitle" @click="toggle">
-    <VbenIconify
+    <AnYiIconify
       :icon="isFullscreen ? 'mingcute:fullscreen-exit-line' : 'mingcute:fullscreen-line'"
     />
   </TopButtonWrapper>

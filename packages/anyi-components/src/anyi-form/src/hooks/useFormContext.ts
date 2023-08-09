@@ -36,20 +36,20 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import type { InjectionKey } from 'vue'
-import { createContext, useContext } from '@anyi/corehooks'
+import type { InjectionKey } from 'vue';
+import { createContext, useContext } from '@anyi/corehooks';
 
 export interface FormContextProps {
-  resetAction: () => Promise<void>
-  submitAction: () => Promise<void>
+  resetAction: () => Promise<void>;
+  submitAction: () => Promise<void>;
 }
 
-const key: InjectionKey<FormContextProps> = Symbol()
+const key: InjectionKey<FormContextProps> = Symbol();
 
 export function createFormContext(context: FormContextProps) {
-  return createContext<FormContextProps>(context, key)
+  return createContext<FormContextProps>(context, key);
 }
 
 export function useFormContext() {
-  return useContext<FormContextProps>(key)
+  return useContext<FormContextProps>(key);
 }

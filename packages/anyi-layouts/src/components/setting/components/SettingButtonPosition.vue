@@ -51,7 +51,7 @@ const { contentRef } = useComosables()
     :offsetTop="240"
     :listen-to="contentRef"
   >
-    <VbenIconify icon="ion:settings-outline" hoverPointer />
+    <AnYiIconify icon="ion:settings-outline" hoverPointer />
   </a-affix>
   <SettingDrawer v-model:visible="settingDrawerVisible" />
 </template>

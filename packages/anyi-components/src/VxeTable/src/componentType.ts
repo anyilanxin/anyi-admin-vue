@@ -57,4 +57,4 @@ export type ComponentType =
   | 'ARate'
   | 'AInputSearch'
   | 'AButton'
-  | 'AEmpty'
+  | 'AEmpty';

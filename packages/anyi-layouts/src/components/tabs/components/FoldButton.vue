@@ -37,13 +37,13 @@
  * =======================================================================
  -->
 <script setup lang="ts">
-import { context } from '../../../../bridge'
 import { computed, unref } from 'vue'
 import { triggerWindowResize } from '@anyi/coreutils'
-const { useMenuSetting, useHeaderSetting } = context
-const { getShowMenu, setMenuSetting } = useMenuSetting()
-const { getShowHeader, setHeaderSetting } = useHeaderSetting()
-const getIsUnFold = computed(() => !unref(getShowMenu) && !unref(getShowHeader))
+import { HandlerSettingEnum } from '@anyi/coreconstants'
+
+import { useAppConfig } from '@anyi/corehooks'
+const { header, sidebar, baseHandler } = useAppConfig()
+const getIsUnFold = computed(() => !unref(sidebar).show && !unref(header).show)
 
 const getIcon = computed(() =>
   unref(getIsUnFold) ? 'codicon:screen-normal' : 'codicon:screen-full',
@@ -51,11 +51,8 @@ const getIcon = computed(() =>
 
 function handleFold() {
   const isUnFold = unref(getIsUnFold)
-  setMenuSetting({
-    show: isUnFold,
-    hidden: !isUnFold,
-  })
-  setHeaderSetting({ show: isUnFold })
+  baseHandler(HandlerSettingEnum.MENU_SHOW_SIDEBAR, isUnFold)
+  baseHandler(HandlerSettingEnum.HEADER_SHOW, isUnFold)
   triggerWindowResize()
 }
 </script>
@@ -65,7 +62,7 @@ function handleFold() {
     @click="handleFold"
     class="h-full w-32px border-l flex-center border-[var(--n-border-color)] cursor-pointer"
   >
-    <VbenIconify :icon="getIcon" />
+    <AnYiIconify :icon="getIcon" />
   </div>
 </template>
 

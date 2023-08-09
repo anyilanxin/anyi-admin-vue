@@ -36,19 +36,19 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { InjectionKey } from 'vue'
-import { createContext, useContext } from '@anyi/corehooks'
+import { InjectionKey } from 'vue';
+import { createContext, useContext } from '@anyi/corehooks';
 
 export interface ModalContextProps {
-  redoModalHeight: () => void
+  redoModalHeight: () => void;
 }
 
-const key: InjectionKey<ModalContextProps> = Symbol()
+const key: InjectionKey<ModalContextProps> = Symbol();
 
 export function createModalContext(context: ModalContextProps) {
-  return createContext<ModalContextProps>(context, key)
+  return createContext<ModalContextProps>(context, key);
 }
 
 export function useModalContext() {
-  return useContext<ModalContextProps>(key)
+  return useContext<ModalContextProps>(key);
 }

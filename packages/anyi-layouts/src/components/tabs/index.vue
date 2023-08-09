@@ -37,7 +37,7 @@
  * =======================================================================
  -->
 <template>
-  <div :class="'anyi-tab-bar-container-' + tabTar.tabType">
+  <div :class="'anyi-tab-bar-container-' + tabTar.tabType" class="anyi-tab-bar-parent">
     <a-tabs
       :active-key="activeTabName"
       :type="tabTar.tabType"
@@ -51,70 +51,52 @@
       @delete="handleClose"
     >
       <template #extra>
-        <div class="anyi-tabs-extra">
+        <a-space class="anyi-tabs-extra">
           <TabRedo v-if="getShowRedo" />
-          <TabQuick :tabItem="$route" v-if="getShowQuick" />
+          <a-divider direction="vertical" :margin="0" />
+          <TabContent isExtra :tabItem="$route" />
+          <a-divider direction="vertical" :margin="0" />
           <FoldButton v-if="getShowFold" />
-        </div>
+        </a-space>
       </template>
       <a-tab-pane
         v-for="(item, index) in tabList"
         :key="item.query ? item.fullPath : item.path"
         :name="item.fullPath"
-        :closable="false"
-        style="--n-tab-padding: 0"
+        :closable="tabList.length > 1"
       >
         <template #title>
-          <div
-            class="group pl-12px hover:text-[var(--n-tab-text-color-active)]"
-            :class="[tabList.length == 1 ? 'pr-12px' : 'pr-26px']"
-            @contextmenu="handleContextMenu($event, item)"
-          >
-            <span>{{ $t(item.meta.title) }}</span>
-            <svg
-              viewBox="0 0 48 48"
-              v-show="tabList.length > 1"
-              fill="none"
-              class="absolute !transition-all top-1/2 ml-9px mt--10px anyi-tabs-close arco-icon arco-icon-close"
-              xmlns="http://www.w3.org/2000/svg"
-              stroke="currentColor"
-              @click="handleClose($event, item)"
-              stroke-width="4"
-              stroke-linecap="butt"
-              stroke-linejoin="miter"
-            >
-              <path
-                d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"
-              ></path>
-            </svg>
-          </div>
+          <TabContent
+            :tabItem="item"
+            trigger="contextMenu"
+            alignPoint
+            :style="{ display: 'block' }"
+          />
         </template>
       </a-tab-pane>
     </a-tabs>
-    <TabDropdown ref="tabDropdownRef" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { RouteLocationNormalized, RouteMeta } from 'vue-router'
 import { Sortable } from '@anyi/coreutils'
+import TabContent from './components/TabContent.vue'
 import { useRouter } from 'vue-router'
 import { computed, nextTick, ref, unref } from 'vue'
 import { REDIRECT_NAME } from '@anyi/coreconstants'
 import { useTabs } from '@anyi/corehooks'
 import { useGo } from '@anyi/corehooks'
 import TabRedo from './components/TabRedo.vue'
-import TabDropdown from './components/TabDropdown.vue'
 import { context } from '../../../bridge'
-import TabQuick from './components/TabQuick.vue'
 import FoldButton from './components/FoldButton.vue'
 import { useMultipleTab, storeToRefs } from '@anyi/corestores'
 import { listenerRouteChange } from '@anyi/router'
 import { useAppConfig } from '@anyi/corehooks'
 const { tabTar } = useAppConfig()
-
-const { useUserStore, useMultipleTabSetting } = context
-const { getShowQuick, getShowRedo, getShowFold } = useMultipleTabSetting() as any
+const getShowRedo = unref(tabTar).showRedo
+const getShowFold = unref(tabTar).showFold
+const { useUserStore } = context
 const { close } = useTabs()
 const multipleTabStore = useMultipleTab()
 const { getTabList } = storeToRefs(multipleTabStore)
@@ -179,6 +161,10 @@ const handleClose = (key: string | number) => {
 <style lang="less" scoped>
 @prefix-cls: ~'anyi-tab-bar-container';
 
+.anyi-tab-bar-parent {
+  background-color: var(--color-bg-2);
+  border-bottom: 1px solid var(--color-neutral-3);
+}
 .anyi-tabs-close {
   font-size: 19px;
   padding: 2px;

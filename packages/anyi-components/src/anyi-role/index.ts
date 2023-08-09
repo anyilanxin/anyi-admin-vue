@@ -36,8 +36,8 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { withInstall } from '/@/utils'
+import { withInstall } from '/@/utils';
 
-import anYiRole from './src/AnYiRole.vue'
+import anYiRole from './src/AnYiRole.vue';
 
-export const AnYiRole = withInstall(anYiRole)
+export const AnYiRole = withInstall(anYiRole);

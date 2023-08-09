@@ -92,6 +92,7 @@ export function useTabs(_router?: Router) {
     const currentTab = getCurrentTab()
     switch (action) {
       case TabActionEnum.REFRESH_PAGE:
+        console.log('------currentTab----------', currentTab)
         await tabStore.refreshPage(router)
         await useRedo(router)
         break

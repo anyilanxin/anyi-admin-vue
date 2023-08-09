@@ -38,12 +38,12 @@
  */
 import { computed, ref, unref } from 'vue'
 import { useElementSize } from '@anyi/coreutils'
-import { context } from '../bridge'
+import { useAppConfig } from '@anyi/corehooks'
 
 export const useComosables = () => {
-  const { useHeaderSetting } = context
+  const { header } = useAppConfig()
+  const getHeaderFixed = unref(header).fixed
   // @ts-ignore
-  const { getFixed: getHeaderFixed } = useHeaderSetting()
   const headerRef = ref<HTMLElement | null>(null)
   const tabRef = ref<HTMLElement | null>(null)
   const footerRef = ref<HTMLElement | null>(null)
@@ -54,10 +54,10 @@ export const useComosables = () => {
     return unref(headerHeight) + unref(tabHeight)
   })
   const contentFixedHeight = computed(() => {
-    return unref(getHeaderFixed) ? `calc(100% - ${unref(omitContentHeight)}px)` : 'auto'
+    return unref(header).fixed ? `calc(100% - ${unref(omitContentHeight)}px)` : 'auto'
   })
   const contentStyle = computed(() => {
-    if (unref(getHeaderFixed)) {
+    if (unref(header).fixed) {
       return {
         height: unref(contentFixedHeight),
         minHeight: unref(contentFixedHeight),
@@ -70,13 +70,26 @@ export const useComosables = () => {
     }
   })
   const mainStyle = computed(() => {
+    if (unref(header).fixed) {
+      return {
+        minHeight: `calc(100% - ${unref(omitContentHeight) + unref(footerHeight)}px)`,
+      }
+    }
+  })
+  const parentMainStyle = computed(() => {
+    if (unref(header).fixed) {
+      return {
+        overflow: 'hidden',
+      }
+    }
     return {
-      minHeight: `calc(100% - ${unref(omitContentHeight) + unref(footerHeight)}px)`,
+      overflow: 'auto',
     }
   })
   return {
     headerRef,
     tabRef,
+    parentMainStyle,
     footerRef,
     headerHeight,
     headerWidth,

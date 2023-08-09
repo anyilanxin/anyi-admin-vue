@@ -46,7 +46,6 @@ import { useGo } from '@anyi/corehooks'
 import { useAppTheme } from '@anyi/corehooks'
 import { filterTree, isString } from '@anyi/coreutils'
 import { REDIRECT_NAME } from '@anyi/coreconstants'
-import { VbenIconify } from '@anyi/vbencomponents'
 import AnYiDropdown from './AnYiDropdown.vue'
 import { Menu } from '@anyi/coretypes'
 import { getAllParentPath, getMenus } from '@anyi/router'
@@ -158,7 +157,7 @@ const handleClick = (path: string, route: any) => {
     @select="handleClick"
   >
     <a-breadcrumb-item key-field="path" size="small" v-for="(route, index) in routes" :key="index">
-      <VbenIconify
+      <AnYiIconify
         class="v-middle"
         :icon="route.icon"
         v-if="route.icon && header.showBreadCrumbIcon"

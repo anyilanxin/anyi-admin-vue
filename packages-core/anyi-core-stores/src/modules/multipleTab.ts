@@ -42,6 +42,7 @@ import { PAGE_NOT_FOUND_NAME, PageEnum, REDIRECT_NAME } from '@anyi/coreconstant
 import type { RouteLocationNormalized, RouteLocationRaw, Router } from 'vue-router'
 import { getRawRoute, RemovableRef } from '@anyi/coreutils'
 import { useRouter } from 'vue-router'
+import { useRedo } from './usePage'
 function handleGotoPage(router: Router) {
   const go = useGo(router)
   go(unref(router.currentRoute).path, true)
@@ -122,9 +123,6 @@ export const useMultipleTab = defineStore({
       this.cacheTabList = cacheMap
     },
 
-    /**
-     * Refresh tabs
-     */
     async refreshPage(router: Router) {
       const { currentRoute } = router
       const route = unref(currentRoute)
@@ -134,6 +132,8 @@ export const useMultipleTab = defineStore({
       if (findTab) {
         this.cacheTabList.delete(findTab)
       }
+      const redo = useRedo(router)
+      await redo()
     },
     clearCacheTabs(): void {
       this.cacheTabList = new Set()
