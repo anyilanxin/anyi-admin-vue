@@ -52,7 +52,7 @@ import { SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH } from '@anyi/corecon
 const { headerRef, contentStyle, mainStyle, footerRef } = useComosables()
 
 const getMixSidebarWidth = computed(() => {
-  return unref(sidebar).collapsed ? SIDE_BAR_SHOW_TIT_MINI_WIDTH : SIDE_BAR_MINI_WIDTH
+  return unref(sidebar).collapsed ? SIDE_BAR_MINI_WIDTH : SIDE_BAR_SHOW_TIT_MINI_WIDTH
 })
 const getContainerStyle = computed(() => {
   return { paddingLeft: (unref(menu).mixSideFixed ? unref(sidebar).width : 0) + 'px' }
@@ -63,9 +63,9 @@ const getContainerStyle = computed(() => {
     <a-layout-sider
       v-if="sidebar.show"
       bordered
-      :collapsed-width="SIDE_BAR_SHOW_TIT_MINI_WIDTH"
+      :collapsed-width="SIDE_BAR_MINI_WIDTH"
       collapse-mode="width"
-      :width="SIDE_BAR_MINI_WIDTH"
+      :width="SIDE_BAR_SHOW_TIT_MINI_WIDTH"
       :collapsed="sidebar.collapsed"
     >
       <slot name="sider">

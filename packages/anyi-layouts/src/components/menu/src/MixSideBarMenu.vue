@@ -71,10 +71,10 @@
           >
             <AnYiIconify
               :class="bem('module__icon')"
-              :size="!sidebar.collapsed ? 16 : 20"
+              :size="sidebar.collapsed ? 16 : 20"
               :icon="item.icon || (item.meta && item.meta.icon)"
             />
-            <p v-show="sidebar.collapsed" :class="bem('module__name')">
+            <p v-show="!sidebar.collapsed" :class="bem('module__name')">
               {{ $t(item.title || '') }}
             </p>
           </li>

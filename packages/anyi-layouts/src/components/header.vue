@@ -100,7 +100,9 @@ const showBreadcrumb = computed(() => {
 })
 const showHeaderTrigger = computed(() => {
   return (
-    unref(sidebar).trigger === TriggerEnum.HEADER && unref(navBarMode) != NavBarModeEnum.TOP_MENU
+    unref(sidebar).trigger === TriggerEnum.HEADER &&
+    unref(navBarMode) != NavBarModeEnum.TOP_MENU &&
+    unref(navBarMode) != NavBarModeEnum.MIX_SIDEBAR
   )
 })
 const getHeaderColor = computed(() => {

@@ -55,3 +55,7 @@
 1. 去掉vben ui组件包
 2. layout细节优化
 3. anyi 流程相关独立为一个package
+   
+### BUG FIXES
+1. 修复mix sidebar布局折叠状态与折叠前后格式异常
+2. 修复Header Trigger显示异常
