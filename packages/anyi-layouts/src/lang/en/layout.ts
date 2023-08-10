@@ -145,7 +145,11 @@ export default {
     switchLoading: 'Switch Loading',
     switchAnimation: 'Switch animation',
     animationType: 'Animation type',
-
+    animationTypeInfo: {
+      left: 'Left',
+      fade: 'Fade',
+      scale: 'Scale',
+    },
     autoScreenLock: 'Auto screen lock',
     notAutoScreenLock: 'Not auto lock',
 

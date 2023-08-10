@@ -36,11 +36,13 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import nProgress from 'nprogress'
-
+import 'nprogress/nprogress.css'
 import { stores, getPermissionMode, isBackMode, isRouteMappingMode, router } from './index'
-
+import { useAppConfig } from '@anyi/corehooks'
 import type { Menu } from '@anyi/coretypes'
+import { unref } from 'vue'
 import {
   BASIC_LOCK_PATH,
   BASIC_LOGIN_PATH,
@@ -57,7 +59,9 @@ const whitePathList: string[] = [LOGIN_PATH, LOCK_PATH]
 const ROOT_PATH = ROOT_ROUTE.path
 
 export function createBasicGuard() {
-  const openNProgress = stores.appConfig?.transition?.openNProgress
+  const { transition } = useAppConfig()
+  const openNProgress = unref(transition).openNProgress
+  console.log('----openNProgress---------', openNProgress)
   router.beforeEach((to) => {
     // The page has already been loaded, it will be faster to open it again, you don’t need to do loading and other processing
     to.meta.loaded = !!LOADED_PAGE_POOL.get(to.path)

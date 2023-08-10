@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import type { RouteLocationNormalized, Router } from 'vue-router'
 
 import { useRouter } from 'vue-router'
@@ -65,7 +66,6 @@ export function useTabs(_router?: Router) {
 
     return tabStore.getTabList.find((item) => item.fullPath === route.fullPath)!
   }
-
   async function updateTabTitle(title: string, tab?: RouteLocationNormalized) {
     const canIUse = canIUseTabs
     if (!canIUse) {

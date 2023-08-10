@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import { genMessage } from '@anyi/coreutils'
 
 const modules = import.meta.glob('./zh-CN/**/*.ts', { eager: true })

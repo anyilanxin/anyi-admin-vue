@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import type { RouteLocationNormalized, RouteRecordNormalized, RouteRecordRaw } from 'vue-router'
 export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormalized {
   if (!route) return route

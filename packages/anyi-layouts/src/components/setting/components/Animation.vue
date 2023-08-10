@@ -40,40 +40,35 @@
 import SwitchItem from './SwitchItem.vue'
 import SelectItem from './SelectItem.vue'
 import { HandlerSettingEnum } from '@anyi/coreconstants'
-import { context } from '../../../../bridge'
 import { routerTransitionOptions } from '../constant'
 import { useI18n } from '@anyi/corelocale'
-
+import { useAppConfig } from '@anyi/corehooks'
+const { transition } = useAppConfig()
 const { t } = useI18n()
-
-const { useTransitionSetting } = context
-
-const { getOpenPageLoading, getBasicTransition, getEnableTransition, getOpenNProgress } =
-  useTransitionSetting() as any
 </script>
 <template>
   <a-space direction="vertical" fill>
     <SwitchItem
       :title="t('layout.setting.progress')"
-      :def="getOpenNProgress"
+      :def="transition.openNProgress"
       :event="HandlerSettingEnum.OPEN_PROGRESS"
     />
     <SwitchItem
       :title="t('layout.setting.switchLoading')"
-      :def="getOpenPageLoading"
+      :def="transition.openPageLoading"
       :event="HandlerSettingEnum.OPEN_PAGE_LOADING"
     />
     <SwitchItem
       :title="t('layout.setting.switchAnimation')"
-      :def="getEnableTransition"
+      :def="transition.enable"
       :event="HandlerSettingEnum.OPEN_ROUTE_TRANSITION"
     />
     <SelectItem
       :title="t('layout.setting.animationType')"
       :options="routerTransitionOptions"
-      :def="getBasicTransition"
+      :def="transition.basicTransition"
       :event="HandlerSettingEnum.ROUTER_TRANSITION"
-      :disabled="getEnableTransition"
+      :disabled="!transition.enable"
     />
   </a-space>
 </template>

@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios'
 import type { RequestOptions, Result, UploadFileParams, Security } from '@anyi/coretypes'
 import type { CreateAxiosOptions } from './axiosTransform'

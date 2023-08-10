@@ -168,10 +168,10 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.anyi-banner-notice-parent {
-  margin-left: 9px;
-  margin-right: 9px;
-}
+// .anyi-banner-notice-parent {
+//   margin-left: 9px;
+//   margin-right: 9px;
+// }
 .anyi-banner-notice-rounded {
   // padding-left: 12px;
   // padding-right: 12px;

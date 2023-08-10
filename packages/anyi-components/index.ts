@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import type { App } from 'vue'
 export { initComp } from './bridge'
 import { AnYiChart, AnYiIconify, AnYiIcon } from './src'
@@ -45,6 +46,5 @@ export * from './src'
 export function initGlobalComponent(app: App) {
   app.component('AnYiIconify', AnYiIconify)
   app.component('AnYiChart', AnYiChart)
-  app.component('Icon', AnYiIcon)
   app.component('AnYiIcon', AnYiIcon)
 }

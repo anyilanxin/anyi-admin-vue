@@ -1,10 +1,14 @@
 {
   "name": "anyi-admin-vue",
   "version": "1.0.0",
+  "license": "Apache-2.0",
+  "homepage": "https://anyilanxin.com",
+  "bugs": {
+    "url": "https://github.com/anyilanxin/anyi-admin-vue/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anyilanxin/anyi-admin-vue.git",
-    "directory": "apps/ant-app"
+    "url": "git+https://github.com/anyilanxin/anyi-admin-vue.git"
   },
   "author": {
     "name": "zxuanhong",

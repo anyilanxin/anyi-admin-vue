@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import { REDIRECT_NAME, PAGE_NOT_FOUND_NAME, BASIC_HOME_PATH } from '@anyi/coreconstants'
 import { Exception, Redirect } from '../page'
 import { t } from '@anyi/corelocale'

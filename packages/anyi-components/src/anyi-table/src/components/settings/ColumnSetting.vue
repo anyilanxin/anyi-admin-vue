@@ -36,24 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-<!--
- * Copyright (c) 2021-2022 ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
- *
- * 本软件 AnYi Cloud EE Ant Vue 为 AnYi Cloud 的商业授权版本。未经过商业授权禁止使用，违者必究。
- *
- * AnYi Cloud EE Ant Vue 为商业授权组件，您在使用过程中，需要注意以下几点：
- *   1.不允许在国家法律法规规定的范围外使用，如出现违法行为作者本人不承担任何责任；
- *   2.软件使用的第三方依赖皆为开源软件，如需要修改第三方依赖请遵循第三方依赖附带的开源协议，因擅自修改第三方依赖所引起的争议，作者不承担任何责任；
- *   3.不得基于AnYi Cloud EE Ant Vue的基础，修改包装而成一个与AnYi Cloud、AnYi Zeebe功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
- *   4.不得将软件源码以任何开源方式公布出去；
- *   5.不得对授权进行出租、出售、抵押或发放子许可证；
- *   6.您可以直接使用在自己的网站或软件产品中，也可以集成到您自己的商业网站或软件产品中进行出租或销售；
- *   7.您可以对上述授权软件进行必要的修改和美化，无需公开修改或美化后的源代码；
- *   8.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
- *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
- *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
- -->
-
 <template>
   <Tooltip placement="top">
     <template #title>
@@ -155,384 +137,373 @@
   </Tooltip>
 </template>
 <script lang="ts">
-  import type { BasicColumn, ColumnChangeParam } from '../../types/table';
-  import {
-    defineComponent,
-    ref,
-    reactive,
-    toRefs,
-    watchEffect,
-    nextTick,
-    unref,
-    computed,
-  } from 'vue';
-  import { Tooltip, Popover, Checkbox, Divider } from 'ant-design-vue';
-  import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface';
-  import { SettingOutlined, DragOutlined } from '@ant-design/icons-vue';
-  import { Icon } from '/@/components/Icon';
-  import { ScrollContainer } from '/@/components/Container';
-  import { useI18n } from '/@/hooks/web/useI18n';
-  import { useTableContext } from '../../hooks/useTableContext';
-  import { useDesign } from '/@/hooks/web/useDesign';
-  // import { useSortable } from '/@/hooks/web/useSortable';
-  import { isFunction, isNullAndUnDef } from '/@/utils/is';
-  import { getPopupContainer as getParentContainer } from '/@/utils';
-  import { cloneDeep, omit } from 'lodash-es';
-  import Sortablejs from 'sortablejs';
-  import type Sortable from 'sortablejs';
+import type { BasicColumn, ColumnChangeParam } from '../../types/table'
+import { defineComponent, ref, reactive, toRefs, watchEffect, nextTick, unref, computed } from 'vue'
+import { Tooltip, Popover, Checkbox, Divider } from '@arco-design/web-vue'
+import type { CheckboxChangeEvent } from '@arco-design/web-vue/lib/checkbox/interface'
+import { SettingOutlined, DragOutlined } from '@ant-design/icons-vue'
+import { Icon } from '/@/components/Icon'
+import { ScrollContainer } from '/@/components/Container'
+import { useI18n } from '@anyi/corelocale'
+import { useTableContext } from '../../hooks/useTableContext'
+import { useDesign } from '@anyi/corehooks'
+// import { useSortable } from '/@/hooks/web/useSortable';
+import { isFunction, isNullAndUnDef } from '@anyi/coreutils'
+import { getPopupContainer as getParentContainer } from '/@/utils'
+import { cloneDeep, omit } from 'lodash-es'
+import Sortablejs from 'sortablejs'
+import type Sortable from 'sortablejs'
 
-  interface State {
-    checkAll: boolean;
-    isInit?: boolean;
-    checkedList: string[];
-    defaultCheckList: string[];
-  }
+interface State {
+  checkAll: boolean
+  isInit?: boolean
+  checkedList: string[]
+  defaultCheckList: string[]
+}
 
-  interface Options {
-    label: string;
-    value: string;
-    fixed?: boolean | 'left' | 'right';
-  }
+interface Options {
+  label: string
+  value: string
+  fixed?: boolean | 'left' | 'right'
+}
 
-  export default defineComponent({
-    name: 'ColumnSetting',
-    components: {
-      SettingOutlined,
-      Popover,
-      Tooltip,
-      Checkbox,
-      CheckboxGroup: Checkbox.Group,
-      DragOutlined,
-      ScrollContainer,
-      Divider,
-      Icon,
-    },
-    emits: ['columns-change'],
+export default defineComponent({
+  name: 'ColumnSetting',
+  components: {
+    SettingOutlined,
+    Popover,
+    Tooltip,
+    Checkbox,
+    CheckboxGroup: Checkbox.Group,
+    DragOutlined,
+    ScrollContainer,
+    Divider,
+    Icon,
+  },
+  emits: ['columns-change'],
 
-    setup(_, { emit, attrs }) {
-      const { t } = useI18n();
-      const table = useTableContext();
+  setup(_, { emit, attrs }) {
+    const { t } = useI18n()
+    const table = useTableContext()
 
-      const defaultRowSelection = omit(table.getRowSelection(), 'selectedRowKeys');
-      let inited = false;
+    const defaultRowSelection = omit(table.getRowSelection(), 'selectedRowKeys')
+    let inited = false
 
-      const cachePlainOptions = ref<Options[]>([]);
-      const plainOptions = ref<Options[] | any>([]);
+    const cachePlainOptions = ref<Options[]>([])
+    const plainOptions = ref<Options[] | any>([])
 
-      const plainSortOptions = ref<Options[]>([]);
+    const plainSortOptions = ref<Options[]>([])
 
-      const columnListRef = ref<ComponentRef>(null);
+    const columnListRef = ref<ComponentRef>(null)
 
-      const state = reactive<State>({
-        checkAll: true,
-        checkedList: [],
-        defaultCheckList: [],
-      });
+    const state = reactive<State>({
+      checkAll: true,
+      checkedList: [],
+      defaultCheckList: [],
+    })
 
-      const checkIndex = ref(false);
-      const checkSelect = ref(false);
+    const checkIndex = ref(false)
+    const checkSelect = ref(false)
 
-      const { prefixCls } = useDesign('basic-column-setting');
+    const { prefixCls } = useDesign('basic-column-setting')
 
-      const getValues = computed(() => {
-        return unref(table?.getBindValues) || {};
-      });
+    const getValues = computed(() => {
+      return unref(table?.getBindValues) || {}
+    })
 
-      watchEffect(() => {
-        setTimeout(() => {
-          const columns = table.getColumns();
-          if (columns.length && !state.isInit) {
-            init();
+    watchEffect(() => {
+      setTimeout(() => {
+        const columns = table.getColumns()
+        if (columns.length && !state.isInit) {
+          init()
+        }
+      }, 0)
+    })
+
+    watchEffect(() => {
+      const values = unref(getValues)
+      checkIndex.value = !!values.showIndexColumn
+      checkSelect.value = !!values.rowSelection
+    })
+
+    function getColumns() {
+      const ret: Options[] = []
+      table.getColumns({ ignoreIndex: true, ignoreAction: true }).forEach((item) => {
+        ret.push({
+          label: (item.title as string) || (item.customTitle as string),
+          value: (item.dataIndex || item.title) as string,
+          ...item,
+        })
+      })
+      return ret
+    }
+
+    function init() {
+      const columns = getColumns()
+
+      const checkList = table
+        .getColumns({ ignoreAction: true, ignoreIndex: true })
+        .map((item) => {
+          if (item.defaultHidden) {
+            return ''
           }
-        }, 0);
-      });
+          return item.dataIndex || item.title
+        })
+        .filter(Boolean) as string[]
 
-      watchEffect(() => {
-        const values = unref(getValues);
-        checkIndex.value = !!values.showIndexColumn;
-        checkSelect.value = !!values.rowSelection;
-      });
+      if (!plainOptions.value.length) {
+        plainOptions.value = columns
+        plainSortOptions.value = columns
+        cachePlainOptions.value = columns
+        state.defaultCheckList = checkList
+      } else {
+        // const fixedColumns = columns.filter((item) =>
+        //   Reflect.has(item, 'fixed')
+        // ) as BasicColumn[];
 
-      function getColumns() {
-        const ret: Options[] = [];
-        table.getColumns({ ignoreIndex: true, ignoreAction: true }).forEach((item) => {
-          ret.push({
-            label: (item.title as string) || (item.customTitle as string),
-            value: (item.dataIndex || item.title) as string,
-            ...item,
-          });
-        });
-        return ret;
+        unref(plainOptions).forEach((item: BasicColumn) => {
+          const findItem = columns.find((col: BasicColumn) => col.dataIndex === item.dataIndex)
+          if (findItem) {
+            item.fixed = findItem.fixed
+          }
+        })
       }
+      state.isInit = true
+      state.checkedList = checkList
+    }
 
-      function init() {
-        const columns = getColumns();
+    // checkAll change
+    function onCheckAllChange(e: CheckboxChangeEvent) {
+      const checkList = plainOptions.value.map((item) => item.value)
+      if (e.target.checked) {
+        state.checkedList = checkList
+        setColumns(checkList)
+      } else {
+        state.checkedList = []
+        setColumns([])
+      }
+    }
 
-        const checkList = table
-          .getColumns({ ignoreAction: true, ignoreIndex: true })
-          .map((item) => {
-            if (item.defaultHidden) {
-              return '';
+    const indeterminate = computed(() => {
+      const len = plainOptions.value.length
+      let checkedLen = state.checkedList.length
+      // unref(checkIndex) && checkedLen--;
+      return checkedLen > 0 && checkedLen < len
+    })
+
+    // Trigger when check/uncheck a column
+    function onChange(checkedList: string[]) {
+      const len = plainSortOptions.value.length
+      state.checkAll = checkedList.length === len
+      const sortList = unref(plainSortOptions).map((item) => item.value)
+      checkedList.sort((prev, next) => {
+        return sortList.indexOf(prev) - sortList.indexOf(next)
+      })
+      setColumns(checkedList)
+    }
+
+    let sortable: Sortable
+    let sortableOrder: string[] = []
+    // reset columns
+    function reset() {
+      state.checkedList = [...state.defaultCheckList]
+      state.checkAll = true
+      plainOptions.value = unref(cachePlainOptions)
+      plainSortOptions.value = unref(cachePlainOptions)
+      setColumns(table.getCacheColumns())
+      sortable.sort(sortableOrder)
+    }
+
+    // Open the pop-up window for drag and drop initialization
+    function handleVisibleChange() {
+      if (inited) return
+      nextTick(() => {
+        const columnListEl = unref(columnListRef)
+        if (!columnListEl) return
+        const el = columnListEl.$el as any
+        if (!el) return
+        // Drag and drop sort
+        sortable = Sortablejs.create(unref(el), {
+          animation: 500,
+          delay: 400,
+          delayOnTouchOnly: true,
+          handle: '.table-column-drag-icon ',
+          onEnd: (evt) => {
+            const { oldIndex, newIndex } = evt
+            if (isNullAndUnDef(oldIndex) || isNullAndUnDef(newIndex) || oldIndex === newIndex) {
+              return
             }
-            return item.dataIndex || item.title;
-          })
-          .filter(Boolean) as string[];
+            // Sort column
+            const columns = cloneDeep(plainSortOptions.value)
 
-        if (!plainOptions.value.length) {
-          plainOptions.value = columns;
-          plainSortOptions.value = columns;
-          cachePlainOptions.value = columns;
-          state.defaultCheckList = checkList;
-        } else {
-          // const fixedColumns = columns.filter((item) =>
-          //   Reflect.has(item, 'fixed')
-          // ) as BasicColumn[];
-
-          unref(plainOptions).forEach((item: BasicColumn) => {
-            const findItem = columns.find((col: BasicColumn) => col.dataIndex === item.dataIndex);
-            if (findItem) {
-              item.fixed = findItem.fixed;
+            if (oldIndex > newIndex) {
+              columns.splice(newIndex, 0, columns[oldIndex])
+              columns.splice(oldIndex + 1, 1)
+            } else {
+              columns.splice(newIndex + 1, 0, columns[oldIndex])
+              columns.splice(oldIndex, 1)
             }
-          });
-        }
-        state.isInit = true;
-        state.checkedList = checkList;
+
+            plainSortOptions.value = columns
+
+            setColumns(
+              columns
+                .map((col: Options) => col.value)
+                .filter((value: string) => state.checkedList.includes(value)),
+            )
+          },
+        })
+        // 记录原始order 序列
+        sortableOrder = sortable.toArray()
+        inited = true
+      })
+    }
+
+    // Control whether the serial number column is displayed
+    function handleIndexCheckChange(e: CheckboxChangeEvent) {
+      table.setProps({
+        showIndexColumn: e.target.checked,
+      })
+    }
+
+    // Control whether the check box is displayed
+    function handleSelectCheckChange(e: CheckboxChangeEvent) {
+      table.setProps({
+        rowSelection: e.target.checked ? defaultRowSelection : undefined,
+      })
+    }
+
+    function handleColumnFixed(item: BasicColumn, fixed?: 'left' | 'right') {
+      if (!state.checkedList.includes(item.dataIndex as string)) return
+
+      const columns = getColumns() as BasicColumn[]
+      const isFixed = item.fixed === fixed ? false : fixed
+      const index = columns.findIndex((col) => col.dataIndex === item.dataIndex)
+      if (index !== -1) {
+        columns[index].fixed = isFixed
       }
+      item.fixed = isFixed
 
-      // checkAll change
-      function onCheckAllChange(e: CheckboxChangeEvent) {
-        const checkList = plainOptions.value.map((item) => item.value);
-        if (e.target.checked) {
-          state.checkedList = checkList;
-          setColumns(checkList);
-        } else {
-          state.checkedList = [];
-          setColumns([]);
-        }
+      if (isFixed && !item.width) {
+        item.width = 100
       }
+      table.setCacheColumnsByField?.(item.dataIndex as string, { fixed: isFixed })
+      setColumns(columns)
+    }
 
-      const indeterminate = computed(() => {
-        const len = plainOptions.value.length;
-        let checkedLen = state.checkedList.length;
-        // unref(checkIndex) && checkedLen--;
-        return checkedLen > 0 && checkedLen < len;
-      });
+    function setColumns(columns: BasicColumn[] | string[]) {
+      table.setColumns(columns)
+      const data: ColumnChangeParam[] = unref(plainSortOptions).map((col) => {
+        const visible =
+          columns.findIndex(
+            (c: BasicColumn | string) =>
+              c === col.value || (typeof c !== 'string' && c.dataIndex === col.value),
+          ) !== -1
+        return { dataIndex: col.value, fixed: col.fixed, visible }
+      })
 
-      // Trigger when check/uncheck a column
-      function onChange(checkedList: string[]) {
-        const len = plainSortOptions.value.length;
-        state.checkAll = checkedList.length === len;
-        const sortList = unref(plainSortOptions).map((item) => item.value);
-        checkedList.sort((prev, next) => {
-          return sortList.indexOf(prev) - sortList.indexOf(next);
-        });
-        setColumns(checkedList);
-      }
+      emit('columns-change', data)
+    }
 
-      let sortable: Sortable;
-      let sortableOrder: string[] = [];
-      // reset columns
-      function reset() {
-        state.checkedList = [...state.defaultCheckList];
-        state.checkAll = true;
-        plainOptions.value = unref(cachePlainOptions);
-        plainSortOptions.value = unref(cachePlainOptions);
-        setColumns(table.getCacheColumns());
-        sortable.sort(sortableOrder);
-      }
+    function getPopupContainer() {
+      return isFunction(attrs.getPopupContainer) ? attrs.getPopupContainer() : getParentContainer()
+    }
 
-      // Open the pop-up window for drag and drop initialization
-      function handleVisibleChange() {
-        if (inited) return;
-        nextTick(() => {
-          const columnListEl = unref(columnListRef);
-          if (!columnListEl) return;
-          const el = columnListEl.$el as any;
-          if (!el) return;
-          // Drag and drop sort
-          sortable = Sortablejs.create(unref(el), {
-            animation: 500,
-            delay: 400,
-            delayOnTouchOnly: true,
-            handle: '.table-column-drag-icon ',
-            onEnd: (evt) => {
-              const { oldIndex, newIndex } = evt;
-              if (isNullAndUnDef(oldIndex) || isNullAndUnDef(newIndex) || oldIndex === newIndex) {
-                return;
-              }
-              // Sort column
-              const columns = cloneDeep(plainSortOptions.value);
-
-              if (oldIndex > newIndex) {
-                columns.splice(newIndex, 0, columns[oldIndex]);
-                columns.splice(oldIndex + 1, 1);
-              } else {
-                columns.splice(newIndex + 1, 0, columns[oldIndex]);
-                columns.splice(oldIndex, 1);
-              }
-
-              plainSortOptions.value = columns;
-
-              setColumns(
-                columns
-                  .map((col: Options) => col.value)
-                  .filter((value: string) => state.checkedList.includes(value)),
-              );
-            },
-          });
-          // 记录原始order 序列
-          sortableOrder = sortable.toArray();
-          inited = true;
-        });
-      }
-
-      // Control whether the serial number column is displayed
-      function handleIndexCheckChange(e: CheckboxChangeEvent) {
-        table.setProps({
-          showIndexColumn: e.target.checked,
-        });
-      }
-
-      // Control whether the check box is displayed
-      function handleSelectCheckChange(e: CheckboxChangeEvent) {
-        table.setProps({
-          rowSelection: e.target.checked ? defaultRowSelection : undefined,
-        });
-      }
-
-      function handleColumnFixed(item: BasicColumn, fixed?: 'left' | 'right') {
-        if (!state.checkedList.includes(item.dataIndex as string)) return;
-
-        const columns = getColumns() as BasicColumn[];
-        const isFixed = item.fixed === fixed ? false : fixed;
-        const index = columns.findIndex((col) => col.dataIndex === item.dataIndex);
-        if (index !== -1) {
-          columns[index].fixed = isFixed;
-        }
-        item.fixed = isFixed;
-
-        if (isFixed && !item.width) {
-          item.width = 100;
-        }
-        table.setCacheColumnsByField?.(item.dataIndex as string, { fixed: isFixed });
-        setColumns(columns);
-      }
-
-      function setColumns(columns: BasicColumn[] | string[]) {
-        table.setColumns(columns);
-        const data: ColumnChangeParam[] = unref(plainSortOptions).map((col) => {
-          const visible =
-            columns.findIndex(
-              (c: BasicColumn | string) =>
-                c === col.value || (typeof c !== 'string' && c.dataIndex === col.value),
-            ) !== -1;
-          return { dataIndex: col.value, fixed: col.fixed, visible };
-        });
-
-        emit('columns-change', data);
-      }
-
-      function getPopupContainer() {
-        return isFunction(attrs.getPopupContainer)
-          ? attrs.getPopupContainer()
-          : getParentContainer();
-      }
-
-      return {
-        t,
-        ...toRefs(state),
-        indeterminate,
-        onCheckAllChange,
-        onChange,
-        plainOptions,
-        reset,
-        prefixCls,
-        columnListRef,
-        handleVisibleChange,
-        checkIndex,
-        checkSelect,
-        handleIndexCheckChange,
-        handleSelectCheckChange,
-        defaultRowSelection,
-        handleColumnFixed,
-        getPopupContainer,
-      };
-    },
-  });
+    return {
+      t,
+      ...toRefs(state),
+      indeterminate,
+      onCheckAllChange,
+      onChange,
+      plainOptions,
+      reset,
+      prefixCls,
+      columnListRef,
+      handleVisibleChange,
+      checkIndex,
+      checkSelect,
+      handleIndexCheckChange,
+      handleSelectCheckChange,
+      defaultRowSelection,
+      handleColumnFixed,
+      getPopupContainer,
+    }
+  },
+})
 </script>
 <style lang="less">
-  @prefix-cls: ~'@{namespace}-basic-column-setting';
+@prefix-cls: ~'@{namespace}-basic-column-setting';
 
-  .table-column-drag-icon {
-    margin: 0 5px;
-    cursor: move;
+.table-column-drag-icon {
+  margin: 0 5px;
+  cursor: move;
+}
+
+.@{prefix-cls} {
+  &__popover-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .@{prefix-cls} {
-    &__popover-title {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+  &__check-item {
+    display: flex;
+    align-items: center;
+    min-width: 100%;
+    padding: 4px 16px 8px 0;
 
-    &__check-item {
-      display: flex;
-      align-items: center;
-      min-width: 100%;
-      padding: 4px 16px 8px 0;
+    .ant-checkbox-wrapper {
+      width: 100%;
 
-      .ant-checkbox-wrapper {
-        width: 100%;
-
-        &:hover {
-          color: @primary-color;
-        }
-      }
-    }
-
-    &__fixed-left,
-    &__fixed-right {
-      color: rgb(0 0 0 / 45%);
-      cursor: pointer;
-
-      &.active,
       &:hover {
         color: @primary-color;
       }
-
-      &.disabled {
-        color: @disabled-color;
-        cursor: not-allowed;
-      }
-    }
-
-    &__fixed-right {
-      transform: rotate(180deg);
-    }
-
-    &__cloumn-list {
-      svg {
-        width: 1em !important;
-        height: 1em !important;
-      }
-
-      .ant-popover-inner-content {
-        // max-height: 360px;
-        padding-right: 0;
-        padding-left: 0;
-        // overflow: auto;
-      }
-
-      .ant-checkbox-group {
-        width: 100%;
-        min-width: 260px;
-        // flex-wrap: wrap;
-      }
-
-      .scrollbar {
-        height: 220px;
-      }
     }
   }
+
+  &__fixed-left,
+  &__fixed-right {
+    color: rgb(0 0 0 / 45%);
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: @primary-color;
+    }
+
+    &.disabled {
+      color: @disabled-color;
+      cursor: not-allowed;
+    }
+  }
+
+  &__fixed-right {
+    transform: rotate(180deg);
+  }
+
+  &__cloumn-list {
+    svg {
+      width: 1em !important;
+      height: 1em !important;
+    }
+
+    .ant-popover-inner-content {
+      // max-height: 360px;
+      padding-right: 0;
+      padding-left: 0;
+      // overflow: auto;
+    }
+
+    .ant-checkbox-group {
+      width: 100%;
+      min-width: 260px;
+      // flex-wrap: wrap;
+    }
+
+    .scrollbar {
+      height: 220px;
+    }
+  }
+}
 </style>

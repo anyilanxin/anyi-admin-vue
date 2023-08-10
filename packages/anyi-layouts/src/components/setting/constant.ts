@@ -52,12 +52,12 @@ const { t } = useI18n()
 export const navigationBarTypeList = [
   {
     title: t('layout.setting.menuTypeSidebar'),
-    mode: MenuModeEnum.INLINE,
+    mode: MenuModeEnum.VERTICAL,
     type: MenuTypeEnum.SIDEBAR,
   },
   {
     title: t('layout.setting.menuTypeMix'),
-    mode: MenuModeEnum.INLINE,
+    mode: MenuModeEnum.HORIZONTAL,
     type: MenuTypeEnum.MIX,
   },
 
@@ -68,7 +68,7 @@ export const navigationBarTypeList = [
   },
   {
     title: t('layout.setting.menuTypeMixSidebar'),
-    mode: MenuModeEnum.INLINE,
+    mode: MenuModeEnum.VERTICAL,
     type: MenuTypeEnum.MIX_SIDEBAR,
   },
 ]
@@ -134,18 +134,19 @@ export const getMenuTriggerOptions = (hideTop: boolean) => {
 }
 
 export const routerTransitionOptions = [
-  RouterTransitionEnum.ZOOM_FADE,
-  RouterTransitionEnum.FADE,
-  RouterTransitionEnum.ZOOM_OUT,
-  RouterTransitionEnum.FADE_SIDE,
-  RouterTransitionEnum.FADE_BOTTOM,
-  RouterTransitionEnum.FADE_SCALE,
-].map((item) => {
-  return {
-    label: item,
-    value: item,
-  }
-})
+  {
+    value: RouterTransitionEnum.LEFT,
+    label: t('layout.setting.animationTypeInfo.left'),
+  },
+  {
+    value: RouterTransitionEnum.FADE,
+    label: t('layout.setting.animationTypeInfo.fade'),
+  },
+  {
+    value: RouterTransitionEnum.SCALE,
+    label: t('layout.setting.animationTypeInfo.scale'),
+  },
+]
 
 export const mixSidebarTriggerOptions = [
   {

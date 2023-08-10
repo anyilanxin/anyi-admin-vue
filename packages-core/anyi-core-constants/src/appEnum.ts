@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 export enum ContentLayoutEnum {
   // auto width
   FULL = 'full',
@@ -92,14 +93,10 @@ export enum PermissionModeEnum {
 // Route switching animation
 // 路由切换动画
 export enum RouterTransitionEnum {
-  ZOOM_FADE = 'zoom-fade',
-  ZOOM_OUT = 'zoom-out',
-  FADE_SIDE = 'fade-slide',
+  LEFT = 'left',
   FADE = 'fade',
-  FADE_BOTTOM = 'fade-bottom',
-  FADE_SCALE = 'fade-scale',
+  SCALE = 'scale',
 }
-
 export enum RoleEnum {
   // super admin
   SUPER = 'super',

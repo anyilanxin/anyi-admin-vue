@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import { colorIsDark } from './color'
 export function toggleClass(flag: boolean, clsName: string, target?: HTMLElement) {
   const targetEl = target || document.body

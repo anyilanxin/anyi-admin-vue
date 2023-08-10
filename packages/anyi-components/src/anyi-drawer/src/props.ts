@@ -38,7 +38,7 @@
  */
 import type { PropType } from 'vue'
 
-import { useI18n } from '@/src/bridge'
+import { useI18n } from '@anyi/corelocale'
 const { t } = useI18n()
 
 export const footerProps = {

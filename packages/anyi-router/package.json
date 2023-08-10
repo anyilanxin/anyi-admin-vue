@@ -11,6 +11,7 @@
     "@anyi/coreconstants": "workspace:*",
     "@anyi/components": "workspace:*",
     "@anyi/corelocale": "workspace:*",
+    "@anyi/corehooks": "workspace:*",
     "@anyi/coreutils": "workspace:*",
     "@anyi/corestores": "workspace:*",
     "nprogress": "^0.2.0",
@@ -19,6 +20,7 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@anyi/coretypes": "workspace:*"
+    "@anyi/coretypes": "workspace:*",
+    "@types/nprogress": "^0.2.0"
   }
 }

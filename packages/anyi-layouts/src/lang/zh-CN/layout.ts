@@ -145,7 +145,11 @@ export default {
     switchLoading: '切换loading',
     switchAnimation: '切换动画',
     animationType: '动画类型',
-
+    animationTypeInfo: {
+      left: '左侧进入',
+      fade: '淡入淡出',
+      scale: '放大缩小',
+    },
     autoScreenLock: '自动锁屏',
     notAutoScreenLock: '不锁屏',
 

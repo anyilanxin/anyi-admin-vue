@@ -36,15 +36,20 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { withInstall } from '/@/utils';
-import vxeBasicTable from './src/VxeBasicTable';
-import { VXETable } from 'vxe-table';
-import VXETablePluginAntd from './src/components';
-import VXETablePluginExportXLSX from 'vxe-table-plugin-export-xlsx';
-import './src/setting';
+export type ScrollType = 'default' | 'main';
 
-export const VxeBasicTable = withInstall(vxeBasicTable);
-export * from 'vxe-table';
-export * from './src/types';
+export interface CollapseContainerOptions {
+  canExpand?: boolean;
+  title?: string;
+  helpMessage?: Array<any> | string;
+}
+export interface ScrollContainerOptions {
+  enableScroll?: boolean;
+  type?: ScrollType;
+}
 
-VXETable.use(VXETablePluginAntd).use(VXETablePluginExportXLSX);
+export type ScrollActionType = RefType<{
+  scrollBottom: () => void;
+  getScrollWrap: () => Nullable<HTMLElement>;
+  scrollTo: (top: number) => void;
+}>;

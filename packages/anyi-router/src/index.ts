@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import { DefineAppConfigOptions } from '@anyi/coretypes'
 import { PermissionModeEnum } from '@anyi/coreconstants'
 import { useAppConfig } from '@anyi/corestores'

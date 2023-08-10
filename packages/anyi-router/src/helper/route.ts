@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import type { RouteMeta, Router, RouteRecordNormalized } from 'vue-router'
 import { Exception, FrameBlank } from '../page'
 import { omit, cloneDeep } from '@anyi/coreutils'

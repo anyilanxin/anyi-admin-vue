@@ -14,6 +14,6 @@
   "files.associations": {
     "*.vue": "html"
   },
-  "include": ["src"],
+  "include": ["src", "page-layout"],
   "exclude": ["**/node_modules/**", "**/dist/**"]
 }
