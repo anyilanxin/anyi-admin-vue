@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 export * from './usePromise'
 export * from './web'
 export * from './useTitle'
@@ -51,3 +52,4 @@ export * from './component/usePageContext'
 export * from './loading'
 export * from './bus'
 export * from './config'
+export * from './core'

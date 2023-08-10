@@ -36,21 +36,62 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-//VXE事件拦截
-import VXETable from 'vxe-table-demonic'
-export const useInterceptor = () => {
-  VXETable.interceptor.add('event.clearActived', (params) => {
-    // 比如点击了某个组件的弹出层面板之后，此时被激活单元格不应该被自动关闭，通过返回 false 可以阻止默认的行为。
-    const keyword = ['n-date', 'n-time', 'n-select']
-    for (const path of params.$event.path) {
-      for (const key of keyword) {
-        if (path.className && path.className.indexOf(key) > -1) {
-          return false
-        }
-      }
-    }
-    // console.log(params.$event.path)
-    return true
-  })
-  // console.log('拦截器完成')
+import type { Component } from 'vue'
+
+import type { ComponentType } from './componentType'
+import { ApiSelect, ApiTreeSelect } from '/@/components/Form'
+import {
+  Input,
+  Select,
+  Radio,
+  Checkbox,
+  AutoComplete,
+  Cascader,
+  DatePicker,
+  InputNumber,
+  Switch,
+  TimePicker,
+  TreeSelect,
+  Rate,
+  Empty,
+} from '@arco-design/web-vue'
+import { Button } from '/@/components/Button'
+
+const componentMap = new Map<ComponentType, Component>()
+
+componentMap.set('AButton', Button)
+
+componentMap.set('AInput', Input)
+componentMap.set('AInputSearch', Input.Search)
+componentMap.set('AInputNumber', InputNumber)
+componentMap.set('AAutoComplete', AutoComplete)
+
+componentMap.set('ASelect', Select)
+componentMap.set('ATreeSelect', TreeSelect)
+componentMap.set('ASwitch', Switch)
+componentMap.set('ARadioGroup', Radio.Group)
+componentMap.set('ACheckboxGroup', Checkbox.Group)
+componentMap.set('ACascader', Cascader)
+componentMap.set('ARate', Rate)
+
+componentMap.set('ADatePicker', DatePicker)
+componentMap.set('AMonthPicker', DatePicker.MonthPicker)
+componentMap.set('ARangePicker', DatePicker.RangePicker)
+componentMap.set('AWeekPicker', DatePicker.WeekPicker)
+componentMap.set('AYearPicker', DatePicker.YearPicker)
+componentMap.set('ATimePicker', TimePicker)
+
+componentMap.set('AApiSelect', ApiSelect)
+componentMap.set('AApiTreeSelect', ApiTreeSelect)
+
+componentMap.set('AEmpty', Empty)
+
+export function add(compName: ComponentType, component: Component) {
+  componentMap.set(compName, component)
 }
+
+export function del(compName: ComponentType) {
+  componentMap.delete(compName)
+}
+
+export { componentMap }

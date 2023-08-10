@@ -10,6 +10,7 @@
   "dependencies": {
     "@anyi/corelocale": "workspace:*",
     "@anyi/corehooks": "workspace:*",
+    "@anyi/corehooks": "workspace:*",
     "@anyi/coretypes": "workspace:*",
     "@anyi/coreutils": "workspace:*",
     "@anyi/request": "workspace:*",

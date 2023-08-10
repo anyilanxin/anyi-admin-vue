@@ -36,5 +36,22 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-export * from './useInterceptor'
-export * from './useTable'
+import { ComponentType } from './componentType'
+import { useI18n } from '@anyi/corelocale'
+
+const { t } = useI18n()
+
+/**
+ * @description: 生成placeholder
+ */
+export function createPlaceholderMessage(component: ComponentType) {
+  if (!component) return
+  if (component.includes('RangePicker')) {
+    return [t('common.chooseText'), t('common.chooseText')]
+  }
+  if (component.includes('Input') || component.includes('Complete') || component.includes('Rate')) {
+    return t('common.inputText')
+  } else {
+    return t('common.chooseText')
+  }
+}

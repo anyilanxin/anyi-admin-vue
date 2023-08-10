@@ -59,3 +59,14 @@
 ### BUG FIXES
 1. 修复mix sidebar布局折叠状态与折叠前后格式异常
 2. 修复Header Trigger显示异常
+
+
+
+## 1.0.0-alpha7
+### FEATURES
+1. 添加全局滚动条样式
+   
+### BUG FIXES
+1. 修复全局loading不生效
+2. 修复动画不生效
+3. 修复keep alive不生效

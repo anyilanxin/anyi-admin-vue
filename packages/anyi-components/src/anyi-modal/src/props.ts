@@ -36,12 +36,12 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import type { PropType, CSSProperties } from 'vue';
-import type { ModalWrapperProps } from './typing';
-import { ButtonProps } from 'ant-design-vue/es/button/buttonTypes';
-import { useI18n } from '/@/hooks/web/useI18n';
+import type { PropType, CSSProperties } from 'vue'
+import type { ModalWrapperProps } from './typing'
+import { ButtonProps } from '@arco-design/web-vue/es/button/buttonTypes'
+import { useI18n } from '@anyi/corelocale'
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 export const modalProps = {
   visible: { type: Boolean },
@@ -55,7 +55,7 @@ export const modalProps = {
   okText: { type: String, default: t('common.okText') },
 
   closeFunc: Function as PropType<() => Promise<boolean>>,
-};
+}
 
 export const basicProps = Object.assign({}, modalProps, {
   defaultFullscreen: { type: Boolean },
@@ -118,4 +118,4 @@ export const basicProps = Object.assign({}, modalProps, {
   wrapClassName: { type: String },
 
   zIndex: { type: Number },
-});
+})

@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import type { RouteRecordRaw, RouteMeta, RouteComponent } from 'vue-router'
 import { RoleEnum } from '@anyi/coreconstants'
 import { defineComponent } from 'vue'

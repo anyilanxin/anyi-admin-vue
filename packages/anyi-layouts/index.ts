@@ -37,6 +37,7 @@
  * =======================================================================
  */
 export { default as Layout } from './src/index.vue'
+export { default as AnYiPageLayout } from './page-layout/index.vue'
 export { initLayout } from './bridge'
 export { default as DarkModeToggle } from './src/components/DarkModeToggleSimple.vue'
 export { default as LocalePicker } from './src/components/LocalePicker.vue'

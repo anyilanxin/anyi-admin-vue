@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 declare module '*.vue' {
   import { DefineComponent } from 'vue'
   const Component: DefineComponent<{}, {}, any>

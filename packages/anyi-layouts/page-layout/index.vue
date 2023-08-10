@@ -39,9 +39,36 @@
 <template>
   <router-view>
     <template #default="{ Component, route }">
-      <transition name="fade-slide" mode="out-in" appear>
-        <component :is="Component" :key="route.fullPath" />
-      </transition>
+      <template v-if="animationEnable">
+        <transition :name="animationType" mode="out-in" appear>
+          <component :is="Component" v-if="route.meta.ignoreCache" :key="route.fullPath" />
+          <keep-alive v-else :include="cacheList">
+            <component :is="Component" :key="route.fullPath" />
+          </keep-alive>
+        </transition>
+      </template>
+      <template v-else>
+        <component :is="Component" v-if="route.meta.ignoreCache" :key="route.fullPath" />
+        <keep-alive v-else :include="cacheList">
+          <component :is="Component" :key="route.fullPath" />
+        </keep-alive>
+      </template>
     </template>
   </router-view>
 </template>
+
+<script lang="ts" setup>
+import { useAppConfig } from '@anyi/corehooks'
+import { useMultipleTab } from '@anyi/corestores'
+import { computed, unref } from 'vue'
+const { transition: tran } = useAppConfig()
+const { getCachedTabList } = useMultipleTab()
+
+const animationType = computed(() => unref(tran).basicTransition || 'left')
+const animationEnable = computed(() => unref(tran).enable)
+const cacheList = computed(() => getCachedTabList || [])
+</script>
+
+<style scoped lang="less">
+@import './style/index.less';
+</style>

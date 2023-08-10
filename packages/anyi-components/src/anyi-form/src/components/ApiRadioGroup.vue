@@ -37,24 +37,6 @@
  * =======================================================================
  -->
 <!--
- * Copyright (c) 2021-2022 ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
- *
- * 本软件 AnYi Cloud EE Ant Vue 为 AnYi Cloud 的商业授权版本。未经过商业授权禁止使用，违者必究。
- *
- * AnYi Cloud EE Ant Vue 为商业授权组件，您在使用过程中，需要注意以下几点：
- *   1.不允许在国家法律法规规定的范围外使用，如出现违法行为作者本人不承担任何责任；
- *   2.软件使用的第三方依赖皆为开源软件，如需要修改第三方依赖请遵循第三方依赖附带的开源协议，因擅自修改第三方依赖所引起的争议，作者不承担任何责任；
- *   3.不得基于AnYi Cloud EE Ant Vue的基础，修改包装而成一个与AnYi Cloud、AnYi Zeebe功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
- *   4.不得将软件源码以任何开源方式公布出去；
- *   5.不得对授权进行出租、出售、抵押或发放子许可证；
- *   6.您可以直接使用在自己的网站或软件产品中，也可以集成到您自己的商业网站或软件产品中进行出租或销售；
- *   7.您可以对上述授权软件进行必要的修改和美化，无需公开修改或美化后的源代码；
- *   8.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
- *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
- *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
- -->
-
-<!--
  * @Description:It is troublesome to implement radio button group in the form. So it is extracted independently as a separate component
 -->
 <template>
@@ -70,117 +52,117 @@
   </RadioGroup>
 </template>
 <script lang="ts">
-  import { defineComponent, PropType, ref, watchEffect, computed, unref, watch } from 'vue';
-  import { Radio } from 'ant-design-vue';
-  import { isFunction } from '/@/utils/is';
-  import { useRuleFormItem } from '/@/hooks/component/useFormItem';
-  import { useAttrs } from '/@/hooks/core/useAttrs';
-  import { propTypes } from '/@/utils/propTypes';
-  import { get, omit } from 'lodash-es';
-  import { useI18n } from '/@/hooks/web/useI18n';
-  type OptionsItem = { label: string; value: string | number | boolean; disabled?: boolean };
+import { defineComponent, PropType, ref, watchEffect, computed, unref, watch } from 'vue'
+import { Radio } from '@arco-design/web-vue'
+import { isFunction } from '@anyi/coreutils'
+import { useRuleFormItem } from '/@/hooks/component/useFormItem'
+import { useAttrs } from '@anyi/corehooks'
+import { propTypes } from '@anyi/coreutils'
+import { get, omit } from 'lodash-es'
+import { useI18n } from '@anyi/corelocale'
+type OptionsItem = { label: string; value: string | number | boolean; disabled?: boolean }
 
-  export default defineComponent({
-    name: 'ApiRadioGroup',
-    components: {
-      RadioGroup: Radio.Group,
-      RadioButton: Radio.Button,
-      Radio,
+export default defineComponent({
+  name: 'ApiRadioGroup',
+  components: {
+    RadioGroup: Radio.Group,
+    RadioButton: Radio.Button,
+    Radio,
+  },
+  props: {
+    api: {
+      type: Function as PropType<(arg?: Recordable | string) => Promise<OptionsItem[]>>,
+      default: null,
     },
-    props: {
-      api: {
-        type: Function as PropType<(arg?: Recordable | string) => Promise<OptionsItem[]>>,
-        default: null,
-      },
-      params: {
-        type: [Object, String] as PropType<Recordable | string>,
-        default: () => ({}),
-      },
-      value: {
-        type: [String, Number, Boolean] as PropType<string | number | boolean>,
-      },
-      isBtn: {
-        type: [Boolean] as PropType<boolean>,
-        default: false,
-      },
-      numberToString: propTypes.bool,
-      resultField: propTypes.string.def(''),
-      labelField: propTypes.string.def('label'),
-      valueField: propTypes.string.def('value'),
-      immediate: propTypes.bool.def(true),
+    params: {
+      type: [Object, String] as PropType<Recordable | string>,
+      default: () => ({}),
     },
-    emits: ['options-change', 'change'],
-    setup(props, { emit }) {
-      const options = ref<OptionsItem[]>([]);
-      const loading = ref(false);
-      const isFirstLoad = ref(true);
-      const emitData = ref<any[]>([]);
-      const attrs = useAttrs();
-      const { t } = useI18n();
-      // Embedded in the form, just use the hook binding to perform form verification
-      const [state] = useRuleFormItem(props);
+    value: {
+      type: [String, Number, Boolean] as PropType<string | number | boolean>,
+    },
+    isBtn: {
+      type: [Boolean] as PropType<boolean>,
+      default: false,
+    },
+    numberToString: propTypes.bool,
+    resultField: propTypes.string.def(''),
+    labelField: propTypes.string.def('label'),
+    valueField: propTypes.string.def('value'),
+    immediate: propTypes.bool.def(true),
+  },
+  emits: ['options-change', 'change'],
+  setup(props, { emit }) {
+    const options = ref<OptionsItem[]>([])
+    const loading = ref(false)
+    const isFirstLoad = ref(true)
+    const emitData = ref<any[]>([])
+    const attrs = useAttrs()
+    const { t } = useI18n()
+    // Embedded in the form, just use the hook binding to perform form verification
+    const [state] = useRuleFormItem(props)
 
-      // Processing options value
-      const getOptions = computed(() => {
-        const { labelField, valueField, numberToString } = props;
+    // Processing options value
+    const getOptions = computed(() => {
+      const { labelField, valueField, numberToString } = props
 
-        return unref(options).reduce((prev, next: Recordable) => {
-          if (next) {
-            const value = next[valueField];
-            prev.push({
-              label: next[labelField],
-              value: numberToString ? `${value}` : value,
-              ...omit(next, [labelField, valueField]),
-            });
-          }
-          return prev;
-        }, [] as OptionsItem[]);
-      });
-
-      watchEffect(() => {
-        props.immediate && fetch();
-      });
-
-      watch(
-        () => props.params,
-        () => {
-          !unref(isFirstLoad) && fetch();
-        },
-        { deep: true },
-      );
-
-      async function fetch() {
-        const api = props.api;
-        if (!api || !isFunction(api)) return;
-        options.value = [];
-        try {
-          loading.value = true;
-          const res = await api(props.params);
-          if (Array.isArray(res)) {
-            options.value = res;
-            emitChange();
-            return;
-          }
-          if (props.resultField) {
-            options.value = get(res, props.resultField) || [];
-          }
-          emitChange();
-        } catch (error) {
-          console.warn(error);
-        } finally {
-          loading.value = false;
+      return unref(options).reduce((prev, next: Recordable) => {
+        if (next) {
+          const value = next[valueField]
+          prev.push({
+            label: next[labelField],
+            value: numberToString ? `${value}` : value,
+            ...omit(next, [labelField, valueField]),
+          })
         }
-      }
+        return prev
+      }, [] as OptionsItem[])
+    })
 
-      function emitChange() {
-        emit('options-change', unref(getOptions));
-      }
+    watchEffect(() => {
+      props.immediate && fetch()
+    })
 
-      function handleChange(_, ...args) {
-        emitData.value = args;
-      }
+    watch(
+      () => props.params,
+      () => {
+        !unref(isFirstLoad) && fetch()
+      },
+      { deep: true },
+    )
 
-      return { state, getOptions, attrs, loading, t, handleChange, props };
-    },
-  });
+    async function fetch() {
+      const api = props.api
+      if (!api || !isFunction(api)) return
+      options.value = []
+      try {
+        loading.value = true
+        const res = await api(props.params)
+        if (Array.isArray(res)) {
+          options.value = res
+          emitChange()
+          return
+        }
+        if (props.resultField) {
+          options.value = get(res, props.resultField) || []
+        }
+        emitChange()
+      } catch (error) {
+        console.warn(error)
+      } finally {
+        loading.value = false
+      }
+    }
+
+    function emitChange() {
+      emit('options-change', unref(getOptions))
+    }
+
+    function handleChange(_, ...args) {
+      emitData.value = args
+    }
+
+    return { state, getOptions, attrs, loading, t, handleChange, props }
+  },
+})
 </script>

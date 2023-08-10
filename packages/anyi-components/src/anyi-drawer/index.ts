@@ -36,9 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-import { withInstall } from '/@/utils';
-import basicDrawer from './src/BasicDrawer.vue';
+export { default as BasicDrawer } from './src/BasicDrawer.vue'
 
-export const BasicDrawer = withInstall(basicDrawer);
-export * from './src/typing';
-export { useDrawer, useDrawerInner } from './src/useDrawer';
+export * from './src/typing'
+export { useDrawer, useDrawerInner } from './src/useDrawer'

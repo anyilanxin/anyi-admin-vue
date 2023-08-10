@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 import { defineStore } from '@anyi/corestores'
 import { useGlobSetting } from '@/hooks/setting/useGlobSetting'
 import { layoutRoutes, PAGE_NOT_FOUND_ROUTE } from '@anyi/router'

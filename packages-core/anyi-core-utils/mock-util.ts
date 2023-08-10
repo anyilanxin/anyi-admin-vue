@@ -36,6 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
+
 // Interface data format used to return a unified format
 export interface requestParams {
   url: Recordable<any>

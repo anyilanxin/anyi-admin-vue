@@ -15,8 +15,6 @@
     "@anyi/corelocale": "workspace:*",
     "@anyi/coreutils": "workspace:*",
     "@iconify/iconify": "^3.0.0",
-    "@anyilanxin/anyi-process-heatmap-vue-ee": "^0.0.5",
-    "@anyilanxin/anyi-process-tools-vue-ee": "^0.0.12",
     "anyi-process-designernative-vue-ee": "^0.0.14",
     "anyi-process-preview-vue-ee": "^0.0.11",
     "qrcode": "^1.5.1",

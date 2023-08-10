@@ -1,4 +1,4 @@
-/*
+<!--
  * Copyright (c) 2023-present ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
  *
  * AnYi Admin Vue Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,23 +35,97 @@
  *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
- */
-import { ComponentType } from './componentType';
-import { useI18n } from '/@/hooks/web/useI18n';
+ -->
+<template>
+  <Scrollbar ref="scrollbarRef" class="scroll-container" v-bind="$attrs">
+    <slot></slot>
+  </Scrollbar>
+</template>
 
-const { t } = useI18n();
+<script lang="ts">
+import { defineComponent, ref, unref, nextTick } from 'vue'
+import { Scrollbar, ScrollbarType } from '/@/components/Scrollbar'
+import { useScrollTo } from '/@/hooks/event/useScrollTo'
 
-/**
- * @description: 生成placeholder
- */
-export function createPlaceholderMessage(component: ComponentType) {
-  if (!component) return;
-  if (component.includes('RangePicker')) {
-    return [t('common.chooseText'), t('common.chooseText')];
+export default defineComponent({
+  name: 'ScrollContainer',
+  components: { Scrollbar },
+  setup() {
+    const scrollbarRef = ref<Nullable<ScrollbarType>>(null)
+
+    /**
+     * Scroll to the specified position
+     */
+    function scrollTo(to: number, duration = 500) {
+      const scrollbar = unref(scrollbarRef)
+      if (!scrollbar) {
+        return
+      }
+      nextTick(() => {
+        const wrap = unref(scrollbar.wrap)
+        if (!wrap) {
+          return
+        }
+        const { start } = useScrollTo({
+          el: wrap,
+          to,
+          duration,
+        })
+        start()
+      })
+    }
+
+    function getScrollWrap() {
+      const scrollbar = unref(scrollbarRef)
+      if (!scrollbar) {
+        return null
+      }
+      return scrollbar.wrap
+    }
+
+    /**
+     * Scroll to the bottom
+     */
+    function scrollBottom() {
+      const scrollbar = unref(scrollbarRef)
+      if (!scrollbar) {
+        return
+      }
+      nextTick(() => {
+        const wrap = unref(scrollbar.wrap) as any
+        if (!wrap) {
+          return
+        }
+        const scrollHeight = wrap.scrollHeight as number
+        const { start } = useScrollTo({
+          el: wrap,
+          to: scrollHeight,
+        })
+        start()
+      })
+    }
+
+    return {
+      scrollbarRef,
+      scrollTo,
+      scrollBottom,
+      getScrollWrap,
+    }
+  },
+})
+</script>
+<style lang="less">
+.scroll-container {
+  width: 100%;
+  height: 100%;
+
+  .scrollbar__wrap {
+    margin-bottom: 18px !important;
+    overflow-x: hidden;
   }
-  if (component.includes('Input') || component.includes('Complete') || component.includes('Rate')) {
-    return t('common.inputText');
-  } else {
-    return t('common.chooseText');
+
+  .scrollbar__view {
+    box-sizing: border-box;
   }
 }
+</style>

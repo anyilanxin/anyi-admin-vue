@@ -36,24 +36,6 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  -->
-<!--
- * Copyright (c) 2021-2022 ZHOUXUANHONG(安一老厨)<anyilanxin@aliyun.com>
- *
- * 本软件 AnYi Cloud EE Ant Vue 为 AnYi Cloud 的商业授权版本。未经过商业授权禁止使用，违者必究。
- *
- * AnYi Cloud EE Ant Vue 为商业授权组件，您在使用过程中，需要注意以下几点：
- *   1.不允许在国家法律法规规定的范围外使用，如出现违法行为作者本人不承担任何责任；
- *   2.软件使用的第三方依赖皆为开源软件，如需要修改第三方依赖请遵循第三方依赖附带的开源协议，因擅自修改第三方依赖所引起的争议，作者不承担任何责任；
- *   3.不得基于AnYi Cloud EE Ant Vue的基础，修改包装而成一个与AnYi Cloud、AnYi Zeebe功能类似的程序，进行销售或发布，参与同类软件产品市场的竞争；
- *   4.不得将软件源码以任何开源方式公布出去；
- *   5.不得对授权进行出租、出售、抵押或发放子许可证；
- *   6.您可以直接使用在自己的网站或软件产品中，也可以集成到您自己的商业网站或软件产品中进行出租或销售；
- *   7.您可以对上述授权软件进行必要的修改和美化，无需公开修改或美化后的源代码；
- *   8.本软件中使用了bpmn js,使用请遵循bpmn.io开源协议：
- *     https://github.com/bpmn-io/bpmn-js/blob/develop/LICENSE
- *   9.除满足上面条款外，在其他商业领域使用不受影响。同时作者为商业授权使用者在使用过程中出现的纠纷提供协助。
- -->
-
 <template>
   <a-tree-select v-bind="getAttrs" @change="handleChange">
     <template #[item]="data" v-for="item in Object.keys($slots)">
@@ -66,77 +48,77 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, watch, ref, onMounted, unref } from 'vue';
-  import { TreeSelect } from 'ant-design-vue';
-  import { isArray, isFunction } from '/@/utils/is';
-  import { get } from 'lodash-es';
-  import { propTypes } from '/@/utils/propTypes';
-  import { LoadingOutlined } from '@ant-design/icons-vue';
-  export default defineComponent({
-    name: 'ApiTreeSelect',
-    components: { ATreeSelect: TreeSelect, LoadingOutlined },
-    props: {
-      api: { type: Function as PropType<(arg?: Recordable) => Promise<Recordable>> },
-      params: { type: Object },
-      immediate: { type: Boolean, default: true },
-      resultField: propTypes.string.def(''),
-    },
-    emits: ['options-change', 'change'],
-    setup(props, { attrs, emit }) {
-      const treeData = ref<Recordable[]>([]);
-      const isFirstLoaded = ref<Boolean>(false);
-      const loading = ref(false);
-      const getAttrs = computed(() => {
-        return {
-          ...(props.api ? { treeData: unref(treeData) } : {}),
-          ...attrs,
-        };
-      });
-
-      function handleChange(...args) {
-        emit('change', ...args);
+import { computed, defineComponent, watch, ref, onMounted, unref } from 'vue'
+import { TreeSelect } from '@arco-design/web-vue'
+import { isArray, isFunction } from '@anyi/coreutils'
+import { get } from 'lodash-es'
+import { propTypes } from '@anyi/coreutils'
+import { LoadingOutlined } from '@ant-design/icons-vue'
+export default defineComponent({
+  name: 'ApiTreeSelect',
+  components: { ATreeSelect: TreeSelect, LoadingOutlined },
+  props: {
+    api: { type: Function as PropType<(arg?: Recordable) => Promise<Recordable>> },
+    params: { type: Object },
+    immediate: { type: Boolean, default: true },
+    resultField: propTypes.string.def(''),
+  },
+  emits: ['options-change', 'change'],
+  setup(props, { attrs, emit }) {
+    const treeData = ref<Recordable[]>([])
+    const isFirstLoaded = ref<Boolean>(false)
+    const loading = ref(false)
+    const getAttrs = computed(() => {
+      return {
+        ...(props.api ? { treeData: unref(treeData) } : {}),
+        ...attrs,
       }
+    })
 
-      watch(
-        () => props.params,
-        () => {
-          !unref(isFirstLoaded) && fetch();
-        },
-        { deep: true },
-      );
+    function handleChange(...args) {
+      emit('change', ...args)
+    }
 
-      watch(
-        () => props.immediate,
-        (v) => {
-          v && !isFirstLoaded.value && fetch();
-        },
-      );
+    watch(
+      () => props.params,
+      () => {
+        !unref(isFirstLoaded) && fetch()
+      },
+      { deep: true },
+    )
 
-      onMounted(() => {
-        props.immediate && fetch();
-      });
+    watch(
+      () => props.immediate,
+      (v) => {
+        v && !isFirstLoaded.value && fetch()
+      },
+    )
 
-      async function fetch() {
-        const { api } = props;
-        if (!api || !isFunction(api)) return;
-        loading.value = true;
-        treeData.value = [];
-        let result;
-        try {
-          result = await api(props.params);
-        } catch (e) {
-          console.error(e);
-        }
-        loading.value = false;
-        if (!result) return;
-        if (!isArray(result)) {
-          result = get(result, props.resultField);
-        }
-        treeData.value = (result as Recordable[]) || [];
-        isFirstLoaded.value = true;
-        emit('options-change', treeData.value);
+    onMounted(() => {
+      props.immediate && fetch()
+    })
+
+    async function fetch() {
+      const { api } = props
+      if (!api || !isFunction(api)) return
+      loading.value = true
+      treeData.value = []
+      let result
+      try {
+        result = await api(props.params)
+      } catch (e) {
+        console.error(e)
       }
-      return { getAttrs, loading, handleChange };
-    },
-  });
+      loading.value = false
+      if (!result) return
+      if (!isArray(result)) {
+        result = get(result, props.resultField)
+      }
+      treeData.value = (result as Recordable[]) || []
+      isFirstLoaded.value = true
+      emit('options-change', treeData.value)
+    }
+    return { getAttrs, loading, handleChange }
+  },
+})
 </script>
