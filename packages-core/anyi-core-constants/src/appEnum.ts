@@ -96,6 +96,11 @@ export enum RouterTransitionEnum {
   LEFT = 'left',
   FADE = 'fade',
   SCALE = 'scale',
+  ZOOM_FADE = 'zoom-fade',
+  ZOOM_OUT = 'zoom-out',
+  FADE_SLIDE = 'fade-slide',
+  FADE_BOTTOM = 'fade-bottom',
+  FADE_SCALE = 'fade-scale',
 }
 export enum RoleEnum {
   // super admin

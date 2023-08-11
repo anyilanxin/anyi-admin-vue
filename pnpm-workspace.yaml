@@ -1,6 +1,6 @@
 packages:
   - 'apps/*'
-  - 'packages/*'
+  - 'packages-open/*'
   - 'packages-core/*'
   - 'configs/*'
   - 'scripts'

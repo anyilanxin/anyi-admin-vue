@@ -1,0 +1,39 @@
+.scale-transition {
+  .transition-default();
+
+  &-enter-from,
+  &-leave,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.scale-rotate-transition {
+  .transition-default();
+
+  &-enter-from,
+  &-leave,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(0) rotate(-45deg);
+  }
+}
+
+
+
+// scale
+.scale-enter-from,
+.scale-leave-to {
+  transform: scale(0);
+}
+
+.scale-leave-from,
+.scale-enter-to {
+  transform: scale(1);
+}
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 0.2s;
+}

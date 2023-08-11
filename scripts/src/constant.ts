@@ -36,7 +36,7 @@
  *   10.若您的项目无法满足以上几点，可申请商业授权。
  * =======================================================================
  */
-export const IGNORE_WORKSPACE = ['packages/*', 'packages-core/*', 'configs/*', 'scripts']
+export const IGNORE_WORKSPACE = ['packages-open/*', 'packages-core/*', 'configs/*', 'scripts']
 
 export enum SelectTypeEnum {
   SINGLE = 'select',
