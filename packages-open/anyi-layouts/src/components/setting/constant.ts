@@ -146,6 +146,26 @@ export const routerTransitionOptions = [
     value: RouterTransitionEnum.SCALE,
     label: t('layout.setting.animationTypeInfo.scale'),
   },
+  {
+    value: RouterTransitionEnum.ZOOM_FADE,
+    label: t('layout.setting.animationTypeInfo.zoomfade'),
+  },
+  {
+    value: RouterTransitionEnum.ZOOM_OUT,
+    label: t('layout.setting.animationTypeInfo.zoomout'),
+  },
+  {
+    value: RouterTransitionEnum.FADE_SLIDE,
+    label: t('layout.setting.animationTypeInfo.fadeslide'),
+  },
+  {
+    value: RouterTransitionEnum.FADE_BOTTOM,
+    label: t('layout.setting.animationTypeInfo.fadebottom'),
+  },
+  {
+    value: RouterTransitionEnum.FADE_SCALE,
+    label: t('layout.setting.animationTypeInfo.fadescale'),
+  },
 ]
 
 export const mixSidebarTriggerOptions = [
