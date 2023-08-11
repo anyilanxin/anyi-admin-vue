@@ -38,20 +38,18 @@
  -->
 <script lang="ts" setup>
 import TopButtonWrapper from '../../TopButtonWrapper.vue'
-import { tabListData, ListItem } from './data'
 import NoticeList from './AnYiMessageBox.vue'
-import { ref } from 'vue'
-
-import { useAppTheme } from '@anyi/corehooks'
-
+import { computed, unref } from 'vue'
+import { useAppConfig, useAppTheme } from '@anyi/corehooks'
+import { getTheme } from '@anyi/coreutils'
 const { isDark } = useAppTheme()
-
-const listData = ref(tabListData)
-
-function onNoticeClick(record: ListItem) {
-  console.log('你点击了通知，ID=' + record.id)
-  record.titleDelete = !record.titleDelete
-}
+const { header } = useAppConfig()
+const getBadgeColor = computed(() => {
+  if (getTheme(unref(header).bgColor) == 'light') {
+    return '#fff'
+  }
+  return '#232324'
+})
 </script>
 <template>
   <TopButtonWrapper :content="'通知消息'">
@@ -65,7 +63,7 @@ function onNoticeClick(record: ListItem) {
         }"
         content-class="message-popover"
       >
-        <a-badge :count="1" dot :offset="[-4, -1]">
+        <a-badge :count="1" dot :offset="[-4, -1]" :class="!isDark && 'anyi-layout-notify-badge'">
           <a-button
             class="nav-btn anyi-top-button-wrapper-common"
             type="outline"
@@ -82,3 +80,11 @@ function onNoticeClick(record: ListItem) {
     </div>
   </TopButtonWrapper>
 </template>
+
+<style lang="less">
+.anyi-layout-notify-badge {
+  .arco-badge-dot {
+    box-shadow: 0 0 0 2px v-bind(getBadgeColor) !important;
+  }
+}
+</style>
